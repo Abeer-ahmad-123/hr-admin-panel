@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { allUsers } from '../actions/userActions';
 
 const initialState = {
@@ -24,7 +24,7 @@ const userSlice = createSlice({
         state.success = false;
       })
       .addCase(allUsers.fulfilled, (state, action) => {
-        state.loading = true;
+        state.loading = false;
         state.users = action.payload;
       })
       .addCase(allUsers.rejected, (state, action) => {

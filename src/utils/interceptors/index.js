@@ -37,7 +37,7 @@ const setupApiInterceptor = async (urlPath, headers, data = {}, method = 'get') 
           };
 
           // Recursive call to setupApiInterceptor with updated headers
-          return setupApiInterceptor(url, updatedHeaders, data, method);
+          return setupApiInterceptor(urlPath, updatedHeaders, data, method);
         } catch (refreshError) {
           console.error('Error refreshing token:', refreshError);
           throw refreshError;
