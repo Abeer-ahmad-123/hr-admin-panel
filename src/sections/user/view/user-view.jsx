@@ -9,6 +9,7 @@ import Container from '@mui/material/Container';
 import TableBody from '@mui/material/TableBody';
 import Typography from '@mui/material/Typography';
 import TableContainer from '@mui/material/TableContainer';
+
 import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
 import UserSkelton from 'src/loading/userSkelton';
@@ -100,22 +101,6 @@ export default function UserPage() {
 
   console.log(loading ? 'loading-true' : 'loading-false');
 
-  const fetchData = async () => {
-    try {
-      // Call setupApiInterceptor and wait for the result
-      const responseData = await setupApiInterceptor(`${BaseURL}/users`);
-      console.log('Data received:', responseData);
-      setUserData(responseData.users);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  console.log('the user data is ', userData);
   return (
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
@@ -177,10 +162,10 @@ export default function UserPage() {
                     />
                     {/* ))} */}
 
-                      <TableEmptyRows
-                        height={77}
-                        // emptyRows={emptyRows(page, rowsPerPage, userData?.length)}
-                      />
+                    <TableEmptyRows
+                      height={77}
+                      // emptyRows={emptyRows(page, rowsPerPage, userData?.length)}
+                    />
 
                     {/* {notFound && <TableNoData query={filterName} />} */}
                   </TableBody>
