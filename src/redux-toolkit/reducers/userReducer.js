@@ -8,7 +8,7 @@ const initialState = {
   error: null,
 };
 
-const userSlice = createSlice({
+const loginSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
@@ -34,4 +34,4 @@ const userSlice = createSlice({
 });
 
 // export const { clearErrors } = userSlice.actions;
-export default userSlice.reducer;
+export default loginSlice.reducer;

@@ -37,7 +37,7 @@ export default function UserPage() {
   const { users, loading } = useSelector((state) => state.user);
   useEffect(() => {
     dispatch(allUsers());
-  }, [dispatch]);
+  }, []);
   // useEffect(() => {
   //   UserData()
   //     .then((data) => setUserData(data.data.users))

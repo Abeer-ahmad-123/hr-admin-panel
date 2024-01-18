@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import userReducer from './reducers/userReducer';
+import loginReducer from './reducers/loginReducer';
 // import thunk from 'redux-thunk';
 
 // import productReducer from "./reducers/productReducer";
@@ -12,6 +13,7 @@ const store = configureStore({
   reducer: {
     // auth: authReducer,
     user: userReducer,
+    auth: loginReducer,
     // product: productReducer,
     // cart: cartReducer,
     // order: orderReducer,
