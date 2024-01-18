@@ -1,15 +1,11 @@
-import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-
+import setupApiInterceptor from 'src/utils/interceptors';
 //-----------------------------------------------------------------------
 export const allUsers = createAsyncThunk('user/allUsers', async (_, { rejectWithValue }) => {
-  const url = import.meta.env.VITE_REACT_APP_BASE_URL;
-
   try {
-    const response = await axios.get(`${url}/users`);
-
-    console.log('data', response.data);
-    return response.data;
+    const response = await setupApiInterceptor('/users', 'GET');
+    console.log('data', response);
+    return response;
   } catch (error) {
     return rejectWithValue(error.response.data.message);
   }

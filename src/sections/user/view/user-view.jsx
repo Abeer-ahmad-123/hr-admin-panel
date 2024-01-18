@@ -14,7 +14,7 @@ import UserData from 'src/httpRequests';
 // import { users } from 'src/_mock/user';
 import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
-import BarLoader from 'react-spinners/BarLoader';
+import UserSkelton from 'src/loading/userSkelton';
 import { useTheme } from '@mui/material/styles';
 // import TableNoData from '../table-no-data';
 import UserTableRow from '../user-table-row';
@@ -44,10 +44,7 @@ export default function UserPage() {
 
   const dispatch = useDispatch();
 
-  const users = useSelector((state) => state.user.users.data?.users);
-
-  console.log('wanted user', users);
-
+  const { users, loading } = useSelector((state) => state.user);
   useEffect(() => {
     dispatch(allUsers());
   }, [dispatch]);
@@ -122,6 +119,8 @@ export default function UserPage() {
 
   // console.log('the user data for the user  is ', userData);
 
+  console.log(loading ? 'loading-true' : 'loading-false');
+
   return (
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
@@ -146,62 +145,77 @@ export default function UserPage() {
         />
 
         <Scrollbar>
+          {/* {loading ? (
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '1.5rem',
+              }}
+            >
+              {Array.from({ length: 10 }, (_, index) => (
+                <UserSkelton key={index} />
+              ))}
+            </div>
+          ) : ( */}
+
           <TableContainer sx={{ overflow: 'unset' }}>
-            {users === null ? (
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  height: '50vh',
-                  width: '100%',
-                }}
-              >
-                <BarLoader color="#5141df" height={10} width={250} />
-              </div>
-            ) : (
-              <Table sx={{ minWidth: 800 }}>
-                <UserTableHead
-                  // order={order}
-                  // orderBy={orderBy}
-                  rowCount={users?.length}
-                  numSelected={selected.length}
-                  onRequestSort={handleSort}
-                  onSelectAllClick={handleSelectAllClick}
-                  headLabel={[
-                    { id: 'name', label: 'Name' },
-                    { id: 'dateofjoining', label: 'Joining Date' },
-                    { id: 'email', label: 'E-mail' },
+            <Table sx={{ minWidth: 800 }}>
+              <UserTableHead
+                // order={order}
+                // orderBy={orderBy}
+                rowCount={users.users?.length}
+                numSelected={selected.length}
+                onRequestSort={handleSort}
+                onSelectAllClick={handleSelectAllClick}
+                headLabel={[
+                  { id: 'name', label: 'Name' },
+                  { id: 'dateofjoining', label: 'Joining Date' },
+                  { id: 'email', label: 'E-mail' },
 
-                    { id: '' },
-                  ]}
-                />
+                  { id: '' },
+                ]}
+              />
 
-                {users &&
-                  users.map((data) => (
-                    <TableBody key={data.id}>
-                      <UserTableRow
-                        key={data.id}
-                        name={data.username}
-                        date_joined={data.date_joined}
-                        email={data.email}
-                        avatarURL={data.profilePictureURL}
-                        selected={selected.indexOf(data.username) !== -1}
-                        handleClick={(event) => handleClick(event, data.username)}
-                      />
-                      {/* ))} */}
-
-                      <TableEmptyRows
-                        height={77}
-                        // emptyRows={emptyRows(page, rowsPerPage, userData?.length)}
-                      />
-
-                      {/* {notFound && <TableNoData query={filterName} />} */}
-                    </TableBody>
+              {loading ? (
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '0.5rem',
+                  }}
+                >
+                  {Array.from({ length: 10 }, (_, index) => (
+                    <UserSkelton key={index} />
                   ))}
-              </Table>
-            )}
+                </div>
+              ) : (
+                users.users &&
+                users.users.map((data) => (
+                  <TableBody key={data.id}>
+                    <UserTableRow
+                      key={data.id}
+                      name={data.username}
+                      date_joined={data.date_joined}
+                      email={data.email}
+                      avatarURL={data.profilePictureURL}
+                      selected={selected.indexOf(data.username) !== -1}
+                      handleClick={(event) => handleClick(event, data.username)}
+                    />
+                    {/* ))} */}
+
+                    <TableEmptyRows
+                      height={77}
+                      // emptyRows={emptyRows(page, rowsPerPage, userData?.length)}
+                    />
+
+                    {/* {notFound && <TableNoData query={filterName} />} */}
+                  </TableBody>
+                ))
+              )}
+            </Table>
           </TableContainer>
+          {/* )} */}
         </Scrollbar>
 
         <TablePagination
