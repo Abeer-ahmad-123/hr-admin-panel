@@ -7,6 +7,6 @@ export const allUsers = createAsyncThunk('user/allUsers', async (_, { rejectWith
     console.log('data', response);
     return response;
   } catch (error) {
-    return rejectWithValue(error.response.data.message);
+    return rejectWithValue(error);
   }
 });

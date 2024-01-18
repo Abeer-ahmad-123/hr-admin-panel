@@ -14,11 +14,15 @@ import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
 import UserSkelton from 'src/loading/userSkelton';
 import { useTheme } from '@mui/material/styles';
-import { allUsers } from 'src/Redux-toolkit/actions/userActions';
+import { useSnackbar } from 'notistack';
+import { allUsers } from 'src/redux-toolkit/actions/userActions';
+import { clearErrors } from 'src/redux-toolkit/reducers/userReducer';
 import UserTableRow from '../user-table-row';
 import UserTableHead from '../user-table-head';
 import TableEmptyRows from '../table-empty-rows';
 import UserTableToolbar from '../user-table-toolbar';
+
+
 
 export default function UserPage() {
   const [order, setOrder] = useState('asc');
@@ -29,24 +33,31 @@ export default function UserPage() {
 
   const [filterName, setFilterName] = useState('');
 
-  // const [userData, setUserData] = useState(null);
   const theme = useTheme();
+  const { enqueueSnackbar } = useSnackbar();
 
   const dispatch = useDispatch();
 
-  const { users, loading } = useSelector((state) => state.user);
+  const { users, loading, error } = useSelector((state) => state.user);
+
   useEffect(() => {
     dispatch(allUsers());
-  }, [dispatch]);
-  // useEffect(() => {
-  //   UserData()
-  //     .then((data) => setUserData(data.data.users))
-  //     .catch((error) => {
-  //       console.error('Error in AnotherComponent:', error);
-  //     });
-  // }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  // console.log('++++++>>>>>>>', userData?.length);
+  useEffect(() => {
+    if (error) {
+      enqueueSnackbar(error?.message, {
+        variant: 'error',
+        anchorOrigin: {
+          vertical: 'top',
+          horizontal: 'right',
+        },
+      });
+    }
+
+    dispatch(clearErrors());
+  }, [dispatch, enqueueSnackbar, error]);
 
   const handleSort = (event, id) => {
     const isAsc = orderBy === id && order === 'asc';
@@ -100,6 +111,7 @@ export default function UserPage() {
   // console.log('the user data for the user  is ', userData);
 
   console.log(loading ? 'loading-true' : 'loading-false');
+  console.log('users', users);
 
   return (
     <Container>
@@ -128,7 +140,7 @@ export default function UserPage() {
           <TableContainer sx={{ overflow: 'unset' }}>
             <Table sx={{ minWidth: 800 }}>
               <UserTableHead
-                rowCount={users.users?.length}
+                rowCount={users?.users?.length}
                 numSelected={selected.length}
                 onRequestSort={handleSort}
                 onSelectAllClick={handleSelectAllClick}
@@ -148,8 +160,8 @@ export default function UserPage() {
                   ))}
                 </TableBody>
               ) : (
-                users.users &&
-                users.users.map((data) => (
+                users?.users &&
+                users?.users.map((data) => (
                   <TableBody key={data.id}>
                     <UserTableRow
                       key={data.id}

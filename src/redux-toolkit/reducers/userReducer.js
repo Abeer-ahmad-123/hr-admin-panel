@@ -4,7 +4,6 @@ import { allUsers } from '../actions/userActions';
 const initialState = {
   loading: false,
   users: [],
-  //   success: false,
   error: null,
 };
 
@@ -12,9 +11,9 @@ const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    //   clearErrors: (state) => {
-    //     state.error = null;
-    //   },
+    clearErrors: (state) => {
+      state.error = null;
+    },
   },
 
   extraReducers: (builder) => {
@@ -33,5 +32,5 @@ const userSlice = createSlice({
   },
 });
 
-// export const { clearErrors } = userSlice.actions;
+export const { clearErrors } = userSlice.actions;
 export default userSlice.reducer;
