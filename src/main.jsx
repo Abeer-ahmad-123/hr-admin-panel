@@ -1,11 +1,12 @@
 import { Suspense } from 'react';
-import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
+import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 
 import App from './app';
-import store from './redux-toolkit/store';
+import store from './Redux-toolkit/store';
+// import store from './redux-toolkit/store';
 
 // ----------------------------------------------------------------------
 
