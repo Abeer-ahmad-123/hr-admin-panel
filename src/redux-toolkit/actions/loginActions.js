@@ -12,6 +12,7 @@ export const loginFn = createAsyncThunk('admin/login', async (values) => {
 
     return response;
   } catch (error) {
+    console.log(' the reducer error is ', error);
     throw error;
   }
 });

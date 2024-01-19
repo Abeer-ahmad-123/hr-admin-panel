@@ -19,10 +19,12 @@ const setupApiInterceptor = async (urlPath, headers, data = {}, method) => {
     return response.data.data;
   } catch (error) {
     console.log('API error:', error);
-    if (error.response && error.response.status === 401) {
-      const refreshToken = localStorage.getItem('refresh-token');
 
+    if (error.response && error.response.status === 401) {
+      console.log('`12`12`12`1`');
+      const refreshToken = localStorage.getItem('refresh-token');
       if (refreshToken) {
+        console.log('12123131321321');
         try {
           const refreshResponse = await axios.post('/auth/refreshToken', {
             RefreshToken: refreshToken,
@@ -39,15 +41,18 @@ const setupApiInterceptor = async (urlPath, headers, data = {}, method) => {
           };
 
           // Recursive call to setupApiInterceptor with updated headers
+
           return setupApiInterceptor(urlPath, updatedHeaders, data, method);
         } catch (refreshError) {
           console.error('Error refreshing token:', refreshError);
           throw refreshError;
         }
       } else {
+        console.log('23424324324334');
         throw error;
       }
     } else {
+      console.log('testing 12312312');
       throw error;
     }
   }

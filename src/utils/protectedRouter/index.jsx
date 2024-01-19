@@ -1,20 +1,19 @@
-import Alert from '@mui/material/Alert';
-import { useRouter } from 'src/routes/hooks';
-import LoadingButton from '@mui/lab/LoadingButton';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 const ProtectedRoute = ({ children }) => {
   const isAuthenticated = localStorage.getItem('token');
-  const router = useRouter();
-  if (!isAuthenticated) {
-    setTimeout(() => {
-      router.push('/login');
-    }, 1); // You can adjust the delay if needed
-  } else {
-    return <div>{children}</div>;
-    // <Alert variant="outlined" severity="error">
-    //   This is an outlined error Alert.
-    // </Alert>;
-  }
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate('/login');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAuthenticated]);
+  return <>{children}</>;
 };
-
+ProtectedRoute.propTypes = {
+  children: PropTypes.node.isRequired,
+};
 export default ProtectedRoute;

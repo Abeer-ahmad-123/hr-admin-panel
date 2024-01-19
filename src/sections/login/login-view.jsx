@@ -1,7 +1,6 @@
+import * as React from 'react';
 import { useState } from 'react';
-
 import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
@@ -10,70 +9,149 @@ import IconButton from '@mui/material/IconButton';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { alpha, useTheme } from '@mui/material/styles';
 import InputAdornment from '@mui/material/InputAdornment';
-import { useRouter } from 'src/routes/hooks';
 import { bgGradient } from 'src/theme/css';
 import Logo from 'src/components/logo';
 import Iconify from 'src/components/iconify';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { loginFn } from 'src/Redux-toolkit/actions/loginActions';
-
-// ----------------------------------------------------------------------
+import { useSnackbar } from 'notistack';
+import { useNavigate } from 'react-router-dom';
 
 export default function LoginView() {
   const dispatch = useDispatch();
   const theme = useTheme();
-
-  const router = useRouter();
+  const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
+  const { error } = useSelector((state) => state.auth);
 
   const [showPassword, setShowPassword] = useState(false);
 
-  const [inputEmail, setInputEmail] = useState('');
-  const [inputPassword, setInputPassword] = useState('');
+  const [credentials, setCredentials] = useState({ email: '', password: '' });
+  const [emailValidator, setEmailValidator] = useState({
+    error: false,
+    helperText: '',
+  });
+  const [passwordValidator, setPasswordValidator] = useState({
+    error: false,
+    helperText: '',
+  });
 
-  const handleClick = () => {
-    router.push('/');
-    const res = dispatch(loginFn({ email: inputEmail, password: inputPassword }));
-    console.log('after sending the data we have', res);
+  const handleClick = async () => {
+    await dispatch(loginFn({ email: credentials.email, password: credentials.password }))
+      .then((response) => {
+        if (response.payload) {
+          navigate('/');
+        } else {
+          enqueueSnackbar(response?.error?.message && ' Invalid Cresidentials', {
+            variant: 'error',
+            anchorOrigin: {
+              vertical: 'top',
+              horizontal: 'right',
+            },
+          });
+        }
+      })
+      .catch((err) => {
+        console.log('the catched errror', err);
+        throw err;
+      });
   };
-  console.log('the get token is', localStorage.getItem('access-token'));
-  const handleEmailChange = (e) => {
-    setInputEmail(e);
-    console.log('user enter the value', inputEmail);
+
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
   };
-  const handlePasswordChange = (e) => {
-    setInputPassword(e);
-    console.log('user enter the value', inputPassword);
+
+  const handleChange = (feild) => (e) => {
+    //      email validator      //
+
+    if (credentials.email === '') {
+      setEmailValidator({
+        error: true,
+        helperText: 'Email required',
+      });
+
+      return setCredentials({ ...credentials, [feild]: e.target.value });
+    }
+    // eslint-disable-next-line no-else-return
+    else if (!validateEmail(credentials.email)) {
+      setEmailValidator({
+        error: true,
+        helperText: 'Invalid email format',
+      });
+      return setCredentials({ ...credentials, [feild]: e.target.value });
+    }
+    // eslint-disable-next-line no-else-return
+    else {
+      setEmailValidator({
+        error: false,
+        helperText: '',
+      });
+      setCredentials({ ...credentials, [feild]: e.target.value });
+    }
+
+    //      password validator      //
+    if (feild === 'password' && e.target.value.length < 8) {
+      setPasswordValidator({
+        error: true,
+        helperText: 'Password should be at least 8 characters long',
+      });
+      return setCredentials({ ...credentials, [feild]: e.target.value });
+    }
+    // eslint-disable-next-line no-else-return
+    else {
+      setPasswordValidator({
+        error: false,
+        helperText: '',
+      });
+      setCredentials({ ...credentials, [feild]: e.target.value });
+    }
+
+    if (feild === 'email') {
+      setEmailValidator({
+        error: false,
+        helperText: '',
+      });
+    }
+    if (feild === 'password') {
+      setPasswordValidator({
+        error: false,
+        helperText: '',
+      });
+    }
+    return setCredentials({ ...credentials, [feild]: e.target.value });
   };
-  // const handleConfirmPasswordChange = (e) => {
-  //   setConfirmInputPassword(e);
-  //   console.log('user enter the value', inputConfirmPassword);
-  // };
 
   const renderForm = (
     <>
-      <Stack spacing={3}>
-        <Typography
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-          }}
-          variant="h4"
-        >
-          Sign in
-        </Typography>
+      {' '}
+      <Typography
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+        }}
+        variant="h4"
+      >
+        Sign In
+      </Typography>
+      <Stack spacing={3} sx={{ my: 10 }}>
         <TextField
           name="email"
           label="Email address"
-          onChange={(e) => handleEmailChange(e.target.value)}
-          value={inputEmail}
+          onChange={handleChange('email')}
+          value={credentials.email}
+          error={emailValidator.error}
+          helperText={emailValidator.helperText}
         />
 
         <TextField
           name="password"
           label="Password"
           type={showPassword ? 'text' : 'password'}
-          onChange={(e) => handlePasswordChange(e.target.value)}
-          value={inputPassword}
+          onChange={handleChange('password')}
+          value={credentials.password}
+          error={passwordValidator.error}
+          helperText={passwordValidator.helperText}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
@@ -84,63 +162,75 @@ export default function LoginView() {
             ),
           }}
         />
-        {/* <TextField
-          name="confirm password"
-          label="Confirm Password"
-          onChange={(e) => handleConfirmPasswordChange(e.target.value)}
-          value={inputConfirmPassword}
-        /> */}
       </Stack>
-
-      <Stack direction="row" alignItems="center" justifyContent="flex-end" sx={{ my: 3 }}>
-        <Link variant="subtitle2" underline="hover">
-          Forgot password?
-        </Link>
-      </Stack>
-
-      <LoadingButton fullWidth size="large" type="submit" variant="contained" onClick={handleClick}>
-        Login
+      <LoadingButton
+        fullWidth
+        size="large"
+        type="submit"
+        variant="contained"
+        onClick={handleClick}
+        disabled={
+          !credentials.email ||
+          !credentials.password ||
+          passwordValidator.error ||
+          emailValidator.error
+        }
+      >
+        Sign In
       </LoadingButton>
     </>
   );
 
   return (
-    <Box
-      sx={{
-        ...bgGradient({
-          color: alpha(theme.palette.background.default, 0.9),
-          imgUrl: '/assets/background/overlay_4.jpg',
-        }),
-        height: 1,
-      }}
-    >
-      <Logo
+    <>
+      <Box
         sx={{
-          position: 'fixed',
-          top: { xs: 16, md: 24 },
-          left: { xs: 16, md: 24 },
+          ...bgGradient({
+            color: alpha(theme.palette.background.default, 0.9),
+            imgUrl: '/assets/background/overlay_4.jpg',
+          }),
+          height: 1,
         }}
-      />
-
-      <Stack alignItems="center" justifyContent="center" sx={{ height: 1 }}>
-        <Card
+      >
+        <Logo
           sx={{
-            p: 5,
-            width: 1,
-            maxWidth: 420,
-            filter: 'drop-shadow(0px 10px 20px rgba(81, 65, 223, 0.4))',
+            position: 'fixed',
+            top: { xs: 16, md: 24 },
+            left: { xs: 16, md: 24 },
           }}
-        >
-          {/* <Typography variant="body2" sx={{ mt: 2, mb: 5 }}>
-            Don’t have an account?
-            <Link variant="subtitle2" sx={{ ml: 0.5 }}>
-              Get started
-            </Link>
-          </Typography> */}
+        />
 
-          {renderForm}
-        </Card>
-      </Stack>
-    </Box>
+        <Stack alignItems="center" justifyContent="center" sx={{ height: 1 }}>
+          <Card
+            sx={{
+              p: 5,
+              width: 1,
+              maxWidth: 420,
+              position: 'relative',
+              transition: 'filter 0.3s ease',
+              '&:focus': {
+                filter: 'drop-shadow(0px 10px 20px rgba(81, 65, 223, 0.4))',
+                outline: 'none', // Remove default focus outline
+              },
+              '&:focus:after': {
+                content: '""',
+                position: 'absolute',
+                top: '-8px',
+                right: '-8px',
+                bottom: '-8px',
+                left: '-8px',
+                border: '2px solid #513FDF',
+                borderRadius: '8px',
+                pointerEvents: 'none',
+              },
+            }}
+            tabIndex={0} // Enable focus for non-input elements
+          >
+            {renderForm}
+          </Card>
+        </Stack>
+      </Box>
+      {console.log('anything', error)}
+    </>
   );
 }
