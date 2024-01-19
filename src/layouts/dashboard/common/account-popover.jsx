@@ -10,6 +10,9 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 
 import { account } from 'src/_mock/account';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { clearUserData } from 'src/redux-toolkit/reducers/authReducer';
 
 // ----------------------------------------------------------------------
 
@@ -31,6 +34,10 @@ const MENU_OPTIONS = [
 // ----------------------------------------------------------------------
 
 export default function AccountPopover() {
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const [open, setOpen] = useState(null);
 
   const handleOpen = (event) => {
@@ -39,6 +46,11 @@ export default function AccountPopover() {
 
   const handleClose = () => {
     setOpen(null);
+    localStorage.removeItem("access-token");
+    localStorage.removeItem("refresh-token");
+    dispatch(clearUserData());
+    
+    navigate('/login');
   };
 
   return (

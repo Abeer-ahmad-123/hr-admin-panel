@@ -31,6 +31,7 @@ export default function LoginView() {
   const [showPassword, setShowPassword] = useState(false);
   const [credentials, setCredentials] = useState({ email: '', password: '' });
   const [emailError, setEmailError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
 
   const isEmailValid = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -39,38 +40,94 @@ export default function LoginView() {
 
   const handleInputChange = (field) => (e) => {
     if (field === 'email') {
-      const isValid = isEmailValid(e.target.value);
-      setEmailError(!isValid);
-    }
+      const emailValue = e.target.value;
+      setCredentials({ ...credentials, [field]: emailValue });
 
-    setCredentials({ ...credentials, [field]: e.target.value });
+      // Check for empty email
+      setEmailError(!emailValue);
+
+      // Check for invalid email
+      setEmailError((prevError) => prevError || !isEmailValid(emailValue));
+    } else if (field === 'password') {
+      const passwordValue = e.target.value;
+      setCredentials({ ...credentials, [field]: passwordValue });
+
+       // Check for empty password
+       setPasswordError(!passwordValue);
+
+       // Check for password length less than 8 characters
+       setPasswordError((prevError) => prevError || passwordValue.length < 8);
+    }
   };
 
-  const handleLoginClick = () => {
+
+  const handleLoginClick = async () => {
+    if (!credentials.email) {
+      setEmailError(true);
+    }
+
+    if (!credentials.password) {
+      setPasswordError(true);
+    }
+
     if (!isEmailValid(credentials.email)) {
       setEmailError(true);
       return;
     }
 
-    dispatch(login(credentials))
+    await dispatch(login(credentials))
       .then((response) => {
+        console.log("response",response)
         if (response.payload) {
           navigate('/');
         }
-        else {
-          enqueueSnackbar(response?.error?.message, {
+       // error.response && error.response.status === 401
+      //  else if(response.error.message === "Request failed with status code 401" || response.error.message === "Request failed with status code 400")
+      else if(response?.error?.message)  
+      {
+        console.log(response)
+          enqueueSnackbar("Invalid Credentials", {
             variant: 'error',
             anchorOrigin: {
               vertical: 'top',
               horizontal: 'right',
             },
           });
+          }
         
-        }
       })
       .catch((error) => {
         console.error('Login Failed:', error);
       });
+  };
+
+
+  const getEmailHelperText = () => {
+    if (emailError) {
+      if (!credentials.email) {
+        return 'Email is required';
+      } 
+      
+      if (!isEmailValid(credentials.email)) {
+        return 'Invalid email address';
+      }
+    }
+    
+    return '';
+  };
+
+  const getPasswordHelperText = () => {
+    if (passwordError) {
+      if (!credentials.password) {
+        return 'Password is required';
+      }
+
+      if (credentials.password.length < 8) {
+        return 'Password must be at least 8 characters';
+      }
+    }
+    
+    return '';
   };
 
   const renderForm = (
@@ -82,8 +139,8 @@ export default function LoginView() {
           value={credentials.email}
           onChange={handleInputChange('email')}
           error={emailError}
-          helperText={emailError && 'Invalid email address'}
-        />
+          helperText={getEmailHelperText()}
+      />
 
         <TextField
           name="password"
@@ -91,6 +148,8 @@ export default function LoginView() {
           type={showPassword ? 'text' : 'password'}
           value={credentials.password}
           onChange={handleInputChange('password')}
+          error={passwordError}
+          helperText={getPasswordHelperText()}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
@@ -116,6 +175,7 @@ export default function LoginView() {
         variant="contained"
         color="inherit"
         onClick={handleLoginClick}
+        disabled={!credentials.email || !credentials.password || emailError || passwordError}
       >
         Login
       </LoadingButton>
