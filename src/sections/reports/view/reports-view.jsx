@@ -10,9 +10,6 @@ import { ReportsDetails, products } from 'src/_mock/reports';
 import ProductCard from '../product-card';
 import ProductSort from '../reports-sort';
 import ProductFilters from '../reports-filters';
-import ProductCartWidget from '../product-cart-widget';
-
-// ----------------------------------------------------------------------
 
 export default function ReportsView() {
   const [openFilter, setOpenFilter] = useState(false);
@@ -56,8 +53,6 @@ export default function ReportsView() {
           </Grid>
         ))}
       </Grid>
-
-      <ProductCartWidget />
     </Container>
   );
 }

@@ -9,7 +9,6 @@ import AppWidgetSummary from '../app-widget-summary';
 export default function AppView() {
   const { userData } = useSelector((state) => state.auth.admindata);
 
-  console.log('the user data', userData);
   return (
     <Container maxWidth="xl">
       <Typography variant="h4" sx={{ mb: 5 }}>
@@ -19,9 +18,9 @@ export default function AppView() {
             color: '#5141df',
           }}
         >
-          {userData.name}
+          &nbsp;{userData.name}
         </span>
-        , Welcome back 👋
+        , Welcome back <span> 👋 </span>
       </Typography>
 
       <Grid container spacing={3}>

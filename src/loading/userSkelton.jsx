@@ -5,28 +5,6 @@ import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 
 const UserRowSkelton = () => (
-  // <Stack
-  //   direction="row"
-  //   sx={{
-  //     bgcolor: '#b8c1cf',
-  //     width: '100%',
-  //     justifyContent: 'space-between',
-
-  //     borderRadius: '10px',
-  //     paddingX: '35px',
-  //   }}
-  // >
-  //   <Stack direction="row" sx={{ gap: '4px' }}>
-  //     <Skeleton variant="circular" width={50} height={50} />
-  //     <Skeleton width={100} height={50} />
-  //   </Stack>
-  //   <Stack direction="row" sx={{ gap: '6rem' }}>
-  //     <Skeleton width={100} height={50} />
-  //     <Skeleton width={100} height={50} />
-  //   </Stack>
-  //   <Skeleton width={10} height={50} />
-  // </Stack>
-
   <TableRow role="checkbox">
     <TableCell padding="checkbox" />
 

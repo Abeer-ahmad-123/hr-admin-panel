@@ -5,11 +5,8 @@ import { alpha, styled } from '@mui/material/styles';
 
 import { bgBlur } from 'src/theme/css';
 
-// ----------------------------------------------------------------------
-
 const Chart = styled(ApexChart)(({ theme }) => ({
   '& .apexcharts-canvas': {
-    // Tooltip
     '& .apexcharts-tooltip': {
       ...bgBlur({
         color: theme.palette.background.default,
@@ -46,7 +43,6 @@ const Chart = styled(ApexChart)(({ theme }) => ({
       color: theme.palette.text[theme.palette.mode === 'light' ? 'secondary' : 'primary'],
     },
 
-    // LEGEND
     '& .apexcharts-legend': {
       padding: 0,
     },

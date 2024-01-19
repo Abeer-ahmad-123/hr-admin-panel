@@ -12,7 +12,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import { bgGradient } from 'src/theme/css';
 import Logo from 'src/components/logo';
 import Iconify from 'src/components/iconify';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { loginFn } from 'src/Redux-toolkit/actions/loginActions';
 import { useSnackbar } from 'notistack';
 import { useNavigate } from 'react-router-dom';
@@ -22,7 +22,6 @@ export default function LoginView() {
   const theme = useTheme();
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
-  const { error } = useSelector((state) => state.auth);
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -52,7 +51,6 @@ export default function LoginView() {
         }
       })
       .catch((err) => {
-        console.log('the catched errror', err);
         throw err;
       });
   };
@@ -182,55 +180,51 @@ export default function LoginView() {
   );
 
   return (
-    <>
-      <Box
+    <Box
+      sx={{
+        ...bgGradient({
+          color: alpha(theme.palette.background.default, 0.9),
+          imgUrl: '/assets/background/overlay_4.jpg',
+        }),
+        height: 1,
+      }}
+    >
+      <Logo
         sx={{
-          ...bgGradient({
-            color: alpha(theme.palette.background.default, 0.9),
-            imgUrl: '/assets/background/overlay_4.jpg',
-          }),
-          height: 1,
+          position: 'fixed',
+          top: { xs: 16, md: 24 },
+          left: { xs: 16, md: 24 },
         }}
-      >
-        <Logo
-          sx={{
-            position: 'fixed',
-            top: { xs: 16, md: 24 },
-            left: { xs: 16, md: 24 },
-          }}
-        />
+      />
 
-        <Stack alignItems="center" justifyContent="center" sx={{ height: 1 }}>
-          <Card
-            sx={{
-              p: 5,
-              width: 1,
-              maxWidth: 420,
-              position: 'relative',
-              transition: 'filter 0.3s ease',
-              '&:focus': {
-                filter: 'drop-shadow(0px 10px 20px rgba(81, 65, 223, 0.4))',
-                outline: 'none', // Remove default focus outline
-              },
-              '&:focus:after': {
-                content: '""',
-                position: 'absolute',
-                top: '-8px',
-                right: '-8px',
-                bottom: '-8px',
-                left: '-8px',
-                border: '2px solid #513FDF',
-                borderRadius: '8px',
-                pointerEvents: 'none',
-              },
-            }}
-            tabIndex={0} // Enable focus for non-input elements
-          >
-            {renderForm}
-          </Card>
-        </Stack>
-      </Box>
-      {console.log('anything', error)}
-    </>
+      <Stack alignItems="center" justifyContent="center" sx={{ height: 1 }}>
+        <Card
+          sx={{
+            p: 5,
+            width: 1,
+            maxWidth: 420,
+            position: 'relative',
+            transition: 'filter 0.3s ease',
+            '&:focus': {
+              filter: 'drop-shadow(0px 10px 20px rgba(81, 65, 223, 0.4))',
+            },
+            '&:focus:after': {
+              content: '""',
+              position: 'absolute',
+              top: '-8px',
+              right: '-8px',
+              bottom: '-8px',
+              left: '-8px',
+              border: '2px solid #513FDF',
+              borderRadius: '8px',
+              pointerEvents: 'none',
+            },
+          }}
+          tabIndex={0}
+        >
+          {renderForm}
+        </Card>
+      </Stack>
+    </Box>
   );
 }

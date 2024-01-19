@@ -11,8 +11,6 @@ import { fCurrency } from 'src/utils/format-number';
 import Label from 'src/components/label';
 import { ColorPreview } from 'src/components/color-utils';
 
-// ----------------------------------------------------------------------
-
 export default function ShopProductCard({ product }) {
   const renderStatus = (
     <Label
@@ -65,7 +63,6 @@ export default function ShopProductCard({ product }) {
   return (
     <Card
       sx={{
-        // backgroundColor: 'red',
         filter: 'drop-shadow(10px 15px 5px rgba(0, 0, 0, 0.1))',
         cursor: 'pointer',
       }}

@@ -122,8 +122,6 @@ Nav.propTypes = {
   onCloseNav: PropTypes.func,
 };
 
-// ----------------------------------------------------------------------
-
 function NavItem({ item }) {
   const pathname = usePathname();
 
