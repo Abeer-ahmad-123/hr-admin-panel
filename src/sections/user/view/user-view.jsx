@@ -93,8 +93,6 @@ export default function UserPage() {
     setSelected(newSelected);
   };
 
-  console.log('>>>>>++++', selected);
-
   const handleFilterByName = (event) => {
     setFilterName(event.target.value);
   };
@@ -110,7 +108,6 @@ export default function UserPage() {
   // console.log('the user data for the user  is ', userData);
 
   console.log(loading ? 'loading-true' : 'loading-false');
-  console.log('users', users);
 
   return (
     <Container>

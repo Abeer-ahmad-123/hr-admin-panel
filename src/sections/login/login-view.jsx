@@ -43,20 +43,16 @@ export default function LoginView() {
       const emailValue = e.target.value;
       setCredentials({ ...credentials, [field]: emailValue });
 
-      // Check for empty email
       setEmailError(!emailValue);
 
-      // Check for invalid email
       setEmailError((prevError) => prevError || !isEmailValid(emailValue));
     } else if (field === 'password') {
       const passwordValue = e.target.value;
       setCredentials({ ...credentials, [field]: passwordValue });
 
-       // Check for empty password
-       setPasswordError(!passwordValue);
+      setPasswordError(!passwordValue);
 
-       // Check for password length less than 8 characters
-       setPasswordError((prevError) => prevError || passwordValue.length < 8);
+      setPasswordError((prevError) => prevError || passwordValue.length < 8);
     }
   };
 
@@ -77,15 +73,12 @@ export default function LoginView() {
 
     await dispatch(login(credentials))
       .then((response) => {
-        console.log("response",response)
         if (response.payload) {
           navigate('/');
         }
-       // error.response && error.response.status === 401
-      //  else if(response.error.message === "Request failed with status code 401" || response.error.message === "Request failed with status code 400")
+      
       else if(response?.error?.message)  
       {
-        console.log(response)
           enqueueSnackbar("Invalid Credentials", {
             variant: 'error',
             anchorOrigin: {
@@ -173,11 +166,10 @@ export default function LoginView() {
         size="large"
         type="submit"
         variant="contained"
-        color="inherit"
         onClick={handleLoginClick}
         disabled={!credentials.email || !credentials.password || emailError || passwordError}
       >
-        Login
+        Sign In
       </LoadingButton>
     </>
   );
@@ -206,13 +198,14 @@ export default function LoginView() {
             p: 5,
             width: 1,
             maxWidth: 420,
+            filter: 'drop-shadow(0px 10px 20px rgba(81, 65, 223, 0.4))',
           }}
         >
           <Typography
             variant="h4"
             sx={{ mt: 2, mb: 5, textAlign: 'center' }}
           >
-            Sign in
+            Sign In
           </Typography>
 
           {renderForm}
