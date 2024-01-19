@@ -1,15 +1,27 @@
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
+import { useSelector } from 'react-redux';
 import AppCurrentVisits from '../app-current-visits';
 import AppWebsiteVisits from '../app-website-visits';
 import AppWidgetSummary from '../app-widget-summary';
 
 export default function AppView() {
+  const { userData } = useSelector((state) => state.auth.admindata);
+
+  console.log('the user data', userData);
   return (
     <Container maxWidth="xl">
       <Typography variant="h4" sx={{ mb: 5 }}>
-        Hi, Welcome back 👋
+        Hi
+        <span
+          style={{
+            color: '#5141df',
+          }}
+        >
+          {userData.name}
+        </span>
+        , Welcome back 👋
       </Typography>
 
       <Grid container spacing={3}>

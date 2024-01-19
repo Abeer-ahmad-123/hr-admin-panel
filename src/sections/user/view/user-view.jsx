@@ -37,7 +37,9 @@ export default function UserPage() {
   const { users, loading } = useSelector((state) => state.user);
   useEffect(() => {
     dispatch(allUsers());
-  }, [dispatch]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   // useEffect(() => {
   //   UserData()
   //     .then((data) => setUserData(data.data.users))
