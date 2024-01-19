@@ -1,15 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const ProtectedRoute = ({children}) => {
   const navigate = useNavigate();
+ 
   const isAuthenticated = localStorage.getItem('access-token');
-  console.log(isAuthenticated);
-    if (!isAuthenticated) {
-      setTimeout(()=>{
+   
+    useEffect(() => {
+      if (!isAuthenticated) {
         navigate('/login');
-      },1)
-    }
+      }
+    }, [isAuthenticated, navigate]);
+
     return (
     <>
       {children}

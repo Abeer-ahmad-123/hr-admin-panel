@@ -35,7 +35,6 @@ export default function UserPage() {
 
   const theme = useTheme();
   const { enqueueSnackbar } = useSnackbar();
-
   const dispatch = useDispatch();
 
   const { users, loading, error } = useSelector((state) => state.user);
@@ -172,7 +171,6 @@ export default function UserPage() {
                       selected={selected.indexOf(data.username) !== -1}
                       handleClick={(event) => handleClick(event, data.username)}
                     />
-                    {/* ))} */}
 
                     <TableEmptyRows
                       height={77}
@@ -185,7 +183,6 @@ export default function UserPage() {
               )}
             </Table>
           </TableContainer>
-          {/* )} */}
         </Scrollbar>
       </Card>
     </Container>
