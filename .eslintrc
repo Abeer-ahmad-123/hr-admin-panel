@@ -29,6 +29,7 @@
     "camelcase": 0,
     "no-console": 0,
     "import/no-unresolved": 0,
+    "import/extensions": 0,
     "no-param-reassign": 0,
     "naming-convention": 0,
     "default-param-last": 0,

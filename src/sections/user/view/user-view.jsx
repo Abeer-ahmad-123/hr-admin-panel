@@ -14,7 +14,7 @@ import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
 import UserSkelton from 'src/loading/userSkelton';
 import { useTheme } from '@mui/material/styles';
-import { allUsers } from 'src/redux-toolkit/actions/userActions';
+import { allUsers } from 'src/Redux-toolkit/actions/userActions';
 import UserTableRow from '../user-table-row';
 import UserTableHead from '../user-table-head';
 import TableEmptyRows from '../table-empty-rows';
