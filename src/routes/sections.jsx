@@ -11,8 +11,6 @@ export const LoginPage = lazy(() => import('src/pages/login'));
 export const ReportsPage = lazy(() => import('src/pages/reports'));
 export const Page404 = lazy(() => import('src/pages/page-not-found'));
 
-// ----------------------------------------------------------------------
-
 export default function Router() {
   const routes = useRoutes([
     {

@@ -15,8 +15,6 @@ import { fShortenNumber } from 'src/utils/format-number';
 import Iconify from 'src/components/iconify';
 import SvgColor from 'src/components/svg-color';
 
-// ----------------------------------------------------------------------
-
 export default function PostCard({ post, index }) {
   const { cover, title, view, comment, share, author, createdAt } = post;
 

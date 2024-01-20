@@ -11,9 +11,7 @@ import IconButton from '@mui/material/IconButton';
 import { useNavigate } from 'react-router-dom';
 import { account } from 'src/_mock/account';
 import { useDispatch } from 'react-redux';
-import { clearAuth } from 'src/Redux-toolkit/reducers/loginReducer';
-
-// ----------------------------------------------------------------------
+import { clearAuth } from 'src/redux-toolkit/reducers/loginReducer';
 
 const MENU_OPTIONS = [
   {
@@ -29,8 +27,6 @@ const MENU_OPTIONS = [
     icon: 'eva:settings-2-fill',
   },
 ];
-
-// ----------------------------------------------------------------------
 
 export default function AccountPopover() {
   const [open, setOpen] = useState(null);

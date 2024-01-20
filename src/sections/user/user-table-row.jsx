@@ -11,21 +11,17 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import Iconify from 'src/components/iconify';
 
-// ----------------------------------------------------------------------
-
 export default function UserTableRow({
   id,
   name,
   avatarURL,
   email,
   date_joined,
-  // isVerified,
-  // status,
+
   selected,
   handleClick,
 }) {
   const [open, setOpen] = useState(null);
-  // const [userData, setUserData] = useState(null);
 
   const handleOpenMenu = (event) => {
     setOpen(event.currentTarget);
@@ -46,20 +42,6 @@ export default function UserTableRow({
 
   return (
     <>
-      {/* {true ? (
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            height: '20vh',
-            float: 'right',
-          }}
-        >
-          <BarLoader color="#36d7b7" height={10} />
-        </div>
-      ) : (
-        userData.map((data) => ( */}
       <TableRow key={id} hover tabIndex={-1} role="checkbox" selected={selected}>
         <TableCell padding="checkbox">
           <Checkbox disableRipple checked={selected} onChange={handleClick} />
@@ -87,8 +69,6 @@ export default function UserTableRow({
           </IconButton>
         </TableCell>
       </TableRow>
-      {/* ))
-      )} */}
 
       <Popover
         open={!!open}
@@ -96,9 +76,6 @@ export default function UserTableRow({
         onClose={handleCloseMenu}
         anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-        // PaperProps={{
-        //   sx: { width: 140 },
-        // }}
       >
         <MenuItem onClick={handleCloseMenu}>
           <Iconify icon="eva:edit-fill" sx={{ mr: 2 }} />
@@ -120,7 +97,6 @@ UserTableRow.propTypes = {
   avatarURL: PropTypes.any,
   email: PropTypes.any,
   handleClick: PropTypes.func,
-  // isVerified: PropTypes.any,
   name: PropTypes.any,
   date_joined: PropTypes.any,
 };

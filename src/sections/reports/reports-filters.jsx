@@ -18,8 +18,6 @@ import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
 import { ColorPicker } from 'src/components/color-utils';
 
-// ----------------------------------------------------------------------
-
 export const SORT_OPTIONS = [
   { value: 'featured', label: 'Featured' },
   { value: 'newest', label: 'Newest' },
@@ -44,8 +42,6 @@ export const COLOR_OPTIONS = [
   '#94D82D',
   '#FFC107',
 ];
-
-// ----------------------------------------------------------------------
 
 export default function ProductFilters({ openFilter, onOpenFilter, onCloseFilter }) {
   const renderGender = (

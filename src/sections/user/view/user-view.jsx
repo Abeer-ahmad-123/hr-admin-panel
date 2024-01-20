@@ -14,7 +14,7 @@ import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
 import UserSkelton from 'src/loading/userSkelton';
 import { useTheme } from '@mui/material/styles';
-import { allUsers } from 'src/Redux-toolkit/actions/userActions';
+import { allUsers } from 'src/redux-toolkit/actions/userActions';
 import UserTableRow from '../user-table-row';
 import UserTableHead from '../user-table-head';
 import TableEmptyRows from '../table-empty-rows';
@@ -29,7 +29,6 @@ export default function UserPage() {
 
   const [filterName, setFilterName] = useState('');
 
-  // const [userData, setUserData] = useState(null);
   const theme = useTheme();
 
   const dispatch = useDispatch();
@@ -39,16 +38,6 @@ export default function UserPage() {
     dispatch(allUsers());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  // useEffect(() => {
-  //   UserData()
-  //     .then((data) => setUserData(data.data.users))
-  //     .catch((error) => {
-  //       console.error('Error in AnotherComponent:', error);
-  //     });
-  // }, []);
-
-  // console.log('++++++>>>>>>>', userData?.length);
 
   const handleSort = (event, id) => {
     const isAsc = orderBy === id && order === 'asc';
@@ -85,23 +74,9 @@ export default function UserPage() {
     setSelected(newSelected);
   };
 
-  console.log('>>>>>++++', selected);
-
   const handleFilterByName = (event) => {
     setFilterName(event.target.value);
   };
-
-  // const dataFiltered = applyFilter({
-  //   inputData: userData,
-  //   comparator: getComparator(order, orderBy),
-  //   filterName,
-  // });
-
-  // const notFound = !dataFiltered.length && !!filterName;
-
-  // console.log('the user data for the user  is ', userData);
-
-  console.log(loading ? 'loading-true' : 'loading-false');
 
   return (
     <Container>
@@ -162,20 +137,13 @@ export default function UserPage() {
                       selected={selected.indexOf(data.username) !== -1}
                       handleClick={(event) => handleClick(event, data.username)}
                     />
-                    {/* ))} */}
 
-                    <TableEmptyRows
-                      height={77}
-                      // emptyRows={emptyRows(page, rowsPerPage, userData?.length)}
-                    />
-
-                    {/* {notFound && <TableNoData query={filterName} />} */}
+                    <TableEmptyRows height={77} />
                   </TableBody>
                 ))
               )}
             </Table>
           </TableContainer>
-          {/* )} */}
         </Scrollbar>
       </Card>
     </Container>
