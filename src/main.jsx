@@ -5,7 +5,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { SnackbarProvider } from 'notistack';
 import App from './app';
-import store from './Redux-toolkit/store';
+import store from './redux-toolkit/store';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 

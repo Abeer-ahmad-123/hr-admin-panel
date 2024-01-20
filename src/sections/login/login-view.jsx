@@ -13,7 +13,7 @@ import { bgGradient } from 'src/theme/css';
 import Logo from 'src/components/logo';
 import Iconify from 'src/components/iconify';
 import { useDispatch } from 'react-redux';
-import { loginFn } from 'src/Redux-toolkit/actions/loginActions';
+import { loginFn } from 'src/redux-toolkit/actions/loginActions';
 import { useSnackbar } from 'notistack';
 import { useNavigate } from 'react-router-dom';
 
