@@ -1,14 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { loginFn } from '../actions/loginActions';
+import { getUserDetails, loginFn } from '../actions/loginActions';
 
 const initialState = {
   loading: false,
-  admindata: [],
-
+  admindata: {},
   error: null,
 };
 
-const userSlice = createSlice({
+const loginSlice = createSlice({
   name: 'login',
   initialState,
   reducers: {
@@ -30,8 +29,19 @@ const userSlice = createSlice({
       .addCase(loginFn.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error;
+      })
+      .addCase(getUserDetails.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getUserDetails.fulfilled, (state, action) => {
+        state.loading = false;
+        state.admindata = { userData: action.payload };
+      })
+      .addCase(getUserDetails.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error;
       });
   },
 });
-export const { clearAuth } = userSlice.actions;
-export default userSlice.reducer;
+export const { clearAuth } = loginSlice.actions;
+export default loginSlice.reducer;

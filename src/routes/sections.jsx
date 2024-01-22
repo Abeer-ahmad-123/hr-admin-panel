@@ -1,8 +1,7 @@
 import { lazy, Suspense } from 'react';
 import { Outlet, Navigate, useRoutes } from 'react-router-dom';
-import ProtectedRoute from 'src/utils/protectedRouter';
-
 import DashboardLayout from 'src/layouts/dashboard';
+import ProtectedRoute from 'src/services/protectedRouter';
 
 export const IndexPage = lazy(() => import('src/pages/app'));
 export const BlogPage = lazy(() => import('src/pages/blog'));
