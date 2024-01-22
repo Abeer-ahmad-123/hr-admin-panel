@@ -11,7 +11,6 @@ const setupApiInterceptor = async (urlPath, headers, data = {}, method) => {
       headers,
       data,
     });
-
     return response.data.data;
   } catch (error) {
     /* eslint-disable */

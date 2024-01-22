@@ -5,10 +5,12 @@ import PropTypes from 'prop-types';
 const ProtectedRoute = ({ children }) => {
   const isAuthenticated = localStorage.getItem('token');
   const navigate = useNavigate();
+
   useEffect(() => {
     if (!isAuthenticated) {
       navigate('/login');
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated]);
   return <>{children}</>;
