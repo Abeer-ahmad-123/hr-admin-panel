@@ -10,7 +10,7 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import { useNavigate } from 'react-router-dom';
 import { account } from 'src/_mock/account';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { clearAuth } from 'src/redux-toolkit/reducers/loginReducer';
 
 const MENU_OPTIONS = [
@@ -31,14 +31,17 @@ const MENU_OPTIONS = [
 export default function AccountPopover() {
   const [open, setOpen] = useState(null);
   const navigate = useNavigate();
+  const data = useSelector((state) => state.auth.admindata);
 
   const dispatch = useDispatch();
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
   };
-
   const handleClose = () => {
     setOpen(null);
+  };
+
+  const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('refresh-token');
     dispatch(clearAuth());
@@ -68,7 +71,7 @@ export default function AccountPopover() {
             border: (theme) => `solid 2px ${theme.palette.background.default}`,
           }}
         >
-          {account.displayName.charAt(0).toUpperCase()}
+          {data?.userData?.name}
         </Avatar>
       </IconButton>
 
@@ -89,10 +92,10 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2 }}>
           <Typography variant="subtitle2" noWrap>
-            {account.displayName}
+            {data?.userData?.name}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {account.email}
+            {data?.userData?.email}
           </Typography>
         </Box>
 
@@ -109,7 +112,7 @@ export default function AccountPopover() {
         <MenuItem
           disableRipple
           disableTouchRipple
-          onClick={handleClose}
+          onClick={handleLogout}
           sx={{ typography: 'body2', color: 'primary.main', py: 1.5 }}
         >
           Logout
