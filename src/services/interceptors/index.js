@@ -18,11 +18,15 @@ const setupApiInterceptor = async (urlPath, headers, data = {}, method) => {
       const refreshToken = localStorage.getItem('refresh-token');
       if (refreshToken) {
         try {
-          const refreshResponse = await axios.post('/auth/refreshToken', {
-            RefreshToken: refreshToken,
-          });
+          const refreshResponse = await axios.post(
+            `${BASE_URL}/auth/refreshToken`,
+            {},
+            {
+              headers: { refreshToken },
+            }
+          );
 
-          localStorage.setItem('access-token', refreshResponse.data.data.token);
+          localStorage.setItem('token', refreshResponse.data.data.token);
 
           // Create a new object with updated headers
           const updatedHeaders = {

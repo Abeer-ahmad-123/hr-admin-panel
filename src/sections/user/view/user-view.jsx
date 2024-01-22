@@ -1,19 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Table from '@mui/material/Table';
-import Button from '@mui/material/Button';
+
 import Container from '@mui/material/Container';
 import TableBody from '@mui/material/TableBody';
 import Typography from '@mui/material/Typography';
 import TableContainer from '@mui/material/TableContainer';
-
-import Iconify from 'src/components/iconify';
+import { PulseLoader } from 'react-spinners';
 import Scrollbar from 'src/components/scrollbar';
 import UserSkelton from 'src/loading/userSkelton';
-import { useTheme } from '@mui/material/styles';
 import { allUsers } from 'src/redux-toolkit/actions/userActions';
 import UserTableRow from '../user-table-row';
 import UserTableHead from '../user-table-head';
@@ -28,16 +26,58 @@ export default function UserPage() {
   const [orderBy, setOrderBy] = useState('name');
 
   const [filterName, setFilterName] = useState('');
+  const [userDetails, setUserDetails] = useState([]);
+  const [page, setPage] = useState(1);
 
-  const theme = useTheme();
+  const refElement = useRef(null);
 
   const dispatch = useDispatch();
 
   const { users, loading } = useSelector((state) => state.user);
+
+  const intersection = useCallback(() => {
+    if (page !== userDetails?.meta?.TotalPages) {
+      setPage((prevPage) => prevPage + 1);
+    }
+  }, [page, setPage, userDetails?.meta?.TotalPages]);
+
   useEffect(() => {
-    dispatch(allUsers());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    dispatch(allUsers(page));
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            intersection();
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+
+    if (refElement.current) {
+      observer.observe(refElement.current);
+    }
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [page, intersection, dispatch]);
+
+  useEffect(() => {
+    if (page === 1) {
+      setUserDetails(users);
+    } else {
+      setUserDetails((prevDetails) => ({
+        ...prevDetails,
+        users: [
+          ...(prevDetails?.users || []),
+          ...(users?.users || []).filter(
+            (newUser) => !prevDetails?.users.find((prevUser) => prevUser.id === newUser.id)
+          ),
+        ],
+      }));
+    }
+  }, [users, page]);
 
   const handleSort = (event, id) => {
     const isAsc = orderBy === id && order === 'asc';
@@ -49,7 +89,7 @@ export default function UserPage() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = users?.map((n) => n.username);
+      const newSelecteds = userDetails?.map((n) => n.username);
       setSelected(newSelecteds);
       return;
     }
@@ -82,16 +122,6 @@ export default function UserPage() {
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <Typography variant="h4">Users</Typography>
-
-        <Button
-          sx={{
-            boxShadow: theme.shadows[20],
-          }}
-          variant="contained"
-          startIcon={<Iconify icon="eva:plus-fill" />}
-        >
-          New User
-        </Button>
       </Stack>
 
       <Card>
@@ -105,7 +135,7 @@ export default function UserPage() {
           <TableContainer sx={{ overflow: 'unset' }}>
             <Table sx={{ minWidth: 800 }}>
               <UserTableHead
-                rowCount={users.users?.length}
+                rowCount={userDetails.users?.length}
                 numSelected={selected.length}
                 onRequestSort={handleSort}
                 onSelectAllClick={handleSelectAllClick}
@@ -125,8 +155,8 @@ export default function UserPage() {
                   ))}
                 </TableBody>
               ) : (
-                users.users &&
-                users.users.map((data) => (
+                userDetails.users &&
+                userDetails.users.map((data, index) => (
                   <TableBody key={data.id}>
                     <UserTableRow
                       key={data.id}
@@ -136,6 +166,7 @@ export default function UserPage() {
                       avatarURL={data.profilePictureURL}
                       selected={selected.indexOf(data.username) !== -1}
                       handleClick={(event) => handleClick(event, data.username)}
+                      // ref={index === userDetails.users.length - 1 ? refElement : null}
                     />
 
                     <TableEmptyRows height={77} />
@@ -146,6 +177,20 @@ export default function UserPage() {
           </TableContainer>
         </Scrollbar>
       </Card>
+      {page === userDetails?.meta?.TotalPages ? (
+        <Stack>no more Users</Stack>
+      ) : (
+        <Stack
+          direction="row"
+          justifyContent="center"
+          sx={{
+            marginTop: '4rem',
+          }}
+          ref={refElement}
+        >
+          <PulseLoader color="#5141df" />
+        </Stack>
+      )}
     </Container>
   );
 }

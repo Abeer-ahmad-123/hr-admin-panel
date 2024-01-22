@@ -6,7 +6,7 @@ export default function ProductsPage() {
   return (
     <>
       <Helmet>
-        <title> Products | Admin Panel </title>
+        <title> Reports | Admin Panel </title>
       </Helmet>
 
       <ReportsView />

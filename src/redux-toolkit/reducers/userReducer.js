@@ -4,7 +4,7 @@ import { allUsers } from '../actions/userActions';
 const initialState = {
   loading: false,
   users: [],
-  //   success: false,
+  currentPage: 1,
   error: null,
 };
 

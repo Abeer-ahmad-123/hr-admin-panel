@@ -10,6 +10,7 @@ const navConfig = [
     path: '/',
     icon: icon('ic_analytics'),
   },
+
   {
     title: 'users',
     path: '/user',
@@ -19,6 +20,11 @@ const navConfig = [
     title: 'Reports',
     path: '/reports',
     icon: icon('ic_lock'),
+  },
+  {
+    title: 'channals',
+    path: '/channals',
+    icon: icon('ic_analytics'),
   },
 
   {
