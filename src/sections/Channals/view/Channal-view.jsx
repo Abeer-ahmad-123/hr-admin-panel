@@ -8,7 +8,7 @@ import Table from '@mui/material/Table';
 import Scrollbar from 'src/components/scrollbar';
 import Container from '@mui/material/Container';
 import TableBody from '@mui/material/TableBody';
-import Typography from '@mui/material/Typography';
+
 import TableContainer from '@mui/material/TableContainer';
 import { clearAuth } from 'src/redux-toolkit/reducers/loginReducer';
 
@@ -44,15 +44,88 @@ const ChannalView = () => {
     dispatch(clearAuth());
     navigate('/login');
   }
+  const handleButtonClick = (selectedReportType) => {
+    setSelectedReport(selectedReportType);
+  };
+
+  const handlePostButtonClick = () => {
+    handleButtonClick('post');
+  };
+
+  const handleCommentButtonClick = () => {
+    handleButtonClick('comment');
+  };
 
   return (
     <Container>
-      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-        <Typography variant="h4">
-          {selectedReport === 'post' ? 'post Reports' : 'comment Reports'}{' '}
-        </Typography>
-        <Button onClick={() => setSelectedReport('post')}>Post reports</Button>
-        <Button onClick={() => setSelectedReport('comment')}>Comment reports</Button>
+      <Stack direction="row" alignItems="center" gap="5rem" justifyContent="center" mb={5}>
+        <Button
+          id="post"
+          onClick={handlePostButtonClick}
+          sx={{
+            position: 'relative',
+            display: 'block',
+            color: selectedReport === 'post' ? '#5141DF' : 'gray',
+            '&:hover': {
+              color: selectedReport === 'post' ? 'blue' : 'darkblue',
+              '&:after': {
+                backgroundColor: 'darkblue',
+              },
+            },
+            '&:focus': {
+              '&:after': {
+                width: '100px',
+              },
+            },
+
+            '&:after': {
+              content: '""',
+              position: 'absolute',
+              height: '3px',
+              backgroundColor: '#5141DF',
+              width: '0px',
+              left: 0,
+              bottom: '-10px',
+              transition: '1s',
+            },
+          }}
+        >
+          Post reports
+        </Button>
+
+        <Button
+          id="comment"
+          onClick={handleCommentButtonClick}
+          sx={{
+            display: 'block',
+            color: selectedReport === 'comment' ? '#5141DF ' : 'gray',
+
+            '&:hover': {
+              color: selectedReport === 'post' ? 'blue' : 'darkblue',
+              '&:after': {
+                backgroundColor: 'darkblue',
+              },
+            },
+            '&:focus': {
+              '&:after': {
+                width: '130px',
+              },
+            },
+
+            '&:after': {
+              content: '""',
+              position: 'absolute',
+              height: '3px',
+              backgroundColor: '#5141DF',
+              width: '0px',
+              left: 0,
+              bottom: '-10px',
+              transition: '1s',
+            },
+          }}
+        >
+          Comment reports
+        </Button>
       </Stack>
       <Card>
         <Scrollbar>

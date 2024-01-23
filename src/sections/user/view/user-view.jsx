@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import Card from '@mui/material/Card';
@@ -28,45 +28,16 @@ export default function UserPage() {
   const [filterName, setFilterName] = useState('');
   const [userDetails, setUserDetails] = useState([]);
   const [page, setPage] = useState(1);
-
-  const refElement = useRef(null);
+  const [ref, inView] = useInView();
 
   const dispatch = useDispatch();
 
   const { users, loading } = useSelector((state) => state.user);
 
-  const intersection = useCallback(() => {
-    if (page !== userDetails?.meta?.TotalPages) {
+  const Pagination = () => {
+    if (page !== users?.meta?.TotalPages) {
+      dispatch(allUsers(page));
       setPage((prevPage) => prevPage + 1);
-    }
-  }, [page, setPage, userDetails?.meta?.TotalPages]);
-
-  useEffect(() => {
-    dispatch(allUsers(page));
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            intersection();
-          }
-        });
-      },
-      { threshold: 0.5 }
-    );
-
-    if (refElement.current) {
-      observer.observe(refElement.current);
-    }
-
-    return () => {
-      observer.disconnect();
-    };
-  }, [page, intersection, dispatch]);
-
-  useEffect(() => {
-    if (page === 1) {
-      setUserDetails(users);
-    } else {
       setUserDetails((prevDetails) => ({
         ...prevDetails,
         users: [
@@ -77,7 +48,12 @@ export default function UserPage() {
         ],
       }));
     }
-  }, [users, page]);
+  };
+
+  useEffect(() => {
+    if (inView) Pagination();
+    // eslint-disable-next-line
+  }, [inView]);
 
   const handleSort = (event, id) => {
     const isAsc = orderBy === id && order === 'asc';
@@ -186,7 +162,7 @@ export default function UserPage() {
           sx={{
             marginTop: '4rem',
           }}
-          ref={refElement}
+          ref={ref}
         >
           <PulseLoader color="#5141df" />
         </Stack>
