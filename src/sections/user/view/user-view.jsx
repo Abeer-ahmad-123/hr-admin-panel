@@ -4,16 +4,15 @@ import { useSelector, useDispatch } from 'react-redux';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Table from '@mui/material/Table';
-import Button from '@mui/material/Button';
+
 import Container from '@mui/material/Container';
 import TableBody from '@mui/material/TableBody';
 import Typography from '@mui/material/Typography';
 import TableContainer from '@mui/material/TableContainer';
-
-import Iconify from 'src/components/iconify';
+import { useInView } from 'react-intersection-observer';
+import { PulseLoader } from 'react-spinners';
 import Scrollbar from 'src/components/scrollbar';
 import UserSkelton from 'src/loading/userSkelton';
-import { useTheme } from '@mui/material/styles';
 import { allUsers } from 'src/redux-toolkit/actions/userActions';
 import UserTableRow from '../user-table-row';
 import UserTableHead from '../user-table-head';
@@ -28,16 +27,45 @@ export default function UserPage() {
   const [orderBy, setOrderBy] = useState('name');
 
   const [filterName, setFilterName] = useState('');
-
-  const theme = useTheme();
+  const [userDetails, setUserDetails] = useState([]);
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(true);
+  const [ref, inView] = useInView();
 
   const dispatch = useDispatch();
 
-  const { users, loading } = useSelector((state) => state.user);
+  const { users } = useSelector((state) => state.user);
+
+  const Pagination = () => {
+    if (page !== users?.meta?.TotalPages) {
+      dispatch(allUsers(page));
+      setPage((prevPage) => prevPage + 1);
+    }
+  };
+
+  const appendUserDetails = () => {
+    setUserDetails((prevDetails) => ({
+      ...prevDetails,
+      users: [...(prevDetails?.users || []), ...(users?.users || [])],
+    }));
+    setLoading(false);
+  };
   useEffect(() => {
-    dispatch(allUsers());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    Pagination();
+    // eslint-disable-next-line
   }, []);
+
+  useEffect(() => {
+    if (inView) Pagination();
+    // eslint-disable-next-line
+  }, [inView]);
+
+  useEffect(() => {
+    if (users?.users?.length) {
+      appendUserDetails();
+    }
+    // eslint-disable-next-line
+  }, [users]);
 
   const handleSort = (event, id) => {
     const isAsc = orderBy === id && order === 'asc';
@@ -49,7 +77,7 @@ export default function UserPage() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = users?.map((n) => n.username);
+      const newSelecteds = userDetails?.map((n) => n.username);
       setSelected(newSelecteds);
       return;
     }
@@ -82,16 +110,6 @@ export default function UserPage() {
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <Typography variant="h4">Users</Typography>
-
-        <Button
-          sx={{
-            boxShadow: theme.shadows[20],
-          }}
-          variant="contained"
-          startIcon={<Iconify icon="eva:plus-fill" />}
-        >
-          New User
-        </Button>
       </Stack>
 
       <Card>
@@ -105,7 +123,7 @@ export default function UserPage() {
           <TableContainer sx={{ overflow: 'unset' }}>
             <Table sx={{ minWidth: 800 }}>
               <UserTableHead
-                rowCount={users.users?.length}
+                rowCount={userDetails.users?.length}
                 numSelected={selected.length}
                 onRequestSort={handleSort}
                 onSelectAllClick={handleSelectAllClick}
@@ -118,15 +136,15 @@ export default function UserPage() {
                 ]}
               />
 
-              {loading ? (
+              {loading && (
                 <TableBody>
                   {Array.from({ length: 10 }, (_, index) => (
                     <UserSkelton key={index} />
                   ))}
                 </TableBody>
-              ) : (
-                users.users &&
-                users.users.map((data) => (
+              )}
+              {userDetails.users &&
+                userDetails.users.map((data, index) => (
                   <TableBody key={data.id}>
                     <UserTableRow
                       key={data.id}
@@ -140,12 +158,23 @@ export default function UserPage() {
 
                     <TableEmptyRows height={77} />
                   </TableBody>
-                ))
-              )}
+                ))}
             </Table>
           </TableContainer>
         </Scrollbar>
       </Card>
+      {page !== users?.meta?.TotalPages && (
+        <Stack
+          direction="row"
+          justifyContent="center"
+          sx={{
+            marginTop: '4rem',
+          }}
+          ref={ref}
+        >
+          <PulseLoader color="#5141df" />
+        </Stack>
+      )}
     </Container>
   );
 }
