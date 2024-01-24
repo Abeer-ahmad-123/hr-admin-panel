@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import setupApiInterceptor from 'src/utils/interceptors';
+import setupApiInterceptor from 'src/services/interceptors';
 
 export const allReports = createAsyncThunk('report/allReports', async (_, { rejectWithValue }) => {
   const authToken = localStorage.getItem('token');

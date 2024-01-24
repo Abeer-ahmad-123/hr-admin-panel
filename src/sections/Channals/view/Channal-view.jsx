@@ -58,24 +58,17 @@ const ChannalView = () => {
 
   return (
     <Container>
-      <Stack direction="row" alignItems="center" gap="5rem" justifyContent="center" mb={5}>
+      <Stack direction="row" alignItems="center" mb={5}>
         <Button
           id="post"
           onClick={handlePostButtonClick}
           sx={{
             position: 'relative',
             display: 'block',
-            color: selectedReport === 'post' ? '#5141DF' : 'gray',
+            color: selectedReport === 'post' ? '#5141DF ' : 'gray',
             '&:hover': {
-              color: selectedReport === 'post' ? 'blue' : 'darkblue',
-              '&:after': {
-                backgroundColor: 'darkblue',
-              },
-            },
-            '&:focus': {
-              '&:after': {
-                width: '100px',
-              },
+              color: '#5141DF',
+              background: 'none',
             },
 
             '&:after': {
@@ -83,8 +76,8 @@ const ChannalView = () => {
               position: 'absolute',
               height: '3px',
               backgroundColor: '#5141DF',
-              width: '0px',
-              left: 0,
+              width: selectedReport === 'post' ? '80px' : ' 0px',
+              left: '9px',
               bottom: '-10px',
               transition: '1s',
             },
@@ -101,15 +94,8 @@ const ChannalView = () => {
             color: selectedReport === 'comment' ? '#5141DF ' : 'gray',
 
             '&:hover': {
-              color: selectedReport === 'post' ? 'blue' : 'darkblue',
-              '&:after': {
-                backgroundColor: 'darkblue',
-              },
-            },
-            '&:focus': {
-              '&:after': {
-                width: '130px',
-              },
+              color: '#5141DF',
+              background: 'none',
             },
 
             '&:after': {
@@ -117,8 +103,8 @@ const ChannalView = () => {
               position: 'absolute',
               height: '3px',
               backgroundColor: '#5141DF',
-              width: '0px',
-              left: 0,
+              width: selectedReport === 'comment' ? '117px' : ' 0px',
+              left: '9px',
               bottom: '-10px',
               transition: '1s',
             },
