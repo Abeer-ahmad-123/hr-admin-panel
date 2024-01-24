@@ -16,10 +16,10 @@ import ReportRowSkelton from 'src/loading/reportsSkelton';
 
 import { allReports } from 'src/redux-toolkit/actions/reportsAction';
 import { useNavigate } from 'react-router-dom';
-import ChannalTableHead from '../Channal-table-head';
+import ChannalTableHead from '../Report-table-head';
 import CommentsReport from './twoReports/Post/Reports';
 
-const ChannalView = () => {
+const ReportView = () => {
   const dispatch = useDispatch();
   const { loading, reports, error } = useSelector((state) => state.reports);
 
@@ -138,4 +138,4 @@ const ChannalView = () => {
   );
 };
 
-export default ChannalView;
+export default ReportView;

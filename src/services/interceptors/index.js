@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const BASE_URL = import.meta.env.VITE_REACT_APP_BASE_URL;
 
-const setupApiInterceptor = async (urlPath, headers, data = {}, method) => {
+const setupApiInterceptor = async (urlPath, method, data = {}, headers) => {
   try {
     const fullUrl = `${BASE_URL}${urlPath}`;
     const response = await axios({
@@ -34,7 +34,7 @@ const setupApiInterceptor = async (urlPath, headers, data = {}, method) => {
             Authorization: `Bearer ${refreshResponse?.data?.data?.token}`,
           };
 
-          return setupApiInterceptor(urlPath, updatedHeaders, data, method);
+          return setupApiInterceptor(urlPath, method, data, updatedHeaders);
         } catch (refreshError) {
           throw refreshError;
         }

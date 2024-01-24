@@ -7,8 +7,8 @@ export const IndexPage = lazy(() => import('src/pages/app'));
 export const BlogPage = lazy(() => import('src/pages/blog'));
 export const UserPage = lazy(() => import('src/pages/user'));
 export const LoginPage = lazy(() => import('src/pages/login'));
-export const ReportsPage = lazy(() => import('src/pages/reports'));
-export const ChannalPage = lazy(() => import('src/pages/Channals'));
+export const ReportsPage = lazy(() => import('src/pages/Reports'));
+export const ChannalPage = lazy(() => import('src/pages/channel'));
 export const Page404 = lazy(() => import('src/pages/page-not-found'));
 
 export default function Router() {
@@ -27,7 +27,7 @@ export default function Router() {
         { element: <IndexPage />, index: true },
         { path: 'user', element: <UserPage /> },
         { path: 'reports', element: <ReportsPage /> },
-        { path: 'channals', element: <ChannalPage /> },
+        { path: 'channels', element: <ChannalPage /> },
       ],
     },
     {

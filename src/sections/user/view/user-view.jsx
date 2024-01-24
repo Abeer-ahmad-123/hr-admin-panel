@@ -148,6 +148,7 @@ export default function UserPage() {
                   <TableBody key={data.id}>
                     <UserTableRow
                       key={data.id}
+                      id={data.id}
                       name={data.username}
                       date_joined={data.date_joined}
                       email={data.email}

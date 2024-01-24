@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 
 import TableBody from '@mui/material/TableBody';
-import ChannalTableRow from '../../../Channal-table.row';
+import ReportTableRow from '../../../Report-table.row';
 
 const CommentsReport = ({ data }) => (
   <>
@@ -9,7 +9,7 @@ const CommentsReport = ({ data }) => (
       // eslint-disable-next-line no-shadow
       data.map((data) => (
         <TableBody key={data.id}>
-          <ChannalTableRow data={data} />
+          <ReportTableRow data={data} />
         </TableBody>
       ))}
   </>

@@ -8,10 +8,10 @@ import Typography from '@mui/material/Typography';
 import { ReportsDetails, products } from 'src/_mock/reports';
 
 import ProductCard from '../product-card';
-import ProductSort from '../reports-sort';
-import ProductFilters from '../reports-filters';
+import ProductSort from '../channel-sort';
+import ProductFilters from '../channel-filters';
 
-export default function ReportsView() {
+const ChannelView = () => {
   const [openFilter, setOpenFilter] = useState(false);
 
   const handleOpenFilter = () => {
@@ -55,4 +55,6 @@ export default function ReportsView() {
       </Grid>
     </Container>
   );
-}
+};
+
+export default ChannelView;
