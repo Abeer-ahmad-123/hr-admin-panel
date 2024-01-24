@@ -28,32 +28,43 @@ export default function UserPage() {
   const [filterName, setFilterName] = useState('');
   const [userDetails, setUserDetails] = useState([]);
   const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(true);
   const [ref, inView] = useInView();
 
   const dispatch = useDispatch();
 
-  const { users, loading } = useSelector((state) => state.user);
+  const { users } = useSelector((state) => state.user);
 
   const Pagination = () => {
     if (page !== users?.meta?.TotalPages) {
       dispatch(allUsers(page));
       setPage((prevPage) => prevPage + 1);
-      setUserDetails((prevDetails) => ({
-        ...prevDetails,
-        users: [
-          ...(prevDetails?.users || []),
-          ...(users?.users || []).filter(
-            (newUser) => !prevDetails?.users.find((prevUser) => prevUser.id === newUser.id)
-          ),
-        ],
-      }));
     }
   };
+
+  const appendUserDetails = () => {
+    setUserDetails((prevDetails) => ({
+      ...prevDetails,
+      users: [...(prevDetails?.users || []), ...(users?.users || [])],
+    }));
+    setLoading(false);
+  };
+  useEffect(() => {
+    Pagination();
+    // eslint-disable-next-line
+  }, []);
 
   useEffect(() => {
     if (inView) Pagination();
     // eslint-disable-next-line
   }, [inView]);
+
+  useEffect(() => {
+    if (users?.users?.length) {
+      appendUserDetails();
+    }
+    // eslint-disable-next-line
+  }, [users]);
 
   const handleSort = (event, id) => {
     const isAsc = orderBy === id && order === 'asc';
@@ -124,14 +135,14 @@ export default function UserPage() {
                 ]}
               />
 
-              {loading ? (
+              {loading && (
                 <TableBody>
                   {Array.from({ length: 10 }, (_, index) => (
                     <UserSkelton key={index} />
                   ))}
                 </TableBody>
-              ) : (
-                userDetails.users &&
+              )}
+              {userDetails.users &&
                 userDetails.users.map((data, index) => (
                   <TableBody key={data.id}>
                     <UserTableRow
@@ -142,20 +153,16 @@ export default function UserPage() {
                       avatarURL={data.profilePictureURL}
                       selected={selected.indexOf(data.username) !== -1}
                       handleClick={(event) => handleClick(event, data.username)}
-                      // ref={index === userDetails.users.length - 1 ? refElement : null}
                     />
 
                     <TableEmptyRows height={77} />
                   </TableBody>
-                ))
-              )}
+                ))}
             </Table>
           </TableContainer>
         </Scrollbar>
       </Card>
-      {page === userDetails?.meta?.TotalPages ? (
-        <Stack>no more Users</Stack>
-      ) : (
+      {page !== users?.meta?.TotalPages && (
         <Stack
           direction="row"
           justifyContent="center"
