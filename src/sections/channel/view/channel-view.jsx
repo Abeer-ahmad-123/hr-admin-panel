@@ -1,55 +1,46 @@
-import { useState } from 'react';
-
-import Stack from '@mui/material/Stack';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Container from '@mui/material/Container';
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
-
-import { ReportsDetails, products } from 'src/_mock/reports';
-
-import ProductCard from '../product-card';
-import ProductSort from '../channel-sort';
-import ProductFilters from '../channel-filters';
+import { allChannels } from 'src/redux-toolkit/actions/channelAction';
+import Iconify from 'src/components/iconify';
+import ChannelCard from '../Channel-card';
+import AddChannel from '../AddChannel';
 
 const ChannelView = () => {
-  const [openFilter, setOpenFilter] = useState(false);
+  const dispatch = useDispatch();
+  const { channels } = useSelector((state) => state.channels.channels);
+  const [clicked, setClicked] = useState(false);
 
-  const handleOpenFilter = () => {
-    setOpenFilter(true);
-  };
+  useEffect(() => {
+    dispatch(allChannels());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const handleCloseFilter = () => {
-    setOpenFilter(false);
+  const addChannel = () => {
+    setClicked(true);
   };
 
   return (
     <Container>
-      <Typography variant="h4" sx={{ mb: 5 }}>
-        Reports
-      </Typography>
-      {ReportsDetails.map((tasks) => tasks.Username)}
-      <Stack
-        direction="row"
-        alignItems="center"
-        flexWrap="wrap-reverse"
-        justifyContent="flex-end"
-        sx={{ mb: 5 }}
-      >
-        <Stack direction="row" spacing={1} flexShrink={0} sx={{ my: 1 }}>
-          <ProductFilters
-            openFilter={openFilter}
-            onOpenFilter={handleOpenFilter}
-            onCloseFilter={handleCloseFilter}
-          />
-
-          <ProductSort />
-        </Stack>
+      <AddChannel clicked={clicked} setClicked={setClicked} />
+      <Stack direction="row" justifyContent="space-between">
+        <Typography variant="h4" sx={{ mb: 5 }}>
+          Channel
+        </Typography>
+        <Button sx={newButton} onClick={addChannel}>
+          {' '}
+          <Iconify icon="material-symbols:add" sx={{ mr: 2 }} /> New Channel
+        </Button>
       </Stack>
 
-      <Grid container spacing={3}>
-        {products.map((product) => (
-          <Grid key={product.id} xs={12} sm={6} md={3}>
-            <ProductCard product={product} />
+      <Grid container spacing={5}>
+        {channels?.map((channel) => (
+          <Grid key={channel.id} xs={12} sm={6} md={4}>
+            <ChannelCard channel={channel} />
           </Grid>
         ))}
       </Grid>
@@ -58,3 +49,12 @@ const ChannelView = () => {
 };
 
 export default ChannelView;
+const newButton = {
+  backgroundColor: '#571CE0',
+  color: 'white',
+
+  height: '3rem',
+  '&:hover': {
+    backgroundColor: '#571CE0',
+  },
+};

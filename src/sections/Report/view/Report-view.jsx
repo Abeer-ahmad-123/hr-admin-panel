@@ -90,7 +90,6 @@ const ReportView = () => {
           id="comment"
           onClick={handleCommentButtonClick}
           sx={{
-            display: 'block',
             color: selectedReport === 'comment' ? '#5141DF ' : 'gray',
 
             '&:hover': {
