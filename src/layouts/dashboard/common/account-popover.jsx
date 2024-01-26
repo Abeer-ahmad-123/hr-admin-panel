@@ -30,10 +30,8 @@ const MENU_OPTIONS = [
 
 export default function AccountPopover() {
   const currentUser = useSelector((state) => state.auth.userData.userData);
-  console.log('current user', currentUser);
   const [open, setOpen] = useState(null);
   const navigate = useNavigate();
-  const data = useSelector((state) => state.auth.admindata);
 
   const dispatch = useDispatch();
   const handleOpen = (event) => {
@@ -94,7 +92,7 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2 }}>
           <Typography variant="subtitle2" noWrap>
-            {data?.userData?.name}
+            {currentUser?.name}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
             {currentUser?.email}
