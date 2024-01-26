@@ -1,4 +1,4 @@
-import { useState, forwardRef } from 'react';
+import React, { useState, forwardRef } from 'react';
 import Stack from '@mui/material/Stack';
 import PropTypes from 'prop-types';
 import Avatar from '@mui/material/Avatar';
@@ -9,11 +9,18 @@ import MenuItem from '@mui/material/MenuItem';
 import TableCell from '@mui/material/TableCell';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
+import Button from '@mui/material/Button';
 import Iconify from 'src/components/iconify';
+import { useDispatch } from 'react-redux';
+import { BlockUser } from 'src/redux-toolkit/actions/userActions';
 
 const UserTableRow = forwardRef(
-  ({ id, name, avatarURL, email, date_joined, selected, handleClick }, ref) => {
+  (
+    { id, name, avatarURL, email, date_joined, post_count, comment_count, selected, handleClick },
+    ref
+  ) => {
     const [open, setOpen] = useState(null);
+    const dispatch = useDispatch();
 
     const handleOpenMenu = (event) => {
       setOpen(event.currentTarget);
@@ -33,6 +40,11 @@ const UserTableRow = forwardRef(
       return formattedDate.replace(day, dayWithOrdinal);
     };
 
+    const token = localStorage.getItem('token');
+
+    const handleblock = () => {
+      dispatch(BlockUser(id, token));
+    };
     return (
       <>
         <TableRow key={id} hover tabIndex={-1} ref={ref} role="checkbox" selected={selected}>
@@ -55,6 +67,8 @@ const UserTableRow = forwardRef(
           <TableCell>{formatDate(date_joined)}</TableCell>
 
           <TableCell>{email}</TableCell>
+          <TableCell>{post_count}</TableCell>
+          <TableCell>{comment_count}</TableCell>
 
           <TableCell align="right">
             <IconButton onClick={handleOpenMenu}>
@@ -71,8 +85,10 @@ const UserTableRow = forwardRef(
           transformOrigin={{ vertical: 'top', horizontal: 'right' }}
         >
           <MenuItem onClick={handleCloseMenu}>
-            <Iconify icon="eva:edit-fill" sx={{ mr: 2 }} />
-            Edit
+            <Button color="inherit" onClick={handleblock}>
+              <Iconify icon="material-symbols:block" sx={{ mr: 2 }} />
+              Block
+            </Button>
           </MenuItem>
 
           <MenuItem onClick={handleCloseMenu} sx={{ color: 'error.main' }}>
@@ -90,6 +106,8 @@ UserTableRow.propTypes = {
   selected: PropTypes.any,
   avatarURL: PropTypes.any,
   email: PropTypes.any,
+  post_count: PropTypes.any,
+  comment_count: PropTypes.any,
   handleClick: PropTypes.func,
   name: PropTypes.any,
   date_joined: PropTypes.any,

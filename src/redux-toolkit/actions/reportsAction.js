@@ -7,11 +7,11 @@ export const allReports = createAsyncThunk('report/allReports', async (_, { reje
   try {
     const response = await setupApiInterceptor(
       '/admin/reports',
+      'GET',
+      {},
       {
         Authorization: `Bearer ${authToken}`,
-      },
-      {},
-      'GET'
+      }
     );
 
     return response;

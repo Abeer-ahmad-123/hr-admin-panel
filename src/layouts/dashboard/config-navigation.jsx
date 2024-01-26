@@ -22,8 +22,8 @@ const navConfig = [
     icon: icon('ic_lock'),
   },
   {
-    title: 'channals',
-    path: '/channals',
+    title: 'channels',
+    path: '/channels',
     icon: icon('ic_analytics'),
   },
 
