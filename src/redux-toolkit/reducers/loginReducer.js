@@ -37,11 +37,7 @@ const loginSlice = createSlice({
       })
       .addCase(getUserDetails.fulfilled, (state, action) => {
         state.loading = false;
-<<<<<<< HEAD
-        state.admindata = action.payload;
-=======
         state.userData = action.payload;
->>>>>>> dawood/changes
       })
       .addCase(getUserDetails.rejected, (state, action) => {
         state.loading = false;
