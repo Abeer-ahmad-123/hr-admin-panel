@@ -4,6 +4,7 @@ import { getUserDetails, loginFn } from '../actions/loginActions';
 const initialState = {
   loading: false,
   admindata: {},
+  userData: {},
   error: null,
 };
 
@@ -13,6 +14,7 @@ const loginSlice = createSlice({
   reducers: {
     clearAuth: (state) => {
       state.admindata = {};
+      state.userData = {};
       state.error = null;
     },
   },
@@ -35,7 +37,11 @@ const loginSlice = createSlice({
       })
       .addCase(getUserDetails.fulfilled, (state, action) => {
         state.loading = false;
+<<<<<<< HEAD
         state.admindata = action.payload;
+=======
+        state.userData = action.payload;
+>>>>>>> dawood/changes
       })
       .addCase(getUserDetails.rejected, (state, action) => {
         state.loading = false;

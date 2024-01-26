@@ -25,7 +25,6 @@ const setupApiInterceptor = async (urlPath, method, data = {}, headers) => {
               headers: { refreshToken },
             }
           );
-          clg;
           localStorage.setItem('token', refreshResponse?.data?.token);
 
           // Create a new object with updated headers

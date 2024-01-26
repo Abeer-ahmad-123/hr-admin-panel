@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -17,6 +18,8 @@ import { NAV } from './config-layout';
 import navConfig from './config-navigation';
 
 export default function Nav({ openNav, onCloseNav }) {
+  const currentUser = useSelector((state) => state.auth.userData.userData);
+
   const pathname = usePathname();
 
   const upLg = useResponsive('up', 'lg');
@@ -44,7 +47,7 @@ export default function Nav({ openNav, onCloseNav }) {
       <Avatar src={account.photoURL} alt="photoURL" />
 
       <Box sx={{ ml: 2 }}>
-        <Typography variant="subtitle2">{account.displayName}</Typography>
+        <Typography variant="subtitle2">{currentUser?.name}</Typography>
 
         <Typography variant="body2" sx={{ color: 'text.secondary' }}>
           {account.role}
