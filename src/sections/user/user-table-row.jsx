@@ -1,4 +1,4 @@
-import { useState, forwardRef } from 'react';
+import React, { useState, forwardRef } from 'react';
 import Stack from '@mui/material/Stack';
 import PropTypes from 'prop-types';
 import Avatar from '@mui/material/Avatar';
@@ -12,7 +12,10 @@ import IconButton from '@mui/material/IconButton';
 import Iconify from 'src/components/iconify';
 
 const UserTableRow = forwardRef(
-  ({ id, name, avatarURL, email, date_joined, selected, handleClick }, ref) => {
+  (
+    { id, name, avatarURL, email, date_joined, post_count, comment_count, selected, handleClick },
+    ref
+  ) => {
     const [open, setOpen] = useState(null);
 
     const handleOpenMenu = (event) => {
@@ -55,6 +58,8 @@ const UserTableRow = forwardRef(
           <TableCell>{formatDate(date_joined)}</TableCell>
 
           <TableCell>{email}</TableCell>
+          <TableCell>{post_count}</TableCell>
+          <TableCell>{comment_count}</TableCell>
 
           <TableCell align="right">
             <IconButton onClick={handleOpenMenu}>
@@ -90,6 +95,8 @@ UserTableRow.propTypes = {
   selected: PropTypes.any,
   avatarURL: PropTypes.any,
   email: PropTypes.any,
+  post_count: PropTypes.any,
+  comment_count: PropTypes.any,
   handleClick: PropTypes.func,
   name: PropTypes.any,
   date_joined: PropTypes.any,

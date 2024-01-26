@@ -28,23 +28,26 @@ export default function UserPage() {
 
   const [filterName, setFilterName] = useState('');
   const [userDetails, setUserDetails] = useState([]);
+  const [userDetailsRef, setUserDetailsRef] = useState([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [ref, inView] = useInView();
 
   const dispatch = useDispatch();
-
+  const [option, setOption] = useState('');
   const { users } = useSelector((state) => state.user);
 
   const Pagination = () => {
     if (page !== users?.meta?.TotalPages) {
       dispatch(allUsers(page));
-      setPage((prevPage) => prevPage + 1);
     }
   };
-
   const appendUserDetails = () => {
     setUserDetails((prevDetails) => ({
+      ...prevDetails,
+      users: [...(prevDetails?.users || []), ...(users?.users || [])],
+    }));
+    setUserDetailsRef((prevDetails) => ({
       ...prevDetails,
       users: [...(prevDetails?.users || []), ...(users?.users || [])],
     }));
@@ -53,10 +56,12 @@ export default function UserPage() {
   useEffect(() => {
     Pagination();
     // eslint-disable-next-line
-  }, []);
+  }, [page]);
 
   useEffect(() => {
-    if (inView) Pagination();
+    if (inView) {
+      setPage((prevPage) => prevPage + 1);
+    }
     // eslint-disable-next-line
   }, [inView]);
 
@@ -101,11 +106,37 @@ export default function UserPage() {
     }
     setSelected(newSelected);
   };
-
   const handleFilterByName = (event) => {
-    setFilterName(event.target.value);
+    const value = event.target.value.toLowerCase();
+    console.log('====> value', value);
+    setFilterName(value);
+
+    if (value.trim() === '') {
+      // If input value is empty, display all users
+      setUserDetails((prevDetails) => ({
+        ...prevDetails,
+        users: userDetailsRef.users || [], // Display all users if available
+      }));
+    } else {
+      // Filter users based on filterName
+      const filteredUsers = (userDetailsRef?.users || []).filter(
+        (user) =>
+          user.username.toLowerCase().includes(value) ||
+          user.date_joined.toLowerCase().includes(value) ||
+          user.email.toLowerCase().includes(value) ||
+          (user.post_count && user.post_count.toString().toLowerCase().includes(value)) || // Ensure post_count is converted to a string
+          (user.comment_count && user.comment_count.toString().toLowerCase().includes(value)) // Ensure comment_count is converted to a string
+      );
+
+      // Update userDetails with filtered users
+      setUserDetails((prevDetails) => ({
+        users: filteredUsers,
+      }));
+    }
   };
 
+  console.log('outer function state value', filterName);
+  console.log('userDeatails140', userDetails);
   return (
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
@@ -116,7 +147,10 @@ export default function UserPage() {
         <UserTableToolbar
           numSelected={selected.length}
           filterName={filterName}
+          users={users}
           onFilterName={handleFilterByName}
+          setOption={setOption}
+          option={option}
         />
 
         <Scrollbar>
@@ -131,6 +165,8 @@ export default function UserPage() {
                   { id: 'name', label: 'Name' },
                   { id: 'dateofjoining', label: 'Joining Date' },
                   { id: 'email', label: 'E-mail' },
+                  { id: 'post_count', label: 'Post Count' },
+                  { id: 'comment_count', label: 'Comment Count' },
 
                   { id: '' },
                 ]}
@@ -151,6 +187,8 @@ export default function UserPage() {
                       name={data.username}
                       date_joined={data.date_joined}
                       email={data.email}
+                      post_count={data.post_count}
+                      comment_count={data.comment_count}
                       avatarURL={data.profilePictureURL}
                       selected={selected.indexOf(data.username) !== -1}
                       handleClick={(event) => handleClick(event, data.username)}

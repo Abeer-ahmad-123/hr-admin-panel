@@ -26,12 +26,12 @@ const setupApiInterceptor = async (urlPath, headers, data = {}, method) => {
             }
           );
 
-          localStorage.setItem('token', refreshResponse.data.data.token);
+          localStorage.setItem('token', refreshResponse.data.token);
 
           // Create a new object with updated headers
           const updatedHeaders = {
             ...headers,
-            Authorization: `Bearer ${refreshResponse?.data?.data?.token}`,
+            Authorization: `Bearer ${refreshResponse?.data?.token}`,
           };
 
           return setupApiInterceptor(urlPath, updatedHeaders, data, method);
