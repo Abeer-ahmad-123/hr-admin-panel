@@ -10,40 +10,34 @@ import Container from '@mui/material/Container';
 import TableBody from '@mui/material/TableBody';
 
 import TableContainer from '@mui/material/TableContainer';
-import { clearAuth } from 'src/redux-toolkit/reducers/loginReducer';
 
 import ReportRowSkelton from 'src/loading/reportsSkelton';
 
 import { allReports } from 'src/redux-toolkit/actions/reportsAction';
-import { useNavigate } from 'react-router-dom';
+
 import ChannalTableHead from '../Report-table-head';
 import CommentsReport from './twoReports/Post/Reports';
 
 const ReportView = () => {
   const dispatch = useDispatch();
   const { loading, reports, error } = useSelector((state) => state.reports);
+  const authToken = useSelector((state) => state.auth?.admindata?.token);
 
   const [selectedReport, setSelectedReport] = useState('post');
 
-  const navigate = useNavigate();
+  const fetchData = async () => {
+    // eslint-disable-next-line no-useless-catch
+    try {
+      dispatch(allReports(authToken));
+    } catch (fetchError) {
+      throw error;
+    }
+  };
   useEffect(() => {
-    const fetchData = async () => {
-      // eslint-disable-next-line no-useless-catch
-      try {
-        dispatch(allReports());
-      } catch (fetchError) {
-        throw error;
-      }
-    };
-
     fetchData();
-  }, [dispatch, error]);
-  if (error) {
-    localStorage.removeItem('token');
-    localStorage.removeItem('refresh-token');
-    dispatch(clearAuth());
-    navigate('/login');
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const handleButtonClick = (selectedReportType) => {
     setSelectedReport(selectedReportType);
   };

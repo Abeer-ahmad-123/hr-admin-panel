@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
 const ProtectedRoute = ({ children }) => {
-  const isAuthenticated = localStorage.getItem('token');
+  const isAuthenticated = useSelector((state) => state.auth?.admindata?.token);
   const navigate = useNavigate();
 
   useEffect(() => {

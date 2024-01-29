@@ -12,7 +12,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import { bgGradient } from 'src/theme/css';
 import Logo from 'src/components/logo';
 import Iconify from 'src/components/iconify';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { loginFn } from 'src/redux-toolkit/actions/loginActions';
 import { useSnackbar } from 'notistack';
 import { useNavigate } from 'react-router-dom';
@@ -24,7 +24,7 @@ export default function LoginView() {
   const { enqueueSnackbar } = useSnackbar();
 
   const [showPassword, setShowPassword] = useState(false);
-
+  const { loading } = useSelector((state) => state.auth);
   const [credentials, setCredentials] = useState({ email: '', password: '' });
   const [emailValidator, setEmailValidator] = useState({
     error: false,
@@ -171,10 +171,11 @@ export default function LoginView() {
           !credentials.email ||
           !credentials.password ||
           passwordValidator.error ||
-          emailValidator.error
+          emailValidator.error ||
+          loading
         }
       >
-        Sign In
+        {loading ? 'signing in...' : 'Sign In'}
       </LoadingButton>
     </>
   );

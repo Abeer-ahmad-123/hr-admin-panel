@@ -1,8 +1,9 @@
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 const BASE_URL = import.meta.env.VITE_REACT_APP_BASE_URL;
 
-const setupApiInterceptor = async (urlPath, method, data = {}, headers) => {
+const SetupApiInterceptor = async (urlPath, method, data = {}, headers) => {
   try {
     const fullUrl = `${BASE_URL}${urlPath}`;
     const response = await axios({
@@ -11,30 +12,34 @@ const setupApiInterceptor = async (urlPath, method, data = {}, headers) => {
       headers,
       data,
     });
-    return response.data.data;
+
+    return response?.data?.data;
   } catch (error) {
     /* eslint-disable */
     if (error.response && error.response.status === 401) {
-      const refreshToken = localStorage.getItem('refresh-token');
-      if (refreshToken) {
+      const refreshTokens = useSelector((state) => state.auth?.admindata?.['refresh-token']);
+
+      if (refreshTokens) {
         try {
           const refreshResponse = await axios.post(
             `${BASE_URL}/auth/refreshToken`,
-            {},
+            'POST',
+
             {
-              headers: { refreshToken },
+              headers: { refreshTokens },
             }
           );
-          clg;
-          localStorage.setItem('token', refreshResponse?.data?.token);
+          const updatedToken = response?.data?.token;
+
+          updatedToken = refreshResponse?.data?.token;
 
           // Create a new object with updated headers
           const updatedHeaders = {
             ...headers,
-            Authorization: `Bearer ${refreshResponse?.data?.token}`,
+            Authorization: `Bearer ${updatedToken}`,
           };
 
-          return setupApiInterceptor(urlPath, method, data, updatedHeaders);
+          return SetupApiInterceptor(urlPath, method, data, updatedHeaders);
         } catch (refreshError) {
           throw refreshError;
         }
@@ -47,4 +52,4 @@ const setupApiInterceptor = async (urlPath, method, data = {}, headers) => {
   }
 };
 
-export default setupApiInterceptor;
+export default SetupApiInterceptor;

@@ -11,7 +11,7 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
 import Iconify from 'src/components/iconify';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { BlockUser } from 'src/redux-toolkit/actions/userActions';
 
 const UserTableRow = forwardRef(
@@ -37,7 +37,7 @@ const UserTableRow = forwardRef(
       return formattedDate.replace(day, dayWithOrdinal);
     };
 
-    const token = localStorage.getItem('token');
+    const token = useSelector((state) => state.auth?.admindata?.token);
 
     const handleblock = () => {
       dispatch(BlockUser(id, token));

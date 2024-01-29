@@ -1,11 +1,11 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import setupApiInterceptor from 'src/services/interceptors';
+import SetupApiInterceptor from 'src/services/interceptors';
 
 export const allChannels = createAsyncThunk(
   'channel/allChannels',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await setupApiInterceptor('/channels', 'GET', {}, {});
+      const response = await SetupApiInterceptor('/channels', 'GET', {}, {});
 
       return response;
     } catch (error) {

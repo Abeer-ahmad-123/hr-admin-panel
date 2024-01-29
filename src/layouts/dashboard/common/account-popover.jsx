@@ -31,7 +31,7 @@ const MENU_OPTIONS = [
 export default function AccountPopover() {
   const [open, setOpen] = useState(null);
   const navigate = useNavigate();
-  const data = useSelector((state) => state.auth.admindata);
+  const data = useSelector((state) => state.auth?.admindata);
 
   const dispatch = useDispatch();
   const handleOpen = (event) => {
@@ -42,8 +42,6 @@ export default function AccountPopover() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('refresh-token');
     dispatch(clearAuth());
     navigate('/login');
   };
