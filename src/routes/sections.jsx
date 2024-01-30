@@ -3,6 +3,8 @@ import { Outlet, Navigate, useRoutes } from 'react-router-dom';
 import DashboardLayout from 'src/layouts/dashboard';
 import ProtectedRoute from 'src/services/protectedRouter';
 import ReportPage from 'src/sections/Report/view';
+import ChannelDetailPage from 'src/sections/channel/ChannelDetailPage';
+import PostDetailPage from 'src/sections/channel/PostDetailPage';
 
 export const IndexPage = lazy(() => import('src/pages/app'));
 export const BlogPage = lazy(() => import('src/pages/blog'));
@@ -28,6 +30,8 @@ export default function Router() {
         { path: 'user', element: <UserPage /> },
         { path: 'reports', element: <ReportPage /> },
         { path: 'channels', element: <ChannalPage /> },
+        { path: 'channels/:id', element: <ChannelDetailPage /> },
+        { path: 'channels/:id/:id', element: <PostDetailPage /> },
       ],
     },
     {
