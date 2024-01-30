@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getUserDetails, loginFn } from '../actions/loginActions';
+import { loginFn } from '../actions/loginActions';
 
 const initialState = {
   loading: false,
@@ -13,8 +13,7 @@ const loginSlice = createSlice({
   initialState,
   reducers: {
     clearAuth: (state) => {
-      state.admindata = {};
-      state.userData = {};
+      state.admindata = null;
       state.error = null;
     },
   },
@@ -29,17 +28,6 @@ const loginSlice = createSlice({
         state.admindata = action.payload;
       })
       .addCase(loginFn.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.error;
-      })
-      .addCase(getUserDetails.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(getUserDetails.fulfilled, (state, action) => {
-        state.loading = false;
-        state.userData = action.payload;
-      })
-      .addCase(getUserDetails.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error;
       });

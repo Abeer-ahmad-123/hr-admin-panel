@@ -16,20 +16,21 @@ import CommentsReport from './twoReports/Post/Reports';
 const ReportView = () => {
   const dispatch = useDispatch();
   const { loading, reports, error } = useSelector((state) => state.reports);
+  const authToken = useSelector((state) => state.auth?.admindata?.token);
 
   const [selectedReport, setSelectedReport] = useState('post');
 
   const fetchData = async () => {
     // eslint-disable-next-line no-useless-catch
     try {
-      dispatch(allReports());
+      dispatch(allReports(authToken));
     } catch (fetchError) {
       throw error;
     }
   };
   useEffect(() => {
     fetchData();
-    // eslint-disable-next-line
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleButtonClick = (selectedReportType) => {

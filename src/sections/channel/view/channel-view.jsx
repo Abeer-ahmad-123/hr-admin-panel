@@ -6,13 +6,14 @@ import Button from '@mui/material/Button';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 import { allChannels } from 'src/redux-toolkit/actions/channelAction';
+import ChannelSkelton from 'src/loading/channelSkelton';
 import Iconify from 'src/components/iconify';
 import ChannelCard from '../Channel-card';
 import AddChannel from '../AddChannel';
 
 const ChannelView = () => {
   const dispatch = useDispatch();
-  const { channels } = useSelector((state) => state.channels.channels);
+  const { channels, loading } = useSelector((state) => state.channels);
   const [clicked, setClicked] = useState(false);
 
   useEffect(() => {
@@ -38,9 +39,9 @@ const ChannelView = () => {
       </Stack>
 
       <Grid container spacing={5}>
-        {channels?.map((channel) => (
+        {channels.channels?.map((channel) => (
           <Grid key={channel.id} xs={12} sm={6} md={4}>
-            <ChannelCard channel={channel} />
+            {loading ? <ChannelSkelton /> : <ChannelCard channel={channel} />}
           </Grid>
         ))}
       </Grid>

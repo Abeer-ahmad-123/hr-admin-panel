@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
 const ProtectedRoute = ({ children }) => {
-  const isAuthenticated = localStorage.getItem('token');
+  const isAuthenticated = useSelector((state) => state.auth?.admindata?.token);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -13,9 +14,13 @@ const ProtectedRoute = ({ children }) => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated]);
-  return <>{children}</>;
+
+  // Render children only when authenticated
+  return isAuthenticated && <>{children}</>;
 };
+
 ProtectedRoute.propTypes = {
   children: PropTypes.node.isRequired,
 };
+
 export default ProtectedRoute;

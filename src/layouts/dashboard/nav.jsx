@@ -18,7 +18,7 @@ import { NAV } from './config-layout';
 import navConfig from './config-navigation';
 
 export default function Nav({ openNav, onCloseNav }) {
-  const currentUser = useSelector((state) => state.auth.userData.userData);
+  const { userData } = useSelector((state) => state.auth.admindata);
 
   const pathname = usePathname();
 
@@ -47,7 +47,7 @@ export default function Nav({ openNav, onCloseNav }) {
       <Avatar src={account.photoURL} alt="photoURL" />
 
       <Box sx={{ ml: 2 }}>
-        <Typography variant="subtitle2">{currentUser?.name}</Typography>
+        <Typography variant="subtitle2">{userData?.name}</Typography>
 
         <Typography variant="body2" sx={{ color: 'text.secondary' }}>
           {account.role}
