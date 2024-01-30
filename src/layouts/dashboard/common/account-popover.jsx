@@ -32,7 +32,6 @@ export default function AccountPopover() {
   const { userData } = useSelector((state) => state.auth.admindata);
   const [open, setOpen] = useState(null);
   const navigate = useNavigate();
-  const data = useSelector((state) => state.auth?.admindata);
 
   const dispatch = useDispatch();
   const handleOpen = (event) => {

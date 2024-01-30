@@ -12,8 +12,10 @@ import { RouterLink } from 'src/routes/components';
 import { useResponsive } from 'src/hooks/use-responsive';
 import { account } from 'src/_mock/account';
 import Logo from 'src/components/logo';
+import { useSelector } from 'react-redux';
 import Scrollbar from 'src/components/scrollbar';
 import { NAV } from './config-layout';
+
 import navConfig from './config-navigation';
 
 export default function Nav({ openNav, onCloseNav }) {
