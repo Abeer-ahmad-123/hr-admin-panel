@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-
 import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
@@ -8,13 +7,9 @@ import Table from '@mui/material/Table';
 import Scrollbar from 'src/components/scrollbar';
 import Container from '@mui/material/Container';
 import TableBody from '@mui/material/TableBody';
-
 import TableContainer from '@mui/material/TableContainer';
-
 import ReportRowSkelton from 'src/loading/reportsSkelton';
-
 import { allReports } from 'src/redux-toolkit/actions/reportsAction';
-
 import ChannalTableHead from '../Report-table-head';
 import CommentsReport from './twoReports/Post/Reports';
 

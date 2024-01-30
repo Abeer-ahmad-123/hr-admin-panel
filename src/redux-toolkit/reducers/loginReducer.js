@@ -4,6 +4,7 @@ import { loginFn } from '../actions/loginActions';
 const initialState = {
   loading: false,
   admindata: {},
+  userData: {},
   error: null,
 };
 
