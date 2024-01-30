@@ -14,9 +14,13 @@ const ProtectedRoute = ({ children }) => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated]);
-  return <>{children}</>;
+
+  // Render children only when authenticated
+  return isAuthenticated && <>{children}</>;
 };
+
 ProtectedRoute.propTypes = {
   children: PropTypes.node.isRequired,
 };
+
 export default ProtectedRoute;
