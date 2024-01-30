@@ -29,6 +29,7 @@ const MENU_OPTIONS = [
 ];
 
 export default function AccountPopover() {
+  const { userData } = useSelector((state) => state.auth.admindata);
   const [open, setOpen] = useState(null);
   const navigate = useNavigate();
   const data = useSelector((state) => state.auth?.admindata);
@@ -69,7 +70,7 @@ export default function AccountPopover() {
             border: (theme) => `solid 2px ${theme.palette.background.default}`,
           }}
         >
-          {data?.userData?.name}
+          {userData?.name}
         </Avatar>
       </IconButton>
 
@@ -90,10 +91,10 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2 }}>
           <Typography variant="subtitle2" noWrap>
-            {data?.userData?.name}
+            {userData?.name}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {data?.userData?.email}
+            {userData?.email}
           </Typography>
         </Box>
 

@@ -31,7 +31,7 @@ const SetupApiInterceptor = async (urlPath, method, data = {}, headers) => {
           );
           const updatedToken = response?.data?.token;
 
-          updatedToken = refreshResponse?.data?.token;
+          // updatedToken = refreshResponse?.data?.token;
 
           // Create a new object with updated headers
           const updatedHeaders = {
