@@ -49,7 +49,7 @@ const PostDetailPage = () => {
             <Typography color="#4B5563">Comment</Typography>
           </Container>
         </Container>
-
+        {/* change to sx */}
         <Container
           style={{
             width: 'auto',
@@ -70,7 +70,6 @@ const PostDetailPage = () => {
               borderRadius: '20px',
               padding: '15px',
               marginLeft: '0px',
-              //   marginRight: '46px',
             }}
             xs
           >

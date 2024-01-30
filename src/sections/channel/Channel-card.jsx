@@ -1,4 +1,3 @@
-// ChannelCard.jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -7,14 +6,13 @@ import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import { Typography } from '@mui/material';
 import CardButton from './CardButton';
+import { showErrorAlert } from '../../utils/helper/toast';
 
 const ChannelCard = ({ channel }) => {
   const [clicked, setClicked] = useState(false);
-  // const [selectedId, setSelectedId] = useState('1');
   const navigate = useNavigate();
 
   const handleButtonClick = (id) => {
-    // setSelectedId(id);
     setClicked(!clicked);
   };
 
@@ -22,7 +20,7 @@ const ChannelCard = ({ channel }) => {
     try {
       navigate(`/channels/${channel?.id}`); // Navigate to channel detail page with channel ID
     } catch (error) {
-      console.error('Error navigating to channel detail page:', error);
+      showErrorAlert(error);
     }
   };
 

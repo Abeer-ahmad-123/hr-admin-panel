@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-
 import Box from '@mui/material/Box';
 import TableRow from '@mui/material/TableRow';
 import Checkbox from '@mui/material/Checkbox';
@@ -7,21 +6,7 @@ import TableHead from '@mui/material/TableHead';
 import TableCell from '@mui/material/TableCell';
 import TableSortLabel from '@mui/material/TableSortLabel';
 
-// import { visuallyHidden } from './utils';
-
-export default function ChannelsTableHead({
-  order,
-  orderBy,
-  rowCount,
-  headLabel,
-  numSelected,
-  // onRequestSort,
-  // onSelectAllClick,
-}) {
-  const onSort = (property) => (event) => {
-    // onRequestSort(event, property);
-  };
-
+export default function ChannelsTableHead({ order, orderBy, rowCount, headLabel, numSelected }) {
   return (
     <TableHead>
       <TableRow>
@@ -29,7 +14,6 @@ export default function ChannelsTableHead({
           <Checkbox
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={rowCount > 0 && numSelected === rowCount}
-            // onChange={onSelectAllClick}
           />
         </TableCell>
 
@@ -44,11 +28,10 @@ export default function ChannelsTableHead({
               hideSortIcon
               active={orderBy === headCell.id}
               direction={orderBy === headCell.id ? order : 'asc'}
-              onClick={onSort(headCell.id)}
             >
               {headCell.label}
               {orderBy === headCell.id ? (
-                <Box sx={{}}>{order === 'desc' ? 'sorted descending' : 'sorted ascending'}</Box>
+                <Box>{order === 'desc' ? 'sorted descending' : 'sorted ascending'}</Box>
               ) : null}
             </TableSortLabel>
           </TableCell>
@@ -64,6 +47,4 @@ ChannelsTableHead.propTypes = {
   rowCount: PropTypes.number,
   headLabel: PropTypes.array,
   numSelected: PropTypes.number,
-  // onRequestSort: PropTypes.func,
-  // onSelectAllClick: PropTypes.func,
 };

@@ -12,8 +12,10 @@ import Scrollbar from 'src/components/scrollbar';
 import UserSkelton from 'src/loading/userSkelton';
 import ChannelTableRow from './channels-table-row';
 import ChannelTableHead from './channels-table-head';
-import CHannelEmptyRows from './table-empty-rows';
+import ChannelEmptyRows from './table-empty-rows';
 import ChannelTableToolbar from './channels-table-toolbar';
+import { channelData, channelHeadLabel } from '../../utils/data';
+import { showErrorAlert } from '../../utils/helper/toast';
 
 const ChannelDetailPage = () => {
   const { id: channelId } = useParams(); // Get channel ID from URL parameters
@@ -22,44 +24,19 @@ const ChannelDetailPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Simulating data fetching delay with setTimeout
-    setTimeout(() => {
-      setLoading(false); // Set loading to false after data fetching delay
-    }, 2000); // Simulating 2 seconds delay
+    setLoading(false);
   }, []);
 
   const handleFilterByName = () => {
     // Filter logic
   };
-  const handlePostClick = (id) => {
+  const handlePostClick = (e) => {
     try {
-      navigate(`/channels/${channelId}/${id}`); // Navigate to channel detail page with channel ID
+      navigate(`/channels/${channelId}/${e.target.id}`); // Navigate to channel detail page with channel ID
     } catch (error) {
-      console.error('Error navigating to channel detail page:', error);
+      showErrorAlert(error);
     }
   };
-  const channelData = [
-    {
-      id: '1',
-      author: 'Dawood Israr',
-      title: 'MERN',
-      description: 'Development',
-      like: '10',
-      total_comments: '15',
-      reactions: '20',
-    },
-
-    {
-      id: '2',
-      author: 'Awais Mubbashar',
-      title: 'Mobile Apps',
-      description: 'Development',
-      like: '10',
-      total_comments: '15',
-      reactions: '20',
-    },
-    // Add more sample data as needed
-  ];
 
   return (
     <Container>
@@ -78,21 +55,10 @@ const ChannelDetailPage = () => {
         />
 
         <Scrollbar>
+          {/* import from util */}
           <TableContainer sx={{ overflow: 'unset' }}>
             <Table sx={{ minWidth: 800 }}>
-              <ChannelTableHead
-                rowCount={5}
-                numSelected={5}
-                headLabel={[
-                  { id: 'author', label: 'Author' },
-                  { id: 'title', label: 'Title' },
-                  { id: 'description', label: 'Description' },
-                  { id: 'like', label: 'Like' },
-                  { id: 'total_comments', label: 'Total Comments' },
-                  { id: 'reactions', label: 'Reactions' },
-                  { id: '' },
-                ]}
-              />
+              <ChannelTableHead rowCount={5} numSelected={5} headLabel={channelHeadLabel} />
 
               {loading && (
                 <TableBody>
@@ -115,10 +81,10 @@ const ChannelDetailPage = () => {
                       total_comments={data.total_comments}
                       reactions={data.reactions}
                       selected={false}
-                      onPostClick={() => handlePostClick(data.id)} // Pass post ID on click
+                      onPostClick={handlePostClick} // Pass post ID on click
                     />
 
-                    <CHannelEmptyRows height={77} />
+                    <ChannelEmptyRows height={77} />
                   </TableBody>
                 ))}
             </Table>

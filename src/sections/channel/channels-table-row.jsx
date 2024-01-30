@@ -8,7 +8,6 @@ import MenuItem from '@mui/material/MenuItem';
 import TableCell from '@mui/material/TableCell';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-import Button from '@mui/material/Button';
 import Iconify from 'src/components/iconify';
 
 const ChannelsTableRow = forwardRef(
@@ -35,10 +34,6 @@ const ChannelsTableRow = forwardRef(
 
           <TableCell component="th" scope="row" padding="none">
             <Stack direction="row" alignItems="center" spacing={2}>
-              {/* <Avatar
-                alt={author}
-                src={avatarURL || '../../../public/assets/images/avatars/avatar_1.jpg'}
-              /> */}
               <Typography variant="subtitle2" noWrap>
                 {author}
               </Typography>
@@ -66,11 +61,9 @@ const ChannelsTableRow = forwardRef(
           anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
           transformOrigin={{ vertical: 'top', horizontal: 'right' }}
         >
-          <MenuItem onClick={handleCloseMenu}>
-            <Button color="inherit" onClick={onPostClick}>
-              <Iconify icon="eva:eye-outline" sx={{ mr: 2 }} /> {/* Use the "View" icon */}
-              View
-            </Button>
+          <MenuItem id={id} onClick={onPostClick}>
+            <Iconify icon="eva:eye-outline" sx={{ mr: 2 }} /> {/* Use the "View" icon */}
+            View
           </MenuItem>
 
           <MenuItem onClick={handleCloseMenu} sx={{ color: 'error.main' }}>
@@ -93,7 +86,6 @@ ChannelsTableRow.propTypes = {
   total_comments: PropTypes.func,
   reactions: PropTypes.any,
   onPostClick: PropTypes.func,
-  // handleClick: PropTypes.func,
 };
 
 export default ChannelsTableRow;
