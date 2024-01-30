@@ -7,7 +7,8 @@ import AppWebsiteVisits from '../app-website-visits';
 import AppWidgetSummary from '../app-widget-summary';
 
 export default function AppView() {
-  const { userData } = useSelector((state) => state.auth.admindata);
+  const userData = useSelector((state) => state.auth.admindata);
+  console.log('hey userdata', userData);
   return (
     <Container maxWidth="xl">
       <Typography variant="h4" sx={{ mb: 5 }}>

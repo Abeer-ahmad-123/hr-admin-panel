@@ -4,7 +4,8 @@ import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
 const ProtectedRoute = ({ children }) => {
-  const isAuthenticated = useSelector((state) => state.auth?.admindata?.token);
+  const isAuthenticated = useSelector((state) => state.auth?.token);
+  console.log('isAuthenticated', isAuthenticated);
   const navigate = useNavigate();
 
   useEffect(() => {

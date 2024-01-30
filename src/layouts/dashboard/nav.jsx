@@ -18,7 +18,7 @@ import { NAV } from './config-layout';
 import navConfig from './config-navigation';
 
 export default function Nav({ openNav, onCloseNav }) {
-  const { userData } = useSelector((state) => state.auth.admindata);
+  const userData = useSelector((state) => state.auth.admindata);
 
   const pathname = usePathname();
 
