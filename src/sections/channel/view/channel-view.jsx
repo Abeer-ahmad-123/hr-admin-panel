@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import { allChannels } from 'src/redux-toolkit/actions/channelAction';
 import ChannelSkelton from 'src/loading/channelSkelton';
 import Iconify from 'src/components/iconify';
+import { useAuth } from 'src/hooks/interceptors';
 import ChannelCard from '../Channel-card';
 import AddChannel from '../AddChannel';
 
@@ -15,9 +16,10 @@ const ChannelView = () => {
   const dispatch = useDispatch();
   const { channels, loading } = useSelector((state) => state.channels);
   const [clicked, setClicked] = useState(false);
+  const { setupApiInterceptor } = useAuth();
 
   useEffect(() => {
-    dispatch(allChannels());
+    dispatch(allChannels(setupApiInterceptor));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

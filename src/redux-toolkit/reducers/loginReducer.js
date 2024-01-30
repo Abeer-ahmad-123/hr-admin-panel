@@ -1,10 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { loginFn } from '../actions/loginActions';
+import { loginFn, refreshTokenFn } from '../actions/loginActions';
 
 const initialState = {
   loading: false,
   admindata: {},
-  userData: {},
+
+  accessToken: '',
+  refreshToken: '',
   error: null,
 };
 
@@ -14,6 +16,9 @@ const loginSlice = createSlice({
   reducers: {
     clearAuth: (state) => {
       state.admindata = null;
+      state.userData = {};
+      state.accessToken = '';
+      state.refreshToken = '';
       state.error = null;
     },
   },
@@ -25,9 +30,23 @@ const loginSlice = createSlice({
       })
       .addCase(loginFn.fulfilled, (state, action) => {
         state.loading = false;
-        state.admindata = action.payload;
+        state.admindata = action.payload?.userData;
+
+        state.accessToken = action.payload?.token;
+        state.refreshToken = action.payload?.['refresh-token'];
       })
       .addCase(loginFn.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error;
+      })
+      .addCase(refreshTokenFn.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(refreshTokenFn.fulfilled, (state, action) => {
+        state.accessToken = action.payload?.token;
+        state.refreshToken = action.payload?.['refresh-token'];
+      })
+      .addCase(refreshTokenFn.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error;
       });

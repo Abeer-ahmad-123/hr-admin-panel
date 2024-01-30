@@ -53,10 +53,24 @@ const ChannelCard = ({ channel }) => {
           <Typography color="inherit" sx={cardTitle}>
             {channel?.name}
           </Typography>
-          {/* CardButton components */}
+
           <Stack direction="row" justifyContent="space-between">
-            <CardButton label="delete" bgcolor="red" onClick={() => handleButtonClick('1')} />
-            <CardButton label="edit" bgcolor="#571CE0" onClick={() => handleButtonClick('2')} />
+            <Stack direction="row" alignItems="center">
+              <CardButton
+                icon="material-symbols:delete"
+                label="Delete"
+                bgcolor="red"
+                onClick={() => handleButtonClick('1')}
+              />
+            </Stack>
+            <Stack direction="row" alignItems="center">
+              <CardButton
+                icon="material-symbols:edit-rounded"
+                label="Edit"
+                bgcolor="#571CE0"
+                onClick={() => handleButtonClick('2')}
+              />
+            </Stack>
           </Stack>
           {/* Additional content */}
           <Stack direction="row" alignItems="center" justifyContent="space-between" />

@@ -7,7 +7,7 @@ import AppWebsiteVisits from '../app-website-visits';
 import AppWidgetSummary from '../app-widget-summary';
 
 export default function AppView() {
-  const { userData } = useSelector((state) => state.auth.admindata);
+  const { name } = useSelector((state) => state.auth?.admindata);
   return (
     <Container maxWidth="xl">
       <Typography variant="h4" sx={{ mb: 5 }}>
@@ -17,7 +17,7 @@ export default function AppView() {
             color: '#5141df',
           }}
         >
-          &nbsp;{userData?.name}
+          &nbsp;{name}
         </span>
         , Welcome back <span> 👋 </span>
       </Typography>

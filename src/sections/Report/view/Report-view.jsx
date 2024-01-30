@@ -10,20 +10,21 @@ import TableBody from '@mui/material/TableBody';
 import TableContainer from '@mui/material/TableContainer';
 import ReportRowSkelton from 'src/loading/reportsSkelton';
 import { allReports } from 'src/redux-toolkit/actions/reportsAction';
+import { useAuth } from 'src/hooks/interceptors';
 import ChannalTableHead from '../Report-table-head';
 import CommentsReport from './twoReports/Post/Reports';
 
 const ReportView = () => {
   const dispatch = useDispatch();
   const { loading, reports, error } = useSelector((state) => state.reports);
-  const authToken = useSelector((state) => state.auth?.admindata?.token);
+  const authToken = useSelector((state) => state.auth?.accessToken);
 
   const [selectedReport, setSelectedReport] = useState('post');
-
+  const { setupApiInterceptor } = useAuth();
   const fetchData = async () => {
     // eslint-disable-next-line no-useless-catch
     try {
-      dispatch(allReports(authToken));
+      dispatch(allReports({ authToken, setupApiInterceptor }));
     } catch (fetchError) {
       throw error;
     }

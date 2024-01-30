@@ -14,6 +14,7 @@ import { PulseLoader } from 'react-spinners';
 import Scrollbar from 'src/components/scrollbar';
 import UserSkelton from 'src/loading/userSkelton';
 import { allUsers } from 'src/redux-toolkit/actions/userActions';
+import { useAuth } from 'src/hooks/interceptors';
 import UserTableRow from '../user-table-row';
 import UserTableHead from '../user-table-head';
 import TableEmptyRows from '../table-empty-rows';
@@ -34,12 +35,13 @@ export default function UserPage() {
   const [ref, inView] = useInView();
 
   const dispatch = useDispatch();
+  const { setupApiInterceptor } = useAuth();
   const [option, setOption] = useState('');
   const { users } = useSelector((state) => state.user);
 
   const Pagination = () => {
     if (page !== users?.meta?.TotalPages) {
-      dispatch(allUsers(page));
+      dispatch(allUsers({ page, setupApiInterceptor }));
     }
   };
   const appendUserDetails = () => {
@@ -108,7 +110,7 @@ export default function UserPage() {
   };
   const handleFilterByName = (event) => {
     const value = event.target.value.toLowerCase();
-    console.log('====> value', value);
+
     setFilterName(value);
 
     if (value.trim() === '') {
@@ -135,8 +137,6 @@ export default function UserPage() {
     }
   };
 
-  console.log('outer function state value', filterName);
-  console.log('userDeatails140', userDetails);
   return (
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>

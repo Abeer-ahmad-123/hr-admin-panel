@@ -29,7 +29,7 @@ const MENU_OPTIONS = [
 ];
 
 export default function AccountPopover() {
-  const { userData } = useSelector((state) => state.auth.admindata);
+  const userData = useSelector((state) => state.auth.admindata);
   const [open, setOpen] = useState(null);
   const navigate = useNavigate();
 

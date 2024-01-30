@@ -48,7 +48,7 @@ export default function UserTableToolbar({ numSelected, filterName, onFilterName
               {/* <Select
                 value={option}
                 onChange={(event) => {
-                  console.log('Selected option:', event.target.value);
+              
                   setOption(event.target.value); // Set the selected value to the state
                 }}
                 displayEmpty
