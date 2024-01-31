@@ -1,15 +1,15 @@
-import PropTypes from 'prop-types';
 import * as React from 'react';
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
+import { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import { useDispatch, useSelector } from 'react-redux';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { useAuth } from 'src/hooks/interceptors';
-import { createChannel } from 'src/redux-toolkit/actions/channelAction';
+import { editChannel } from 'src/redux-toolkit/actions/channelAction';
 
 const style = {
   display: 'flex',
@@ -27,8 +27,9 @@ const style = {
   p: 4,
 };
 
-const AddChannel = ({ clicked, setClicked }) => {
-  const [open, setOpen] = React.useState(clicked);
+export default function EditCardModal({ edited, setEdited, channel_id }) {
+  const [open, setOpen] = useState(edited);
+  const { channels } = useSelector((state) => state.channels?.channels);
   const [channelData, setChannelData] = useState({
     name: '',
     description: '',
@@ -38,17 +39,12 @@ const AddChannel = ({ clicked, setClicked }) => {
   const { setupApiInterceptor } = useAuth();
 
   const authToken = useSelector((state) => state.auth?.accessToken);
-
   const handleClose = () => {
-    setOpen(false);
-    if (clicked === true) {
-      setClicked(false);
+    setOpen(!edited);
+    if (edited === true) {
+      setEdited(false);
     }
   };
-
-  useEffect(() => {
-    setOpen(clicked);
-  }, [clicked]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -61,11 +57,21 @@ const AddChannel = ({ clicked, setClicked }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    dispatch(createChannel({ setupApiInterceptor, authToken, channelData }));
-
+    dispatch(editChannel({ setupApiInterceptor, authToken, channelData, channel_id }));
     handleClose();
   };
+
+  const SpecificChannel = channels.find((chnData) => chnData.id === channel_id);
+
+  useEffect(() => {
+    setOpen(edited);
+
+    setChannelData({
+      name: SpecificChannel.name,
+      description: SpecificChannel.description,
+      img: null,
+    });
+  }, [SpecificChannel, edited]);
 
   return (
     <div>
@@ -78,12 +84,12 @@ const AddChannel = ({ clicked, setClicked }) => {
         <Box sx={{ ...style }}>
           <Stack direction="row" justifyContent="center" alignItems="center" sx={title}>
             <Typography id="modal-modal-title" variant="h6" component="h2">
-              Add Channel
+              {` Edit ${SpecificChannel.name}`}
             </Typography>
           </Stack>
-          <form style={formStyle}>
+          <form onSubmit={handleSubmit} style={formStyle}>
             <TextField
-              label="Channel Name"
+              label="Name"
               name="name"
               value={channelData.name}
               onChange={handleInputChange}
@@ -104,7 +110,12 @@ const AddChannel = ({ clicked, setClicked }) => {
             <input type="file" onChange={handleImageChange} />
           </form>
           <Stack direction="row" justifyContent="space-around">
-            <Button onClick={handleClose} sx={deleteButton}>
+            <Button
+              type="submit"
+              onClick={handleClose}
+              sx={deleteButton}
+              disabled={!channelData.name && !channelData.description}
+            >
               Cancel
             </Button>
             <Button
@@ -120,15 +131,15 @@ const AddChannel = ({ clicked, setClicked }) => {
       </Modal>
     </div>
   );
+}
+
+EditCardModal.propTypes = {
+  edited: PropTypes.bool,
+  setEdited: PropTypes.func,
+  channel_id: PropTypes.number,
 };
-export default AddChannel;
 
 // ======= Styling =======
-
-AddChannel.propTypes = {
-  clicked: PropTypes.bool,
-  setClicked: PropTypes.func,
-};
 
 const TextFieldStyle = {
   borderRadius: '10px',
@@ -153,6 +164,7 @@ const submitButton = {
     color: 'white',
   },
 };
+
 const deleteButton = {
   backgroundColor: 'red',
   color: 'white',
@@ -160,6 +172,10 @@ const deleteButton = {
   '&:hover': {
     backgroundColor: 'gray',
     boxShadow: '0px 10px 14px rgba(0, 0, 0, 0.2)',
+  },
+  '&:disabled': {
+    backgroundColor: 'gray',
+    color: 'white',
   },
 };
 const title = {
