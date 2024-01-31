@@ -7,12 +7,15 @@ import Stack from '@mui/material/Stack';
 import { Typography } from '@mui/material';
 import CardButton from './CardButton';
 import { showErrorAlert } from '../../utils/helper/toast';
+import DeleteEditModal from './DeleteEditModel';
 
 const ChannelCard = ({ channel }) => {
   const [clicked, setClicked] = useState(false);
+  const [selectedId, setSelectedId] = useState('1');
   const navigate = useNavigate();
 
   const handleButtonClick = (id) => {
+    setSelectedId(id);
     setClicked(!clicked);
   };
 
@@ -26,13 +29,18 @@ const ChannelCard = ({ channel }) => {
 
   return (
     <>
+      <DeleteEditModal
+        clicked={clicked}
+        id={selectedId}
+        setClicked={setClicked}
+        channel_id={channel?.id}
+      />
       {/* DeleteEditModal component */}
       <Card
         key={channel?.id}
         sx={{
           cursor: 'pointer',
         }}
-        onClick={handleCardClick}
       >
         {/* Card content */}
         <Box sx={{ pt: '100%', position: 'relative' }}>
@@ -53,7 +61,10 @@ const ChannelCard = ({ channel }) => {
           <Typography color="inherit" sx={cardTitle}>
             {channel?.name}
           </Typography>
-
+          {/* CardButton components */}
+          <Stack>
+            <CardButton label="View Posts" bgcolor="red" onClick={handleCardClick} />
+          </Stack>
           <Stack direction="row" justifyContent="space-between">
             <Stack direction="row" alignItems="center">
               <CardButton
