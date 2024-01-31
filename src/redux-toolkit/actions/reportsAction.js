@@ -1,19 +1,17 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import setupApiInterceptor from 'src/services/interceptors';
 
 export const allReports = createAsyncThunk(
   'report/allReports',
-  async (authToken, { rejectWithValue }) => {
+  async (params, { rejectWithValue }) => {
     try {
-      const response = await setupApiInterceptor(
+      const response = await params.setupApiInterceptor(
         '/admin/reports',
         'GET',
         {},
         {
-          Authorization: `Bearer ${authToken}`,
+          Authorization: `Bearer ${params.authToken}`,
         }
       );
-
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data.message);

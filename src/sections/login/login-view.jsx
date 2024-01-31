@@ -22,7 +22,6 @@ export default function LoginView() {
   const theme = useTheme();
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
-
   const [showPassword, setShowPassword] = useState(false);
   const { loading } = useSelector((state) => state.auth);
   const [credentials, setCredentials] = useState({ email: '', password: '' });
@@ -36,12 +35,17 @@ export default function LoginView() {
   });
 
   const handleClick = async () => {
-    await dispatch(loginFn({ email: credentials.email, password: credentials.password }))
+    await dispatch(
+      loginFn({
+        email: credentials.email,
+        password: credentials.password,
+      })
+    )
       .then((response) => {
         if (response.payload) {
           navigate('/');
         } else {
-          enqueueSnackbar(response?.error?.message && ' Invalid Cresidentials', {
+          enqueueSnackbar('Invalid Cresidentials', {
             variant: 'error',
             anchorOrigin: {
               vertical: 'top',
@@ -50,16 +54,13 @@ export default function LoginView() {
           });
         }
       })
-      .catch((err) => {
-        throw err;
-      });
+      .catch((err) => {});
   };
 
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
-
   const handleChange = (feild) => (e) => {
     //      email validator      //
 

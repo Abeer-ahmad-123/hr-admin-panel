@@ -1,9 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import SetupApiInterceptor from 'src/services/interceptors';
 
-export const allUsers = createAsyncThunk('user/allUsers', async (page, { rejectWithValue }) => {
+export const allUsers = createAsyncThunk('user/allUsers', async (params, { rejectWithValue }) => {
   try {
-    const response = await SetupApiInterceptor(`/users?page=${page}`, 'GET', {}, {});
+    const response = await params.setupApiInterceptor(`/users?page=${params.page}`, 'GET', {}, {});
 
     return response;
   } catch (error) {
@@ -11,12 +10,17 @@ export const allUsers = createAsyncThunk('user/allUsers', async (page, { rejectW
   }
 });
 
-export const BlockUser = createAsyncThunk(`user/block`, async (id, token) => {
+export const BlockUser = createAsyncThunk(`user/block`, async (params) => {
   // eslint-disable-next-line no-useless-catch
   try {
-    const response = await SetupApiInterceptor(`/admin/users/${id}/block`, 'PUT', id, {
-      authorization: `Bearer ${token}`,
-    });
+    const response = await params.setupApiInterceptor(
+      `/admin/users/${params.id}/block`,
+      'PUT',
+      params.id,
+      {
+        authorization: `Bearer ${params.token}`,
+      }
+    );
 
     return response;
   } catch (error) {

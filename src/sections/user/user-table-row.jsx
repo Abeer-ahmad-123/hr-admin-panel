@@ -13,6 +13,7 @@ import Button from '@mui/material/Button';
 import Iconify from 'src/components/iconify';
 import { useDispatch, useSelector } from 'react-redux';
 import { BlockUser } from 'src/redux-toolkit/actions/userActions';
+import { useAuth } from 'src/hooks/interceptors';
 
 const UserTableRow = forwardRef(
   (
@@ -21,6 +22,7 @@ const UserTableRow = forwardRef(
   ) => {
     const [open, setOpen] = useState(null);
     const dispatch = useDispatch();
+    const { setupApiInterceptor } = useAuth();
 
     const handleOpenMenu = (event) => {
       setOpen(event.currentTarget);
@@ -43,7 +45,7 @@ const UserTableRow = forwardRef(
     const token = useSelector((state) => state.auth?.admindata?.token);
 
     const handleblock = () => {
-      dispatch(BlockUser(id, token));
+      dispatch(BlockUser({ id, token, setupApiInterceptor }));
     };
     return (
       <>
