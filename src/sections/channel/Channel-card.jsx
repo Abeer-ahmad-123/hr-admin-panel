@@ -6,6 +6,7 @@ import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Iconify from 'src/components/iconify';
 import { Typography } from '@mui/material';
+import { noChannelBanner } from 'src/utils/links';
 import CardButton from './CardButton';
 import { showErrorAlert } from '../../utils/helper/toast';
 import EditCardModal from './EditCardModel';
@@ -31,7 +32,6 @@ const ChannelCard = ({ channel }) => {
       showErrorAlert(error);
     }
   };
-
   return (
     <>
       <Card
@@ -41,40 +41,42 @@ const ChannelCard = ({ channel }) => {
         }}
       >
         <Box sx={{ pt: '100%', position: 'relative' }}>
-          <Stack
-            id="1"
-            sx={{
-              position: 'absolute',
-              top: '10px',
-              right: '10px',
-              zIndex: '2',
-              backgroundColor: '#db0f24',
-              width: '2rem',
-              height: '2rem',
-              '&:hover': {
-                boxShadow: '0px 0px 10px 5px rgba(255, 0, 0, 0.8)',
-              },
-            }}
-            direction="row"
-            alignItems="center"
-            justifyContent="center"
-            borderRadius="30px"
-            onClick={openDeleteModal}
-          >
-            <Iconify
+          {channel.post_count === 0 && (
+            <Stack
               id="1"
-              icon="material-symbols:delete"
               sx={{
-                color: 'white',
+                position: 'absolute',
+                top: '10px',
+                right: '10px',
+                zIndex: '2',
+                backgroundColor: '#db0f24',
+                width: '2rem',
+                height: '2rem',
                 '&:hover': {
-                  width: '1.4rem',
-                  height: '1.4rem',
+                  boxShadow: '0px 0px 10px 5px rgba(255, 0, 0, 0.8)',
                 },
               }}
-            />
-          </Stack>
+              direction="row"
+              alignItems="center"
+              justifyContent="center"
+              borderRadius="30px"
+              onClick={openDeleteModal}
+            >
+              <Iconify
+                id="1"
+                icon="material-symbols:delete"
+                sx={{
+                  color: 'white',
+                  '&:hover': {
+                    width: '1.4rem',
+                    height: '1.4rem',
+                  },
+                }}
+              />
+            </Stack>
+          )}
           <img
-            src={channel?.ImageURL}
+            src={channel?.ImageURL || noChannelBanner}
             alt="b_pic"
             style={{
               width: '100%',
@@ -92,14 +94,18 @@ const ChannelCard = ({ channel }) => {
           </Typography>
           {/* CardButton components */}
 
-          <Stack direction="row" justifyContent="space-between">
+          <Stack
+            direction="row"
+            justifyContent={channel.post_count !== 0 ? 'center' : 'space-between'}
+          >
             <Stack onClick={handleCardClick}>
               <CardButton icon="ph:eye" label="View Posts" bgcolor="#571CE0" />
             </Stack>
-
-            <Stack onClick={handleButtonClick}>
-              <CardButton icon="material-symbols:edit-rounded" label="Edit" bgcolor="#571CE0" />
-            </Stack>
+            {channel.post_count === 0 && (
+              <Stack onClick={handleButtonClick}>
+                <CardButton icon="material-symbols:edit-rounded" label="Edit" bgcolor="#571CE0" />
+              </Stack>
+            )}
           </Stack>
         </Stack>
       </Card>

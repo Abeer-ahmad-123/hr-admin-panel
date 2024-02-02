@@ -1,26 +1,20 @@
-import { useState } from 'react';
-
 import PropTypes from 'prop-types';
-
-import Popover from '@mui/material/Popover';
 import TableRow from '@mui/material/TableRow';
 import Checkbox from '@mui/material/Checkbox';
-import MenuItem from '@mui/material/MenuItem';
 import TableCell from '@mui/material/TableCell';
 
 import IconButton from '@mui/material/IconButton';
 import Iconify from 'src/components/iconify';
 
 const ChannalTableRow = ({ data }) => {
-  const [open, setOpen] = useState(null);
+  // const [open, setOpen] = useState(null);
   const handleOpenMenu = (event) => {
-    setOpen(event.currentTarget);
+    // setOpen(event.currentTarget);
   };
 
-  const handleCloseMenu = () => {
-    setOpen(null);
-  };
-
+  // const handleCloseMenu = () => {
+  //   setOpen(null);
+  // };
   return (
     <>
       <TableRow key={data.id} hover tabIndex={-1} role="checkbox">
@@ -29,9 +23,9 @@ const ChannalTableRow = ({ data }) => {
         </TableCell>
 
         <TableCell>{data.id}</TableCell>
-        <TableCell>{data.reportType}</TableCell>
-        <TableCell>{data.userId}</TableCell>
-        <TableCell>{data.postId ?? data.commentId}</TableCell>
+        <TableCell>{data.report_type}</TableCell>
+        <TableCell>{data.user_id}</TableCell>
+        <TableCell>{data.post_id ?? data.comment_id}</TableCell>
 
         <TableCell align="right">
           <IconButton onClick={handleOpenMenu}>
@@ -40,7 +34,7 @@ const ChannalTableRow = ({ data }) => {
         </TableCell>
       </TableRow>
 
-      <Popover
+      {/* <Popover
         open={!!open}
         anchorEl={open}
         onClose={handleCloseMenu}
@@ -56,7 +50,7 @@ const ChannalTableRow = ({ data }) => {
           <Iconify icon="eva:trash-2-outline" sx={{ mr: 2 }} />
           Delete
         </MenuItem>
-      </Popover>
+      </Popover> */}
     </>
   );
 };

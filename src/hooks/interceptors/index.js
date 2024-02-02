@@ -30,9 +30,6 @@ export const useAuth = () => {
           dispatch(clearAuth());
           navigate('/login');
         }
-      } else {
-        dispatch(clearAuth());
-        navigate('/login');
       }
     }
     return '';

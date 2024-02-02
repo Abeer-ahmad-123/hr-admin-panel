@@ -18,16 +18,15 @@ import { useAuth } from 'src/hooks/interceptors';
 import ChannelTableRow from './channels-table-row';
 import ChannelTableHead from './channels-table-head';
 import ChannelEmptyRows from './table-empty-rows';
-import ChannelTableToolbar from './channels-table-toolbar';
-
 import { showErrorAlert } from '../../utils/helper/toast';
 
 const ChannelDetailPage = () => {
   const { id: channelId } = useParams();
-
   const [loading, setLoading] = useState(true);
-  const [option, setOption] = useState('');
+  const { channels } = useSelector((state) => state.channels);
+  // const [option, setOption] = useState('');
   const [postDetails, setPostDetails] = useState([]);
+  const [channelName, setChannelName] = useState('');
 
   const [reactions, setReactions] = useState(0);
 
@@ -36,10 +35,17 @@ const ChannelDetailPage = () => {
   const [ref, inView] = useInView();
   const navigate = useNavigate();
   const { setupApiInterceptor } = useAuth();
-  const { posts, pagination } = useSelector((state) => state?.channels.channels);
+  const { posts, pagination } = useSelector((state) => state?.channels.channelsData);
 
   const dispatch = useDispatch();
 
+  const getNameById = (array, id) => {
+    const foundObject = array.find((item) => item.id === Number(id));
+    if (foundObject) {
+      return foundObject.name;
+    }
+    return 'No matching object found';
+  };
   // Pagination code
   const Pagination = () => {
     if (page !== pagination?.TotalPages) {
@@ -56,9 +62,9 @@ const ChannelDetailPage = () => {
     setLoading(false);
   };
 
-  const handleFilterByName = () => {
-    // Filter logic
-  };
+  // const handleFilterByName = () => {
+  //   // Filter logic
+  // };
   const handlePostClick = (e) => {
     try {
       navigate(`/channels/${channelId}/${e.target.id}`); // Navigate to channel detail page with channel ID
@@ -85,6 +91,13 @@ const ChannelDetailPage = () => {
   }, [inView]);
 
   useEffect(() => {
+    if (channels?.channels?.length) {
+      setChannelName(getNameById(channels?.channels, channelId));
+    }
+    // eslint-disable-next-line
+  }, [channels?.channels]);
+
+  useEffect(() => {
     if (!loading && postDetails) {
       const totalReactions = postDetails.posts.reduce((total, post) => {
         const { like_count, love_count, clap_count, celebrate_count } = post.reaction_summary;
@@ -98,18 +111,18 @@ const ChannelDetailPage = () => {
   return (
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-        <Typography variant="h4">{`Channel Detail (${channelId})`}</Typography>
+        <Typography variant="h4"> {`${channelName} Detail`}</Typography>
       </Stack>
 
       <Card>
-        <ChannelTableToolbar
+        {/* <ChannelTableToolbar
           numSelected={0}
           filterName=""
           channel={posts}
           onFilterName={handleFilterByName}
           setOption={setOption}
           option={option}
-        />
+        /> */}
 
         <Scrollbar>
           {/* import from util */}
