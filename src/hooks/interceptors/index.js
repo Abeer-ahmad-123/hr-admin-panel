@@ -26,6 +26,7 @@ export const useAuth = () => {
       if (error.response && error.response.status === 401) {
         try {
           dispatch(refreshTokenFn(refreshToken));
+          setupApiInterceptor(urlPath, method, (data = {}), headers);
         } catch (error) {
           dispatch(clearAuth());
           navigate('/login');

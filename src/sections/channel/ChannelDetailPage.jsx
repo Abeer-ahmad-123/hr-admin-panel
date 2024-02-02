@@ -36,7 +36,7 @@ const ChannelDetailPage = () => {
   const [ref, inView] = useInView();
   const navigate = useNavigate();
   const { setupApiInterceptor } = useAuth();
-  const { posts, pagination } = useSelector((state) => state?.channels.channels);
+  const { posts, pagination } = useSelector((state) => state.channels?.channels);
 
   const dispatch = useDispatch();
 

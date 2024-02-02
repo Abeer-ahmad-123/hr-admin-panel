@@ -5,6 +5,7 @@ import {
   createChannel,
   editChannel,
   channelById,
+  PostsByUserId,
 } from '../actions/channelAction';
 
 const initialState = {
@@ -73,6 +74,17 @@ const channelSlice = createSlice({
         state.channels = action.payload;
       })
       .addCase(channelById.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error;
+      })
+      .addCase(PostsByUserId.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(PostsByUserId.fulfilled, (state, action) => {
+        state.loading = false;
+        state.channels = action.payload;
+      })
+      .addCase(PostsByUserId.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error;
       });
