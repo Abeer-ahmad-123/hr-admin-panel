@@ -28,7 +28,6 @@ const ChannelDetailPage = () => {
   const [loading, setLoading] = useState(true);
   const [option, setOption] = useState('');
   const [postDetails, setPostDetails] = useState([]);
-  console.log('the length', postDetails);
   const [page, setPage] = useState(1);
 
   const [ref, inView] = useInView();
@@ -37,13 +36,6 @@ const ChannelDetailPage = () => {
   const { posts, pagination } = useSelector((state) => state?.channels.channels);
 
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (inView) {
-      setPage((prevPage) => prevPage + 1);
-    }
-    // eslint-disable-next-line
-  }, [inView]);
 
   // Pagination code
   const Pagination = () => {
@@ -61,6 +53,16 @@ const ChannelDetailPage = () => {
     setLoading(false);
   };
 
+  const handleFilterByName = () => {
+    // Filter logic
+  };
+  const handlePostClick = (e) => {
+    try {
+      navigate(`/channels/${channelId}/${e.target.id}`); // Navigate to channel detail page with channel ID
+    } catch (error) {
+      showErrorAlert(error);
+    }
+  };
   useEffect(() => {
     Pagination();
     // eslint-disable-next-line
@@ -72,17 +74,12 @@ const ChannelDetailPage = () => {
     }
     // eslint-disable-next-line
   }, [posts]);
-
-  const handleFilterByName = () => {
-    // Filter logic
-  };
-  const handlePostClick = (e) => {
-    try {
-      navigate(`/channels/${channelId}/${e.target.id}`); // Navigate to channel detail page with channel ID
-    } catch (error) {
-      showErrorAlert(error);
+  useEffect(() => {
+    if (inView) {
+      setPage((prevPage) => prevPage + 1);
     }
-  };
+    // eslint-disable-next-line
+  }, [inView]);
 
   return (
     <Container>

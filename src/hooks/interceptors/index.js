@@ -24,12 +24,15 @@ export const useAuth = () => {
     } catch (error) {
       /* eslint-disable */
       if (error.response && error.response.status === 401) {
-        dispatch(refreshTokenFn(refreshToken));
+        try {
+          dispatch(refreshTokenFn(refreshToken));
+        } catch (error) {
+          dispatch(clearAuth());
+          navigate('/login');
+        }
       } else {
         dispatch(clearAuth());
         navigate('/login');
-        ///// clear auth if token expires and navigate to login
-        throw error;
       }
     }
     return '';
