@@ -4,7 +4,6 @@ import { loginFn, refreshTokenFn } from '../actions/loginActions';
 const initialState = {
   loading: false,
   admindata: {},
-
   accessToken: '',
   refreshToken: '',
   error: null,
@@ -16,7 +15,6 @@ const loginSlice = createSlice({
   reducers: {
     clearAuth: (state) => {
       state.admindata = null;
-      state.userData = {};
       state.accessToken = '';
       state.refreshToken = '';
       state.error = null;

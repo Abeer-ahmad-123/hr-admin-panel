@@ -25,7 +25,7 @@ export const delChannel = createAsyncThunk(
           Authorization: `Bearer ${params.authToken}`,
         }
       );
-      window.location.reload();
+
       return response;
     } catch (error) {
       return rejectWithValue();
@@ -49,15 +49,16 @@ export const createChannel = createAsyncThunk(
           Authorization: `Bearer ${params.authToken}`,
         }
       );
-      window.location.reload();
+
       return response;
     } catch (error) {
       return rejectWithValue();
     }
   }
 );
+
 export const editChannel = createAsyncThunk(
-  'channel/createChannel',
+  'channel/editChannel',
   async (params, { rejectWithValue }) => {
     try {
       const response = await params.setupApiInterceptor(
@@ -72,7 +73,25 @@ export const editChannel = createAsyncThunk(
           Authorization: `Bearer ${params.authToken}`,
         }
       );
-      window.location.reload();
+
+      return response;
+    } catch (error) {
+      return rejectWithValue();
+    }
+  }
+);
+
+export const channelById = createAsyncThunk(
+  'channel/channelById',
+  async (params, { rejectWithValue }) => {
+    try {
+      const response = await params.setupApiInterceptor(
+        `/channels/${params.channelId}/posts?page=${params.page}&loadReactions=${true}`,
+        'GET',
+        {},
+        {}
+      );
+
       return response;
     } catch (error) {
       return rejectWithValue();

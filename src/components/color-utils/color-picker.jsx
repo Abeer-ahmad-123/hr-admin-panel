@@ -27,7 +27,9 @@ const ColorPicker = forwardRef(
       },
       [onSelectColor, selected, singleSelect]
     );
-
+    const handleSelectClick = (e) => {
+      handleSelect(e.target.key);
+    };
     return (
       <Stack
         ref={ref}
@@ -54,9 +56,7 @@ const ColorPicker = forwardRef(
                 height: 36,
                 borderRadius: '50%',
               }}
-              onClick={() => {
-                handleSelect(color);
-              }}
+              onClick={handleSelectClick}
             >
               <Stack
                 alignItems="center"

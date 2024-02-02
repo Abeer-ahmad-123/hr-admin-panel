@@ -31,7 +31,7 @@ const DeleteCardModel = ({ clicked, setClicked, channel_id = '' }) => {
   const { setupApiInterceptor } = useAuth();
   const dispatch = useDispatch();
   const authToken = useSelector((State) => State.auth?.accessToken);
-
+  // const response = useSelector((state)=> state.channel)
   const handleClose = () => {
     setOpen(!clicked);
     if (clicked === true) {

@@ -25,7 +25,10 @@ export const refreshTokenFn = createAsyncThunk('admin/refreshToken', async (refr
       {},
       { headers: { refreshToken } }
     );
+
     return response?.data?.data;
+
+    throw 'err';
   } catch (error) {
     throw error;
   }

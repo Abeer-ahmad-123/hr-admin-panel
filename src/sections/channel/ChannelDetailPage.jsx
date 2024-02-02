@@ -8,24 +8,70 @@ import Container from '@mui/material/Container';
 import TableBody from '@mui/material/TableBody';
 import Typography from '@mui/material/Typography';
 import TableContainer from '@mui/material/TableContainer';
+import { useInView } from 'react-intersection-observer';
 import Scrollbar from 'src/components/scrollbar';
+import { channelById } from 'src/redux-toolkit/actions/channelAction';
 import UserSkelton from 'src/loading/userSkelton';
+import { useDispatch, useSelector } from 'react-redux';
+import { PulseLoader } from 'react-spinners';
+import { useAuth } from 'src/hooks/interceptors';
 import ChannelTableRow from './channels-table-row';
 import ChannelTableHead from './channels-table-head';
 import ChannelEmptyRows from './table-empty-rows';
 import ChannelTableToolbar from './channels-table-toolbar';
-import { channelData, channelHeadLabel } from '../../utils/data';
+import { channelHeadLabel } from '../../utils/data';
 import { showErrorAlert } from '../../utils/helper/toast';
 
 const ChannelDetailPage = () => {
-  const { id: channelId } = useParams(); // Get channel ID from URL parameters
+  const { id: channelId } = useParams();
+
   const [loading, setLoading] = useState(true);
   const [option, setOption] = useState('');
+  const [postDetails, setPostDetails] = useState([]);
+  console.log('the length', postDetails);
+  const [page, setPage] = useState(1);
+
+  const [ref, inView] = useInView();
   const navigate = useNavigate();
+  const { setupApiInterceptor } = useAuth();
+  const { posts, pagination } = useSelector((state) => state?.channels.channels);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
+    if (inView) {
+      setPage((prevPage) => prevPage + 1);
+    }
+    // eslint-disable-next-line
+  }, [inView]);
+
+  // Pagination code
+  const Pagination = () => {
+    if (page !== pagination?.TotalPages) {
+      dispatch(channelById({ setupApiInterceptor, channelId, page }));
+    }
+  };
+
+  const appendPostsDetails = () => {
+    setPostDetails((prevDetails) => ({
+      ...prevDetails,
+      posts: [...(prevDetails?.posts || []), ...(posts || [])],
+    }));
+
     setLoading(false);
-  }, []);
+  };
+
+  useEffect(() => {
+    Pagination();
+    // eslint-disable-next-line
+  }, [page]);
+
+  useEffect(() => {
+    if (posts?.length) {
+      appendPostsDetails();
+    }
+    // eslint-disable-next-line
+  }, [posts]);
 
   const handleFilterByName = () => {
     // Filter logic
@@ -48,7 +94,7 @@ const ChannelDetailPage = () => {
         <ChannelTableToolbar
           numSelected={0}
           filterName=""
-          channel={channelData}
+          channel={posts}
           onFilterName={handleFilterByName}
           setOption={setOption}
           option={option}
@@ -69,18 +115,17 @@ const ChannelDetailPage = () => {
               )}
 
               {!loading &&
-                channelData.map((data, index) => (
+                postDetails?.posts?.map((data, index) => (
                   <TableBody key={data.id}>
                     <ChannelTableRow
                       key={data.id}
-                      id={data.id}
-                      author={data.author}
                       title={data.title}
-                      description={data.description}
-                      like={data.like}
-                      total_comments={data.total_comments}
-                      reactions={data.reactions}
-                      selected={false}
+                      description={data.content}
+                      // image={data.image_url ? '' : ''}
+
+                      comments={data.total_comments}
+                      reactions={data.user_reaction}
+                      //  selected={false}
                       onPostClick={handlePostClick} // Pass post ID on click
                     />
 
@@ -91,6 +136,18 @@ const ChannelDetailPage = () => {
           </TableContainer>
         </Scrollbar>
       </Card>
+      {page !== pagination?.TotalPages && (
+        <Stack
+          direction="row"
+          justifyContent="center"
+          sx={{
+            marginTop: '4rem',
+          }}
+          ref={ref}
+        >
+          <PulseLoader color="#5141df" />
+        </Stack>
+      )}
     </Container>
   );
 };

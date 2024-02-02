@@ -26,6 +26,8 @@ const ChannelCard = ({ channel }) => {
 
   const handleCardClick = () => {
     try {
+      // dispatch(channelById({ setupApiInterceptor, id }));
+
       navigate(`/channels/${channel?.id}`);
     } catch (error) {
       showErrorAlert(error);

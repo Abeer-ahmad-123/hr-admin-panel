@@ -14,6 +14,7 @@ import userReducer from './reducers/userReducer';
 import loginReducer from './reducers/loginReducer';
 import reportsReducer from './reducers/reportsReducer';
 import channelReducer from './reducers/channelReducer';
+import expiredTokenReducer from './reducers/expiredTokenReducer';
 
 const persistConfig = {
   key: 'auth',
@@ -25,6 +26,7 @@ const persistedReducer = persistReducer(persistConfig, loginReducer);
 
 const store = configureStore({
   reducer: {
+    expiredToken: expiredTokenReducer,
     user: userReducer,
     auth: persistedReducer,
     reports: reportsReducer,
