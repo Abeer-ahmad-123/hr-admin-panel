@@ -19,7 +19,7 @@ import ChannelTableRow from './channels-table-row';
 import ChannelTableHead from './channels-table-head';
 import ChannelEmptyRows from './table-empty-rows';
 import ChannelTableToolbar from './channels-table-toolbar';
-import { channelHeadLabel } from '../../utils/data';
+
 import { showErrorAlert } from '../../utils/helper/toast';
 
 const ChannelDetailPage = () => {
@@ -28,6 +28,9 @@ const ChannelDetailPage = () => {
   const [loading, setLoading] = useState(true);
   const [option, setOption] = useState('');
   const [postDetails, setPostDetails] = useState([]);
+
+  const [reactions, setReactions] = useState(0);
+
   const [page, setPage] = useState(1);
 
   const [ref, inView] = useInView();
@@ -81,6 +84,17 @@ const ChannelDetailPage = () => {
     // eslint-disable-next-line
   }, [inView]);
 
+  useEffect(() => {
+    if (!loading && postDetails) {
+      const totalReactions = postDetails.posts.reduce((total, post) => {
+        const { like_count, love_count, clap_count, celebrate_count } = post.reaction_summary;
+        return total + like_count + love_count + clap_count + celebrate_count;
+      }, 0);
+
+      setReactions(totalReactions);
+    }
+  }, [loading, postDetails]);
+
   return (
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
@@ -101,7 +115,7 @@ const ChannelDetailPage = () => {
           {/* import from util */}
           <TableContainer sx={{ overflow: 'unset' }}>
             <Table sx={{ minWidth: 800 }}>
-              <ChannelTableHead rowCount={5} numSelected={5} headLabel={channelHeadLabel} />
+              <ChannelTableHead />
 
               {loading && (
                 <TableBody>
@@ -116,12 +130,12 @@ const ChannelDetailPage = () => {
                   <TableBody key={data.id}>
                     <ChannelTableRow
                       key={data.id}
+                      id={data.user_id}
                       title={data.title}
                       description={data.content}
-                      // image={data.image_url ? '' : ''}
-
+                      image={data.image_url ?? ''}
                       comments={data.total_comments}
-                      reactions={data.user_reaction}
+                      reactions={reactions}
                       //  selected={false}
                       onPostClick={handlePostClick} // Pass post ID on click
                     />
