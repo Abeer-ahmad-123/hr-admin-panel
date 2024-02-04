@@ -11,6 +11,7 @@ import {
 const initialState = {
   loading: false,
   channels: [],
+  channelsData: [],
   error: null,
 };
 
@@ -71,7 +72,7 @@ const channelSlice = createSlice({
       })
       .addCase(channelById.fulfilled, (state, action) => {
         state.loading = false;
-        state.channels = action.payload;
+        state.channelsData = action.payload;
       })
       .addCase(channelById.rejected, (state, action) => {
         state.loading = false;

@@ -1,30 +1,19 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
-import { allChannels } from 'src/redux-toolkit/actions/channelAction';
 import ChannelSkelton from 'src/loading/channelSkelton';
 import Iconify from 'src/components/iconify';
-import { useAuth } from 'src/hooks/interceptors';
 import ChannelCard from '../Channel-card';
 import AddChannel from '../AddChannel';
 
 const ChannelView = () => {
-  const dispatch = useDispatch();
   const { channels, loading } = useSelector((state) => state.channels);
 
   const [clicked, setClicked] = useState(false);
-  const [, setCheckStatus] = useState(channels.requestStatus);
-  const { setupApiInterceptor } = useAuth();
-
-  useEffect(() => {
-    dispatch(allChannels(setupApiInterceptor));
-    setCheckStatus(channels.requestStatus);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [channels.requestStatus]);
 
   const addChannel = () => {
     setClicked(true);
