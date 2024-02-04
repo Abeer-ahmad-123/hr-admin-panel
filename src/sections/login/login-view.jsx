@@ -33,7 +33,9 @@ export default function LoginView() {
     error: false,
     helperText: '',
   });
-
+  const handleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
   const handleClick = async () => {
     await dispatch(
       loginFn({
@@ -154,7 +156,7 @@ export default function LoginView() {
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
-                <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
+                <IconButton onClick={handleShowPassword} edge="end">
                   <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
                 </IconButton>
               </InputAdornment>

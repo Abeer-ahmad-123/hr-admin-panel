@@ -4,48 +4,79 @@ import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
+import Iconify from 'src/components/iconify';
 import { Typography } from '@mui/material';
+import { noChannelBanner } from 'src/utils/links';
 import CardButton from './CardButton';
 import { showErrorAlert } from '../../utils/helper/toast';
-import DeleteEditModal from './DeleteEditModel';
+import EditCardModal from './EditCardModel';
+import DeleteCardModel from './DeleteCardModel';
 
 const ChannelCard = ({ channel }) => {
   const [clicked, setClicked] = useState(false);
-  const [selectedId, setSelectedId] = useState('1');
+  const [edited, setEdited] = useState(false);
+
   const navigate = useNavigate();
 
-  const handleButtonClick = (id) => {
-    setSelectedId(id);
+  const handleButtonClick = () => {
+    setEdited(!edited);
+  };
+  const openDeleteModal = () => {
     setClicked(!clicked);
   };
 
   const handleCardClick = () => {
     try {
-      navigate(`/channels/${channel?.id}`); // Navigate to channel detail page with channel ID
+      navigate(`/channels/${channel?.id}`);
     } catch (error) {
       showErrorAlert(error);
     }
   };
-
   return (
     <>
-      <DeleteEditModal
-        clicked={clicked}
-        id={selectedId}
-        setClicked={setClicked}
-        channel_id={channel?.id}
-      />
-      {/* DeleteEditModal component */}
       <Card
         key={channel?.id}
         sx={{
           cursor: 'pointer',
         }}
       >
-        {/* Card content */}
         <Box sx={{ pt: '100%', position: 'relative' }}>
+          {channel.post_count === 0 && (
+            <Stack
+              id="1"
+              sx={{
+                position: 'absolute',
+                top: '10px',
+                right: '10px',
+                zIndex: '2',
+                backgroundColor: '#db0f24',
+                width: '2rem',
+                height: '2rem',
+                '&:hover': {
+                  boxShadow: '0px 0px 10px 5px rgba(255, 0, 0, 0.8)',
+                },
+              }}
+              direction="row"
+              alignItems="center"
+              justifyContent="center"
+              borderRadius="30px"
+              onClick={openDeleteModal}
+            >
+              <Iconify
+                id="1"
+                icon="material-symbols:delete"
+                sx={{
+                  color: 'white',
+                  '&:hover': {
+                    width: '1.4rem',
+                    height: '1.4rem',
+                  },
+                }}
+              />
+            </Stack>
+          )}
           <img
-            src={channel?.ImageURL}
+            src={channel?.ImageURL || noChannelBanner}
             alt="b_pic"
             style={{
               width: '100%',
@@ -62,31 +93,24 @@ const ChannelCard = ({ channel }) => {
             {channel?.name}
           </Typography>
           {/* CardButton components */}
-          <Stack>
-            <CardButton label="View Posts" bgcolor="red" onClick={handleCardClick} />
-          </Stack>
-          <Stack direction="row" justifyContent="space-between">
-            <Stack direction="row" alignItems="center">
-              <CardButton
-                icon="material-symbols:delete"
-                label="Delete"
-                bgcolor="red"
-                onClick={() => handleButtonClick('1')}
-              />
+
+          <Stack
+            direction="row"
+            justifyContent={channel.post_count !== 0 ? 'center' : 'space-between'}
+          >
+            <Stack onClick={handleCardClick}>
+              <CardButton icon="ph:eye" label="View Posts" bgcolor="#571CE0" />
             </Stack>
-            <Stack direction="row" alignItems="center">
-              <CardButton
-                icon="material-symbols:edit-rounded"
-                label="Edit"
-                bgcolor="#571CE0"
-                onClick={() => handleButtonClick('2')}
-              />
-            </Stack>
+            {channel.post_count === 0 && (
+              <Stack onClick={handleButtonClick}>
+                <CardButton icon="material-symbols:edit-rounded" label="Edit" bgcolor="#571CE0" />
+              </Stack>
+            )}
           </Stack>
-          {/* Additional content */}
-          <Stack direction="row" alignItems="center" justifyContent="space-between" />
         </Stack>
       </Card>
+      <EditCardModal edited={edited} setEdited={setEdited} channel_id={channel?.id} />
+      <DeleteCardModel clicked={clicked} setClicked={setClicked} channel_id={channel?.id} />
     </>
   );
 };

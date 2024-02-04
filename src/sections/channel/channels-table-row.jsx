@@ -6,15 +6,12 @@ import TableRow from '@mui/material/TableRow';
 import Checkbox from '@mui/material/Checkbox';
 import MenuItem from '@mui/material/MenuItem';
 import TableCell from '@mui/material/TableCell';
-import Typography from '@mui/material/Typography';
+
 import IconButton from '@mui/material/IconButton';
 import Iconify from 'src/components/iconify';
 
 const ChannelsTableRow = forwardRef(
-  (
-    { id, author, title, description, like, total_comments, reactions, selected, onPostClick },
-    ref
-  ) => {
+  ({ id, title, description, image, comments, reactions, selected, onPostClick }, ref) => {
     const [open, setOpen] = useState(null);
 
     const handleOpenMenu = (event) => {
@@ -33,18 +30,16 @@ const ChannelsTableRow = forwardRef(
           </TableCell>
 
           <TableCell component="th" scope="row" padding="none">
-            <Stack direction="row" alignItems="center" spacing={2}>
-              <Typography variant="subtitle2" noWrap>
-                {author}
-              </Typography>
-            </Stack>
+            <Stack direction="row" alignItems="center" spacing={2} />
           </TableCell>
 
           <TableCell>{title}</TableCell>
 
           <TableCell>{description}</TableCell>
-          <TableCell>{like}</TableCell>
-          <TableCell>{total_comments}</TableCell>
+          <TableCell>
+            {image && <img src={image} alt="no-pic" height="60vh" width="80vw" />}
+          </TableCell>
+          <TableCell>{comments}</TableCell>
           <TableCell>{reactions}</TableCell>
 
           <TableCell align="right">
@@ -77,13 +72,12 @@ const ChannelsTableRow = forwardRef(
 );
 
 ChannelsTableRow.propTypes = {
-  id: PropTypes.any,
-  selected: PropTypes.any,
-  author: PropTypes.any,
-  title: PropTypes.any,
-  description: PropTypes.any,
-  like: PropTypes.any,
-  total_comments: PropTypes.func,
+  id: PropTypes.number,
+  selected: PropTypes.bool,
+  title: PropTypes.string,
+  description: PropTypes.string,
+  image: PropTypes.any,
+  comments: PropTypes.number,
   reactions: PropTypes.any,
   onPostClick: PropTypes.func,
 };
