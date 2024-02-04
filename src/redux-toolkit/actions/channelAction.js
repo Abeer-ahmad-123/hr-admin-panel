@@ -98,3 +98,21 @@ export const channelById = createAsyncThunk(
     }
   }
 );
+
+export const PostsByUserId = createAsyncThunk(
+  'posts/PostsByUserId',
+  async (params, { rejectWithValue }) => {
+    try {
+      const response = await params.setupApiInterceptor(
+        `/users/${params.id}/posts?page=${params.page}&loadReactions=${true}`,
+        'GET',
+        {},
+        {}
+      );
+
+      return response;
+    } catch (error) {
+      return rejectWithValue();
+    }
+  }
+);

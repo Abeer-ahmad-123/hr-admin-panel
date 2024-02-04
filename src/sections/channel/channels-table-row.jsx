@@ -77,7 +77,7 @@ ChannelsTableRow.propTypes = {
   title: PropTypes.string,
   description: PropTypes.string,
   image: PropTypes.any,
-  comments: PropTypes.func,
+  comments: PropTypes.number,
   reactions: PropTypes.any,
   onPostClick: PropTypes.func,
 };
