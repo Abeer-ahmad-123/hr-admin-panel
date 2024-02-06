@@ -21,7 +21,9 @@ const ChannelsTableRow = forwardRef(
     const handleCloseMenu = () => {
       setOpen(null);
     };
-
+    const handlePostDelete = () => {
+      handleCloseMenu();
+    };
     return (
       <>
         <TableRow key={id} hover tabIndex={-1} ref={ref} role="checkbox" selected={selected}>
@@ -61,7 +63,7 @@ const ChannelsTableRow = forwardRef(
             View
           </MenuItem>
 
-          <MenuItem onClick={handleCloseMenu} sx={{ color: 'error.main' }}>
+          <MenuItem onClick={handlePostDelete} sx={{ color: 'error.main' }}>
             <Iconify icon="eva:trash-2-outline" sx={{ mr: 2 }} />
             Delete
           </MenuItem>

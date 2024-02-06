@@ -178,7 +178,7 @@ export default function LoginView() {
           loading
         }
       >
-        {loading ? 'signing in...' : 'Sign In'}
+        {loading ? 'Signing in...' : 'Sign In'}
       </LoadingButton>
     </>
   );

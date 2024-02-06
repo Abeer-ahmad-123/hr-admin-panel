@@ -8,6 +8,7 @@ const BASE_URL = import.meta.env.VITE_REACT_APP_BASE_URL;
 export const useAuth = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const token = useSelector((state) => state.auth.accessToken);
   const refreshToken = useSelector((state) => state.auth.refreshToken);
 
   const setupApiInterceptor = async (urlPath, method, data = {}, headers) => {
@@ -25,8 +26,14 @@ export const useAuth = () => {
       /* eslint-disable */
       if (error.response && error.response.status === 401) {
         try {
-          dispatch(refreshTokenFn(refreshToken));
-          setupApiInterceptor(urlPath, method, (data = {}), headers);
+          const res = await dispatch(refreshTokenFn(refreshToken));
+          if (!res.error) {
+            setupApiInterceptor(urlPath, method, (data = {}), { Authorization: `Bearer ${token}` });
+          } else {
+            console.log('error', error);
+            dispatch(clearAuth());
+            navigate('/login');
+          }
         } catch (error) {
           dispatch(clearAuth());
           navigate('/login');

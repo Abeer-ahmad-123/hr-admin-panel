@@ -31,8 +31,7 @@ const App = () => {
       }
     } catch (error) {
       try {
-        const res = dispatch(refreshTokenFn(refreshToken));
-
+        const res = await dispatch(refreshTokenFn(refreshToken));
         if (res?.error?.code) {
           throw res;
         }

@@ -16,9 +16,9 @@ export const BlockUser = createAsyncThunk(`user/block`, async (params) => {
     const response = await params.setupApiInterceptor(
       `/admin/users/${params.id}/block`,
       'PUT',
-      params.id,
+      {},
       {
-        authorization: `Bearer ${params.token}`,
+        Authorization: `Bearer ${params.token}`,
       }
     );
 

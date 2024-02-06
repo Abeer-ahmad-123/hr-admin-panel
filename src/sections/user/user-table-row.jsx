@@ -9,7 +9,6 @@ import MenuItem from '@mui/material/MenuItem';
 import TableCell from '@mui/material/TableCell';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-import Button from '@mui/material/Button';
 import Iconify from 'src/components/iconify';
 import { useDispatch, useSelector } from 'react-redux';
 import { BlockUser } from 'src/redux-toolkit/actions/userActions';
@@ -42,10 +41,11 @@ const UserTableRow = forwardRef(
       return formattedDate.replace(day, dayWithOrdinal);
     };
 
-    const token = useSelector((state) => state.auth?.admindata?.token);
+    const token = useSelector((state) => state.auth.accessToken);
 
     const handleblock = () => {
       dispatch(BlockUser({ id, token, setupApiInterceptor }));
+      handleCloseMenu();
     };
     return (
       <>
@@ -86,16 +86,9 @@ const UserTableRow = forwardRef(
           anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
           transformOrigin={{ vertical: 'top', horizontal: 'right' }}
         >
-          <MenuItem onClick={handleCloseMenu}>
-            <Button color="inherit" onClick={handleblock}>
-              <Iconify icon="material-symbols:block" sx={{ mr: 2 }} />
-              Block
-            </Button>
-          </MenuItem>
-
-          <MenuItem onClick={handleCloseMenu} sx={{ color: 'error.main' }}>
-            <Iconify icon="eva:trash-2-outline" sx={{ mr: 2 }} />
-            Delete
+          <MenuItem onClick={handleblock}>
+            <Iconify icon="material-symbols:block" sx={{ mr: 2 }} />
+            Block
           </MenuItem>
         </Popover>
       </>
