@@ -13,21 +13,6 @@ import { account } from 'src/_mock/account';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearAuth } from 'src/redux-toolkit/reducers/loginReducer';
 
-const MENU_OPTIONS = [
-  {
-    label: 'Home',
-    icon: 'eva:home-fill',
-  },
-  {
-    label: 'Profile',
-    icon: 'eva:person-fill',
-  },
-  {
-    label: 'Settings',
-    icon: 'eva:settings-2-fill',
-  },
-];
-
 export default function AccountPopover() {
   const userData = useSelector((state) => state.auth.admindata);
   const [open, setOpen] = useState(null);
@@ -98,14 +83,6 @@ export default function AccountPopover() {
         </Box>
 
         <Divider sx={{ borderStyle: 'dashed' }} />
-
-        {MENU_OPTIONS.map((option) => (
-          <MenuItem key={option.label} onClick={handleClose}>
-            {option.label}
-          </MenuItem>
-        ))}
-
-        <Divider sx={{ borderStyle: 'dashed', m: 0 }} />
 
         <MenuItem
           disableRipple
