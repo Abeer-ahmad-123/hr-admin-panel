@@ -5,7 +5,7 @@ import { useScrollToTop } from 'src/hooks/use-scroll-to-top';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Router from 'src/routes/sections';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import ThemeProvider from 'src/theme';
 import expiredTokenFn from './redux-toolkit/actions/refreshTokenFn';
 import { refreshTokenFn } from './redux-toolkit/actions/loginActions';
@@ -20,6 +20,7 @@ const App = () => {
   const refreshToken = useSelector((state) => state.auth?.refreshToken);
   const { channels } = useSelector((state) => state.channels);
   const [, setCheckStatus] = useState(channels.requestStatus);
+  const { pathname } = useLocation();
 
   const { setupApiInterceptor } = useAuth();
   const expiredToken = async () => {
@@ -41,13 +42,21 @@ const App = () => {
       }
     }
   };
+
   useEffect(() => {
-    dispatch(allChannels(setupApiInterceptor));
     setCheckStatus(channels.requestStatus);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [channels.requestStatus]);
+
   useEffect(() => {
-    if (authToken) expiredToken();
+    if (authToken) {
+      if (pathname === '/') {
+        expiredToken();
+      }
+      if (!channels.length) {
+        dispatch(allChannels(setupApiInterceptor));
+      }
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authToken]);
 
