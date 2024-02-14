@@ -19,6 +19,7 @@ const ChannalTableHead = ({ selectedReport }) => (
       <TableCell>Report type</TableCell>
       <TableCell>User Id</TableCell>
       <TableCell>{selectedReport} Id</TableCell>
+      <TableCell />
     </TableRow>
   </TableHead>
 );

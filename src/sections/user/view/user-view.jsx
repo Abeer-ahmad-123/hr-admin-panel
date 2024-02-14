@@ -1,10 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Table from '@mui/material/Table';
-
 import Container from '@mui/material/Container';
 import TableBody from '@mui/material/TableBody';
 import Typography from '@mui/material/Typography';
@@ -32,11 +30,11 @@ export default function UserPage() {
   const [userDetailsRef, setUserDetailsRef] = useState([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
-  const [ref, inView] = useInView();
+  const [option, setOption] = useState('');
 
+  const [ref, inView] = useInView();
   const dispatch = useDispatch();
   const { setupApiInterceptor } = useAuth();
-  const [option, setOption] = useState('');
   const { users } = useSelector((state) => state.user);
 
   const Pagination = () => {
@@ -55,24 +53,6 @@ export default function UserPage() {
     }));
     setLoading(false);
   };
-  useEffect(() => {
-    Pagination();
-    // eslint-disable-next-line
-  }, [page]);
-
-  useEffect(() => {
-    if (inView) {
-      setPage((prevPage) => prevPage + 1);
-    }
-    // eslint-disable-next-line
-  }, [inView]);
-
-  useEffect(() => {
-    if (users?.users?.length) {
-      appendUserDetails();
-    }
-    // eslint-disable-next-line
-  }, [users]);
 
   const handleSort = (event, id) => {
     const isAsc = orderBy === id && order === 'asc';
@@ -108,6 +88,7 @@ export default function UserPage() {
     }
     setSelected(newSelected);
   };
+
   const handleFilterByName = (event) => {
     const value = event.target.value.toLowerCase();
 
@@ -137,6 +118,25 @@ export default function UserPage() {
     }
   };
 
+  useEffect(() => {
+    Pagination();
+    // eslint-disable-next-line
+  }, [page]);
+
+  useEffect(() => {
+    if (inView) {
+      setPage((prevPage) => prevPage + 1);
+    }
+    // eslint-disable-next-line
+  }, [inView]);
+
+  useEffect(() => {
+    if (users?.users?.length) {
+      appendUserDetails();
+    }
+    // eslint-disable-next-line
+  }, [users]);
+
   return (
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
@@ -147,7 +147,6 @@ export default function UserPage() {
         <UserTableToolbar
           numSelected={selected.length}
           filterName={filterName}
-          users={users}
           onFilterName={handleFilterByName}
           setOption={setOption}
           option={option}
@@ -194,7 +193,6 @@ export default function UserPage() {
                       selected={selected.indexOf(data.username) !== -1}
                       handleClick={(event) => handleClick(event, data.username)}
                     />
-
                     <TableEmptyRows height={77} />
                   </TableBody>
                 ))}

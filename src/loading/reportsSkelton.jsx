@@ -26,9 +26,9 @@ const ReportRowSkelton = () => (
       {' '}
       <Skeleton width={100} height={30} />
     </TableCell>
-
-    <TableCell align="right">
-      <Skeleton width={5} height={40} />
+    <TableCell>
+      {' '}
+      <Skeleton width={10} height={40} />
     </TableCell>
   </TableRow>
 );

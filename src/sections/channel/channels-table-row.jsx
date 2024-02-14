@@ -1,18 +1,34 @@
 import React, { useState, forwardRef } from 'react';
 import Stack from '@mui/material/Stack';
 import PropTypes from 'prop-types';
+// import { useSelector } from 'react-redux';
 import Popover from '@mui/material/Popover';
 import TableRow from '@mui/material/TableRow';
 import Checkbox from '@mui/material/Checkbox';
 import MenuItem from '@mui/material/MenuItem';
 import TableCell from '@mui/material/TableCell';
-
 import IconButton from '@mui/material/IconButton';
 import Iconify from 'src/components/iconify';
+import DeletePostModel from './DeletePostModel';
 
 const ChannelsTableRow = forwardRef(
-  ({ id, title, description, image, comments, reactions, selected, onPostClick }, ref) => {
+  (
+    {
+      id,
+      title,
+      description,
+      image,
+      comments,
+      reactions,
+      selected,
+      onPostClick,
+      post_id,
+      deletePost,
+    },
+    ref
+  ) => {
     const [open, setOpen] = useState(null);
+    const [clicked, setClicked] = useState(false);
 
     const handleOpenMenu = (event) => {
       setOpen(event.currentTarget);
@@ -21,7 +37,10 @@ const ChannelsTableRow = forwardRef(
     const handleCloseMenu = () => {
       setOpen(null);
     };
-    const handlePostDelete = () => {
+
+    const openDeleteModal = () => {
+      setClicked(!clicked);
+
       handleCloseMenu();
     };
     return (
@@ -59,15 +78,21 @@ const ChannelsTableRow = forwardRef(
           transformOrigin={{ vertical: 'top', horizontal: 'right' }}
         >
           <MenuItem id={id} onClick={onPostClick}>
-            <Iconify icon="eva:eye-outline" sx={{ mr: 2 }} /> {/* Use the "View" icon */}
+            <Iconify icon="eva:eye-outline" sx={{ mr: 2 }} />
             View
           </MenuItem>
 
-          <MenuItem onClick={handlePostDelete} sx={{ color: 'error.main' }}>
+          <MenuItem onClick={openDeleteModal} sx={{ color: 'error.main' }}>
             <Iconify icon="eva:trash-2-outline" sx={{ mr: 2 }} />
             Delete
           </MenuItem>
         </Popover>
+        <DeletePostModel
+          clicked={clicked}
+          setClicked={setClicked}
+          post_id={post_id}
+          deletePost={deletePost}
+        />
       </>
     );
   }
@@ -75,6 +100,7 @@ const ChannelsTableRow = forwardRef(
 
 ChannelsTableRow.propTypes = {
   id: PropTypes.number,
+  post_id: PropTypes.number,
   selected: PropTypes.bool,
   title: PropTypes.string,
   description: PropTypes.string,
@@ -82,6 +108,7 @@ ChannelsTableRow.propTypes = {
   comments: PropTypes.number,
   reactions: PropTypes.any,
   onPostClick: PropTypes.func,
+  deletePost: PropTypes.func,
 };
 
 export default ChannelsTableRow;

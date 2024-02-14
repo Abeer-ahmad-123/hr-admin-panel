@@ -17,15 +17,11 @@ const UserRowSkelton = () => (
       <Skeleton width={100} height={30} />
     </TableCell>
     <TableCell>
-      {' '}
       <Skeleton width={100} height={30} />
     </TableCell>
     <TableCell align="right">
       <Skeleton width={30} height={30} />
     </TableCell>
-    <TableCell align="right">
-      <Skeleton width={30} height={30} />
-    </TableCell>{' '}
     <TableCell align="right">
       <Skeleton width={30} height={30} />
     </TableCell>{' '}

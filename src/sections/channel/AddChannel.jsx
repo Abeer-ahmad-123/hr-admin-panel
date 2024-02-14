@@ -34,9 +34,9 @@ const AddChannel = ({ clicked, setClicked }) => {
     description: '',
     image: null,
   });
+
   const dispatch = useDispatch();
   const { setupApiInterceptor } = useAuth();
-
   const authToken = useSelector((state) => state.auth?.accessToken);
 
   const handleClose = () => {
@@ -45,10 +45,6 @@ const AddChannel = ({ clicked, setClicked }) => {
       setClicked(false);
     }
   };
-
-  useEffect(() => {
-    setOpen(clicked);
-  }, [clicked]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -66,6 +62,10 @@ const AddChannel = ({ clicked, setClicked }) => {
 
     handleClose();
   };
+
+  useEffect(() => {
+    setOpen(clicked);
+  }, [clicked]);
 
   return (
     <div>

@@ -6,19 +6,35 @@ import {
   editChannel,
   channelById,
   PostsByUserId,
+  delchannelPost,
+  getpostComments,
+  delComment,
 } from '../actions/channelAction';
 
 const initialState = {
   loading: false,
   channels: [],
   channelsData: [],
+  channelsPostData: [],
+  commentsData: [],
+  delComments: [],
   error: null,
 };
 
 const channelSlice = createSlice({
   name: 'channels',
   initialState,
-  reducers: {},
+  reducers: {
+    setChannelDataEmpty: (state) => {
+      state.channelsPostData = [];
+    },
+    setChannelsData: (state) => {
+      state.channelsData = [];
+    },
+    setDelCommentState: (state) => {
+      state.delComments = [];
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(allChannels.pending, (state) => {
@@ -41,6 +57,18 @@ const channelSlice = createSlice({
         state.channels = action.meta;
       })
       .addCase(delChannel.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error;
+      })
+
+      .addCase(delchannelPost.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(delchannelPost.fulfilled, (state, action) => {
+        state.loading = false;
+        state.channelsData = action.meta;
+      })
+      .addCase(delchannelPost.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error;
       })
@@ -83,12 +111,36 @@ const channelSlice = createSlice({
       })
       .addCase(PostsByUserId.fulfilled, (state, action) => {
         state.loading = false;
-        state.channels = action.payload;
+        state.channelsPostData = action.payload;
       })
       .addCase(PostsByUserId.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error;
+      })
+      .addCase(getpostComments.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getpostComments.fulfilled, (state, action) => {
+        state.loading = false;
+        state.commentsData = action.payload;
+      })
+      .addCase(getpostComments.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error;
+      })
+
+      .addCase(delComment.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(delComment.fulfilled, (state, action) => {
+        state.loading = false;
+        state.delComments = action.meta;
+      })
+      .addCase(delComment.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error;
       });
   },
 });
+export const { setChannelDataEmpty, setChannelsData, setDelCommentState } = channelSlice.actions;
 export default channelSlice.reducer;

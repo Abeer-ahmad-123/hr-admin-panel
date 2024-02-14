@@ -11,7 +11,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 
 import Iconify from 'src/components/iconify';
 
-export default function UserTableToolbar({ numSelected, filterName, onFilterName, users }) {
+export default function UserTableToolbar({ numSelected, filterName, onFilterName }) {
   return (
     <Toolbar
       sx={{
@@ -84,7 +84,7 @@ UserTableToolbar.propTypes = {
   numSelected: PropTypes.number,
   filterName: PropTypes.string,
   onFilterName: PropTypes.func,
-  users: PropTypes.arrayOf(PropTypes.object),
+
   // option: PropTypes.any,
   // setOption: PropTypes.any,
 };

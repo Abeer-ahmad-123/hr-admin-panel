@@ -11,9 +11,9 @@ import ChannelCard from '../Channel-card';
 import AddChannel from '../AddChannel';
 
 const ChannelView = () => {
-  const { channels, loading } = useSelector((state) => state.channels);
-
   const [clicked, setClicked] = useState(false);
+
+  const { channels, loading } = useSelector((state) => state.channels);
 
   const addChannel = () => {
     setClicked(true);

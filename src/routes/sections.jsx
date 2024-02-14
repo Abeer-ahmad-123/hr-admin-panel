@@ -5,6 +5,7 @@ import ProtectedRoute from 'src/services/protectedRouter';
 import ReportPage from 'src/sections/Report/view';
 import ChannelDetailPage from 'src/sections/channel/ChannelDetailPage';
 import PostDetailPage from 'src/sections/channel/PostDetailPage';
+import ReportDetailPage from 'src/sections/Report/ReportDetailPage';
 
 export const IndexPage = lazy(() => import('src/pages/app'));
 export const BlogPage = lazy(() => import('src/pages/blog'));
@@ -29,6 +30,7 @@ export default function Router() {
         { element: <IndexPage />, index: true },
         { path: 'user', element: <UserPage /> },
         { path: 'reports', element: <ReportPage /> },
+        { path: 'reports/:name/:id', element: <ReportDetailPage /> },
         { path: 'channels', element: <ChannalPage /> },
         { path: 'channels/:id', element: <ChannelDetailPage /> },
         { path: 'channels/:id/:id', element: <PostDetailPage /> },
