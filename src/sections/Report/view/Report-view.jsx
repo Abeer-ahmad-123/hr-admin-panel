@@ -14,7 +14,7 @@ import ReportRowSkelton from 'src/loading/reportsSkelton';
 import { allReports } from 'src/redux-toolkit/actions/reportsAction';
 import { useAuth } from 'src/hooks/interceptors';
 import ChannalTableHead from '../Report-table-head';
-import CommentsReport from './twoReports/Post/Reports';
+import ReportTableRow from '../Report-table.row';
 
 const ReportView = () => {
   const [selectedReport, setSelectedReport] = useState('post');
@@ -144,9 +144,16 @@ const ReportView = () => {
                   ))}
                 </TableBody>
               ) : (
-                <CommentsReport
-                  data={selectedReport === 'post' ? reports.post_reports : reports.comment_reports}
-                />
+                <TableBody>
+                  {selectedReport === 'post' &&
+                    reports.post_reports?.map((datastate) => (
+                      <ReportTableRow key={datastate.id} data={datastate} />
+                    ))}
+                  {selectedReport === 'comment' &&
+                    reports.comment_reports?.map((datastate) => (
+                      <ReportTableRow key={datastate.id} data={datastate} />
+                    ))}
+                </TableBody>
               )}
             </Table>
           </TableContainer>

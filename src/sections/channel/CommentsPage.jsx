@@ -84,8 +84,9 @@ const CommentsPage = ({ post, id, commentsData }) => {
             </Container>
           </Container>
           <Container>
-            {data?.total_replies !== 0 && (
+            {data?.replies?.map((reply) => (
               <Container
+                key={reply?.id}
                 style={{
                   width: 'auto',
                   height: 'auto',
@@ -114,54 +115,52 @@ const CommentsPage = ({ post, id, commentsData }) => {
                   }}
                 >
                   <Typography color="#571CE1">{post?.author_details?.name}</Typography>
-                  {data?.replies.map((reply) => (
-                    <>
-                      <Typography key={reply?.id} color="#4B5563">
-                        {reply.content}
-                      </Typography>
 
-                      <Stack
+                  <div key={reply?.id}>
+                    <Typography key={reply?.id} color="#4B5563">
+                      {reply.content}
+                    </Typography>
+
+                    <Stack
+                      id="1"
+                      onClick={() => DeleteCommentClick(reply?.id)}
+                      sx={{
+                        position: 'absolute',
+                        top: '10px',
+                        right: '-2.5rem',
+                        zIndex: '2',
+                        backgroundColor: '#db0f24',
+                        width: '2rem',
+                        height: '2rem',
+                        cursor: 'pointer',
+                        '&:hover': {
+                          boxShadow: '0px 0px 10px 5px rgba(255, 0, 0, 0.8)',
+                        },
+                      }}
+                      direction="row"
+                      alignItems="center"
+                      justifyContent="center"
+                      borderRadius="30px"
+                    >
+                      <Iconify
                         id="1"
-                        onClick={() => DeleteCommentClick(reply?.id)}
+                        icon="material-symbols:delete"
                         sx={{
-                          position: 'absolute',
-                          top: '10px',
-                          right: '-2.5rem',
-                          zIndex: '2',
-                          backgroundColor: '#db0f24',
-                          width: '2rem',
-                          height: '2rem',
-                          cursor: 'pointer',
+                          color: 'white',
                           '&:hover': {
-                            boxShadow: '0px 0px 10px 5px rgba(255, 0, 0, 0.8)',
+                            width: '1.4rem',
+                            height: '1.4rem',
                           },
                         }}
-                        direction="row"
-                        alignItems="center"
-                        justifyContent="center"
-                        borderRadius="30px"
-                      >
-                        <Iconify
-                          id="1"
-                          icon="material-symbols:delete"
-                          sx={{
-                            color: 'white',
-                            '&:hover': {
-                              width: '1.4rem',
-                              height: '1.4rem',
-                            },
-                          }}
-                        />
-                      </Stack>
-                    </>
-                  ))}
+                      />
+                    </Stack>
+                  </div>
                 </Container>
               </Container>
-            )}
+            ))}
           </Container>
         </div>
-      ))}
-
+      ))}{' '}
       {commentsData?.comments?.length === 0 && (
         <Typography
           sx={{
@@ -173,7 +172,6 @@ const CommentsPage = ({ post, id, commentsData }) => {
           No comments from This Post
         </Typography>
       )}
-
       <DeleteComment clicked={clicked} setClicked={setClicked} id={commentIdToDelete} />
     </>
   );

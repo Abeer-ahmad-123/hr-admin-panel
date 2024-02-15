@@ -14,6 +14,7 @@ import Iconify from 'src/components/iconify';
 import DeleteModal from './DeleteModal';
 
 const ReportTableRow = ({ data }) => {
+  console.log('the data', data);
   const [open, setOpen] = useState(null);
   const [delData, setDelData] = useState(false);
   const [clicked, setClicked] = useState(false);
@@ -46,7 +47,7 @@ const ReportTableRow = ({ data }) => {
 
   const handleClick = () => {
     try {
-      navigate(`/reports/${data.postId ? 'post' : 'comment'}/${data.postId || data.commentId}`); // Navigate to channel detail page with channel ID
+      navigate(`/reports/${data?.postId ? 'post' : 'comment'}/${data?.postId || data?.commentId}`); // Navigate to channel detail page with channel ID
     } catch (error) {
       // showErrorAlert(error);
     }
@@ -92,7 +93,7 @@ const ReportTableRow = ({ data }) => {
         anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
-        <MenuItem id={data.postId || data.commentId} onClick={handleClick}>
+        <MenuItem id={data?.postId || data?.commentId} onClick={handleClick}>
           <Iconify icon="eva:eye-outline" sx={{ mr: 2 }} /> {/* Use the "View" icon */}
           View
         </MenuItem>

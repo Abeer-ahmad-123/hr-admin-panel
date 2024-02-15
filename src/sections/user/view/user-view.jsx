@@ -171,31 +171,34 @@ export default function UserPage() {
                 ]}
               />
 
-              {loading && (
-                <TableBody>
+              {loading ? (
+                <>
                   {Array.from({ length: 10 }, (_, index) => (
                     <UserSkelton key={index} />
                   ))}
-                </TableBody>
+                </>
+              ) : (
+                <>
+                  {userDetails?.users &&
+                    userDetails?.users?.map((data) => (
+                      <TableBody key={data.id}>
+                        <UserTableRow
+                          key={data.id}
+                          id={data.id}
+                          name={data.username}
+                          date_joined={data.date_joined}
+                          email={data.email}
+                          post_count={data.post_count}
+                          comment_count={data.comment_count}
+                          avatarURL={data.profilePictureURL}
+                          selected={selected.indexOf(data.username) !== -1}
+                          handleClick={(event) => handleClick(event, data.username)}
+                        />
+                        <TableEmptyRows height={77} />
+                      </TableBody>
+                    ))}
+                </>
               )}
-              {userDetails.users &&
-                userDetails.users.map((data, index) => (
-                  <TableBody key={data.id}>
-                    <UserTableRow
-                      key={data.id}
-                      id={data.id}
-                      name={data.username}
-                      date_joined={data.date_joined}
-                      email={data.email}
-                      post_count={data.post_count}
-                      comment_count={data.comment_count}
-                      avatarURL={data.profilePictureURL}
-                      selected={selected.indexOf(data.username) !== -1}
-                      handleClick={(event) => handleClick(event, data.username)}
-                    />
-                    <TableEmptyRows height={77} />
-                  </TableBody>
-                ))}
             </Table>
           </TableContainer>
         </Scrollbar>
