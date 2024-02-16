@@ -7,7 +7,7 @@ import Table from '@mui/material/Table';
 import { useSnackbar } from 'notistack';
 import Container from '@mui/material/Container';
 import TableBody from '@mui/material/TableBody';
-import { setChannelsData } from 'src/redux-toolkit/reducers/channelReducer';
+import { setChannelsStateEmpty } from 'src/redux-toolkit/reducers/channelReducer';
 import Typography from '@mui/material/Typography';
 import TableContainer from '@mui/material/TableContainer';
 import { useInView } from 'react-intersection-observer';
@@ -133,7 +133,7 @@ const ChannelDetailPage = () => {
 
   /* eslint-disable arrow-body-style */
   useEffect(() => {
-    return () => dispatch(setChannelsData());
+    return () => dispatch(setChannelsStateEmpty());
     // eslint-disable-next-line
   }, []);
   /* eslint-enable arrow-body-style */

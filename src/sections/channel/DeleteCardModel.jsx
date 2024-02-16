@@ -8,22 +8,7 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { useAuth } from 'src/hooks/interceptors';
 import { delChannel } from 'src/redux-toolkit/actions/channelAction';
-
-const style = {
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '4rem',
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  borderRadius: '10px',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border: 'none',
-  boxShadow: 50,
-  p: 4,
-};
+import { style, yesButton, noButton } from 'src/components/DeleteModel/DeleteModel';
 
 const DeleteCardModel = ({ clicked, setClicked, channel_id = '' }) => {
   const [open, setOpen] = useState(clicked);
@@ -31,7 +16,6 @@ const DeleteCardModel = ({ clicked, setClicked, channel_id = '' }) => {
   const { setupApiInterceptor } = useAuth();
   const dispatch = useDispatch();
   const authToken = useSelector((State) => State.auth?.accessToken);
-  // const response = useSelector((state)=> state.channel)
 
   const handleClose = () => {
     setOpen(!clicked);
@@ -90,21 +74,4 @@ DeleteCardModel.propTypes = {
   clicked: PropTypes.bool,
   setClicked: PropTypes.func,
   channel_id: PropTypes.number,
-};
-
-// ======= Styling =======
-
-const yesButton = {
-  backgroundColor: 'darkblue',
-  color: 'white',
-  '&:hover': {
-    backgroundColor: 'darkblue',
-  },
-};
-const noButton = {
-  backgroundColor: 'gray',
-  color: 'white',
-  '&:hover': {
-    backgroundColor: 'gray',
-  },
 };

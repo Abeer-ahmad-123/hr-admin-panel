@@ -45,12 +45,7 @@ const PostDetailPage = () => {
     return formattedDate.replace(day, dayWithOrdinal);
   };
 
-  useEffect(() => {
-    fetchData();
-    // eslint-disable-next-line
-  }, [id]);
-
-  useEffect(() => {
+  const checkDeleteStatus = () => {
     if (delComments.requestStatus === 'fulfilled') {
       dispatch(getpostComments({ setupApiInterceptor, id }));
 
@@ -62,6 +57,15 @@ const PostDetailPage = () => {
         },
       });
     }
+  };
+
+  useEffect(() => {
+    fetchData();
+    // eslint-disable-next-line
+  }, [id]);
+
+  useEffect(() => {
+    checkDeleteStatus();
 
     // eslint-disable-next-line
   }, [delComments.requestId]);
@@ -85,7 +89,6 @@ const PostDetailPage = () => {
               <Avatar aria-label="recipe" src={post?.author_details?.profile_picture_url} /> // Use src attribute to assign the imported image
             }
             title={post?.author_details?.name}
-            // subheader={formatDate(post?.created_at)}
             subheader={formatDate(post?.created_at)}
           />
           {post?.image_url ? (

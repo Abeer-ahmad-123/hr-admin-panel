@@ -8,26 +8,11 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { useAuth } from 'src/hooks/interceptors';
 import { delComment } from 'src/redux-toolkit/actions/channelAction';
-
-const style = {
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '4rem',
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  borderRadius: '10px',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border: 'none',
-  boxShadow: 50,
-  p: 4,
-};
+import { style, yesButton, noButton } from 'src/components/DeleteModel/DeleteModel';
 
 const DeleteComment = ({ clicked, setClicked, id }) => {
   const [open, setOpen] = useState(clicked);
-
+  console.log('the commented from delete modal is  id is', id);
   const { setupApiInterceptor } = useAuth();
   const dispatch = useDispatch();
   const authToken = useSelector((State) => State.auth?.accessToken);
@@ -41,7 +26,6 @@ const DeleteComment = ({ clicked, setClicked, id }) => {
 
   const deleteChannelPost = () => {
     dispatch(delComment({ authToken, setupApiInterceptor, id }));
-
     handleClose();
   };
 
@@ -60,7 +44,7 @@ const DeleteComment = ({ clicked, setClicked, id }) => {
         <Box sx={style}>
           <Stack direction="row" justifyContent="center">
             <Typography id="modal-modal-title" variant="h6" component="h2">
-              Do you want to delete this! {id}
+              Do you want to delete this!
             </Typography>
           </Stack>
 
@@ -89,22 +73,5 @@ export default DeleteComment;
 DeleteComment.propTypes = {
   clicked: PropTypes.bool,
   setClicked: PropTypes.func,
-  id: PropTypes.number,
-};
-
-// ======= Styling =======
-
-const yesButton = {
-  backgroundColor: 'darkblue',
-  color: 'white',
-  '&:hover': {
-    backgroundColor: 'darkblue',
-  },
-};
-const noButton = {
-  backgroundColor: 'gray',
-  color: 'white',
-  '&:hover': {
-    backgroundColor: 'gray',
-  },
+  id: PropTypes.any,
 };

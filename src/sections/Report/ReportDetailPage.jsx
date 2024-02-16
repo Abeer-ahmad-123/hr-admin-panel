@@ -22,10 +22,9 @@ import { setcommentsData, setdataStateEmpty } from 'src/redux-toolkit/reducers/r
 import { Post_CommentsArea, Comment_CommentsArea } from './CommentsArea';
 
 const ReportDetailPage = () => {
-  const { name, id } = useParams();
-
   const [reportedData, setReportedData] = useState(null);
 
+  const { name, id } = useParams();
   const { setupApiInterceptor } = useAuth();
   const dispatch = useDispatch();
   const { reportedPostComment, reportedCommentInfo, loading } = useSelector(
@@ -67,7 +66,6 @@ const ReportDetailPage = () => {
   useEffect(() => {
     dispatcherFn();
     getReportedPostData();
-
     // eslint-disable-next-line
   }, [id]);
 
@@ -78,14 +76,12 @@ const ReportDetailPage = () => {
 
   useEffect(() => {
     setReportedData(reportedPostComment.comment || reportedPostComment.post);
-
     // eslint-disable-next-line
   }, [reportedPostComment]);
 
   useEffect(() => {
     // eslint-disable-next-line
     reportedCommentInfo?.length !== 0 && setReportedData(reportedCommentInfo?.post);
-
     // eslint-disable-next-line
   }, [reportedCommentInfo]);
 
@@ -96,7 +92,6 @@ const ReportDetailPage = () => {
       dispatch(setdataStateEmpty());
       dispatch(setcommentsData());
     };
-
     // eslint-disable-next-line
   }, []);
   /* eslint-enable arrow-body-style */

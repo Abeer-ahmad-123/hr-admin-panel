@@ -84,7 +84,4 @@ UserTableToolbar.propTypes = {
   numSelected: PropTypes.number,
   filterName: PropTypes.string,
   onFilterName: PropTypes.func,
-
-  // option: PropTypes.any,
-  // setOption: PropTypes.any,
 };

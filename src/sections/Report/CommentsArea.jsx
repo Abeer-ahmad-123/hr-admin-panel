@@ -13,7 +13,6 @@ export const Post_CommentsArea = () => {
 
   useEffect(() => {
     setReportedData(reportedPostInfo);
-
     // eslint-disable-next-line
   }, [reportedPostInfo]);
 
@@ -21,10 +20,10 @@ export const Post_CommentsArea = () => {
     <>
       {reportedData?.comments?.map((data) => (
         <div key={data?.id}>
-          <Container style={{ marginBottom: '20px', display: 'flex' }}>
+          <Container sx={{ marginBottom: '20px', display: 'flex' }}>
             <Avatar aria-label="recipe" src={data?.author_details?.profile_picture_url} />
             <Container
-              style={{
+              sx={{
                 position: 'relative',
                 backgroundColor: 'RGB(241, 245, 249)',
                 borderRadius: '20px',
@@ -55,7 +54,7 @@ export const Post_CommentsArea = () => {
               src={data?.author_details?.profile_picture_url}
             />
             <Container
-              style={{
+              sx={{
                 position: 'relative',
                 width: 'auto',
                 backgroundColor: 'RGB(241, 245, 249)',
@@ -89,21 +88,20 @@ export const Comment_CommentsArea = () => {
 
   useEffect(() => {
     setReportedData(reportedCommentInfo?.post);
-
     // eslint-disable-next-line
   }, [reportedCommentInfo]);
+
   useEffect(() => {
     setCommentData(commentsData);
-
     // eslint-disable-next-line
   }, [reportedPostComment]);
 
   return (
-    <>
-      <Container style={{ marginBottom: '20px', display: 'flex' }}>
+    <div>
+      <Container sx={{ marginBottom: '20px', display: 'flex' }}>
         <Avatar aria-label="recipe" src={reportedData?.author_details?.profile_picture_url} />
         <Container
-          style={{
+          sx={{
             position: 'relative',
             backgroundColor: 'RGB(241, 245, 249)',
             borderRadius: '20px',
@@ -134,7 +132,7 @@ export const Comment_CommentsArea = () => {
           src={reportedData?.author_details?.profile_picture_url}
         />
         <Container
-          style={{
+          sx={{
             position: 'relative',
             width: 'auto',
             backgroundColor: 'RGB(241, 245, 249)',
@@ -152,6 +150,6 @@ export const Comment_CommentsArea = () => {
           ))}
         </Container>
       </Container>
-    </>
+    </div>
   );
 };

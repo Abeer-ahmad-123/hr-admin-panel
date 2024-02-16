@@ -45,17 +45,11 @@ const ReportTableRow = ({ data }) => {
   }, [data]);
 
   const handleClick = () => {
-    try {
-      navigate(`/reports/${data?.postId ? 'post' : 'comment'}/${data?.postId || data?.commentId}`); // Navigate to channel detail page with channel ID
-    } catch (error) {
-      // showErrorAlert(error);
-    }
+    navigate(`/reports/${data?.postId ? 'post' : 'comment'}/${data?.postId || data?.commentId}`);
   };
 
   useEffect(() => {
     if (delData === true && data?.postId) {
-      /// diapatch delte action here
-
       dispatch(deletePost({ authToken, setupApiInterceptor, postId: data?.postId }));
     }
     // eslint-disable-next-line

@@ -6,22 +6,7 @@ import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-
-const style = {
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '4rem',
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  borderRadius: '10px',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border: 'none',
-  boxShadow: 50,
-  p: 4,
-};
+import { style, yesButton, noButton } from 'src/components/DeleteModel/DeleteModel';
 
 const DeleteModal = ({ clicked, setClicked, delData, setDelData }) => {
   const [open, setOpen] = useState(clicked || false);
@@ -81,21 +66,4 @@ DeleteModal.propTypes = {
   setClicked: PropTypes.func,
   setDelData: PropTypes.func,
   delData: PropTypes.bool,
-};
-
-// ======= Styling =======
-
-const yesButton = {
-  backgroundColor: 'darkblue',
-  color: 'white',
-  '&:hover': {
-    backgroundColor: 'darkblue',
-  },
-};
-const noButton = {
-  backgroundColor: 'gray',
-  color: 'white',
-  '&:hover': {
-    backgroundColor: 'gray',
-  },
 };

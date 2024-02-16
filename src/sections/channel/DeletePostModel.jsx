@@ -8,22 +8,7 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { useAuth } from 'src/hooks/interceptors';
 import { delchannelPost } from 'src/redux-toolkit/actions/channelAction';
-
-const style = {
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '4rem',
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  borderRadius: '10px',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border: 'none',
-  boxShadow: 50,
-  p: 4,
-};
+import { style, yesButton, noButton } from 'src/components/DeleteModel/DeleteModel';
 
 const DeletePostModel = ({ clicked, setClicked, post_id, deletePost }) => {
   const [open, setOpen] = useState(clicked);
@@ -31,7 +16,7 @@ const DeletePostModel = ({ clicked, setClicked, post_id, deletePost }) => {
   const { setupApiInterceptor } = useAuth();
   const dispatch = useDispatch();
   const authToken = useSelector((State) => State.auth?.accessToken);
-  // const response = useSelector((state)=> state.channel)
+
   const handleClose = () => {
     setOpen(!clicked);
     if (clicked === true) {
@@ -60,7 +45,7 @@ const DeletePostModel = ({ clicked, setClicked, post_id, deletePost }) => {
         <Box sx={style}>
           <Stack direction="row" justifyContent="center">
             <Typography id="modal-modal-title" variant="h6" component="h2">
-              Do you want to delete this! {post_id}
+              Do you want to delete this!
             </Typography>
           </Stack>
 
@@ -91,21 +76,4 @@ DeletePostModel.propTypes = {
   setClicked: PropTypes.func,
   post_id: PropTypes.number,
   deletePost: PropTypes.func,
-};
-
-// ======= Styling =======
-
-const yesButton = {
-  backgroundColor: 'darkblue',
-  color: 'white',
-  '&:hover': {
-    backgroundColor: 'darkblue',
-  },
-};
-const noButton = {
-  backgroundColor: 'gray',
-  color: 'white',
-  '&:hover': {
-    backgroundColor: 'gray',
-  },
 };

@@ -8,7 +8,7 @@ const ChannelPostSkelton = () => (
   <TableRow hover tabIndex={-1} role="checkbox">
     <TableCell padding="checkbox" />
     <TableCell padding="checkbox" />
-    {/* <TableCell component="th" scope="row" padding="none" /> */}
+
     <TableCell>
       <Skeleton width={80} height={30} />
     </TableCell>

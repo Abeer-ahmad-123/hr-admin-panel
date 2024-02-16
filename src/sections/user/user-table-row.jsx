@@ -41,7 +41,7 @@ const UserTableRow = forwardRef(
       dispatch(BlockUser({ id, token, setupApiInterceptor }));
       handleCloseMenu();
       if (blockSuccess === true) {
-        enqueueSnackbar(`delete Successfully${id}`, {
+        enqueueSnackbar(`Blocked Successfully ${name}`, {
           variant: 'success',
           anchorOrigin: {
             vertical: 'top',

@@ -28,7 +28,7 @@ const channelSlice = createSlice({
     setChannelDataEmpty: (state) => {
       state.channelsPostData = [];
     },
-    setChannelsData: (state) => {
+    setChannelsStateEmpty: (state) => {
       state.channelsData = [];
     },
     setDelCommentState: (state) => {
@@ -142,5 +142,6 @@ const channelSlice = createSlice({
       });
   },
 });
-export const { setChannelDataEmpty, setChannelsData, setDelCommentState } = channelSlice.actions;
+export const { setChannelDataEmpty, setChannelsStateEmpty, setDelCommentState } =
+  channelSlice.actions;
 export default channelSlice.reducer;

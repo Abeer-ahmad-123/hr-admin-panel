@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Stack from '@mui/material/Stack';
-import Iconify from 'src/components/iconify';
 
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+
 import { red } from '@mui/material/colors';
 import { Container } from '@mui/material';
 import DeleteComment from './DeleteComment';
@@ -14,9 +15,10 @@ const CommentsPage = ({ post, id, commentsData }) => {
   const [clicked, setClicked] = useState(false);
   const [commentIdToDelete, setCommentIdToDelete] = useState(null);
 
-  const DeleteCommentClick = (Comment_id) => {
+  const DeleteCommentClick = (e) => {
+    console.log(e.target);
     setClicked(!clicked);
-    setCommentIdToDelete(Comment_id);
+    setCommentIdToDelete(e.target.id);
   };
 
   useEffect(() => {
@@ -28,12 +30,11 @@ const CommentsPage = ({ post, id, commentsData }) => {
     <>
       {comments?.map((data) => (
         <div key={data?.id}>
-          <Container style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
-            <Avatar aria-label="recipe" src={post?.author_details?.profile_picture_url}>
-              {id}
-            </Avatar>
+          <Container sx={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
+            <Avatar aria-label="recipe" src={post?.author_details?.profile_picture_url} alt={id} />
+
             <Container
-              style={{
+              sx={{
                 position: 'relative',
                 backgroundColor: 'RGB(241, 245, 249)',
                 borderRadius: '20px',
@@ -48,63 +49,60 @@ const CommentsPage = ({ post, id, commentsData }) => {
               <Typography style={{ wordWrap: 'break-word' }} color="#4B5563">
                 {data?.content}
               </Typography>
-              <Stack
+              <Box
                 id={data?.id}
-                onClick={() => DeleteCommentClick(data?.id)}
+                onClick={DeleteCommentClick}
                 sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
                   position: 'absolute',
                   top: '10px',
-                  right: '-2.5rem',
+                  right: '-7rem',
                   zIndex: '2',
                   backgroundColor: '#db0f24',
-                  width: '2rem',
+                  width: '6rem',
                   height: '2rem',
                   cursor: 'pointer',
                   '&:hover': {
                     boxShadow: '0px 0px 10px 5px rgba(255, 0, 0, 0.8)',
                   },
                 }}
-                direction="row"
-                alignItems="center"
-                justifyContent="center"
-                borderRadius="30px"
+                borderRadius="5px"
               >
-                <Iconify
-                  id="1"
-                  icon="material-symbols:delete"
-                  sx={{
-                    color: 'white',
-                    '&:hover': {
-                      width: '1.4rem',
-                      height: '1.4rem',
-                    },
-                  }}
-                />
-              </Stack>
+                <Typography
+                  style={{ color: 'white', textAlign: 'center' }}
+                  id={data?.id}
+                  onClick={DeleteCommentClick}
+                >
+                  delete
+                </Typography>
+              </Box>
             </Container>
           </Container>
           <Container>
             {data?.replies?.map((reply) => (
               <Container
                 key={reply?.id}
-                style={{
+                sx={{
                   width: 'auto',
                   height: 'auto',
                   display: data?.total_replies === 0 ? 'none' : 'flex',
                   gap: '10px',
                   marginLeft: '60px',
                   marginTop: '30px',
+                  marginBottom: '30px',
                 }}
               >
                 <Avatar
                   sx={{ bgcolor: red[500] }}
                   aria-label="recipe"
                   src={post?.author_details?.profile_picture_url}
-                >
-                  {id}
-                </Avatar>
+                  alt={id}
+                />
+
                 <Container
-                  style={{
+                  sx={{
                     position: 'relative',
                     width: 'fit-content',
                     maxWidth: '30vw',
@@ -122,37 +120,34 @@ const CommentsPage = ({ post, id, commentsData }) => {
                     </Typography>
 
                     <Stack
-                      id="1"
-                      onClick={() => DeleteCommentClick(reply?.id)}
+                      id={reply?.id}
+                      onClick={DeleteCommentClick}
                       sx={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
                         position: 'absolute',
                         top: '10px',
-                        right: '-2.5rem',
+                        right: '-7rem',
                         zIndex: '2',
                         backgroundColor: '#db0f24',
-                        width: '2rem',
+                        width: '6rem',
                         height: '2rem',
                         cursor: 'pointer',
                         '&:hover': {
                           boxShadow: '0px 0px 10px 5px rgba(255, 0, 0, 0.8)',
                         },
                       }}
-                      direction="row"
-                      alignItems="center"
-                      justifyContent="center"
-                      borderRadius="30px"
+                      borderRadius="5px"
                     >
-                      <Iconify
-                        id="1"
-                        icon="material-symbols:delete"
-                        sx={{
-                          color: 'white',
-                          '&:hover': {
-                            width: '1.4rem',
-                            height: '1.4rem',
-                          },
-                        }}
-                      />
+                      <Typography
+                        style={{ color: 'white', textAlign: 'center' }}
+                        id={data?.id}
+                        onClick={DeleteCommentClick}
+                        // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
+                      >
+                        delete
+                      </Typography>
                     </Stack>
                   </div>
                 </Container>
