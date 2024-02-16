@@ -11,16 +11,15 @@ import MenuItem from '@mui/material/MenuItem';
 import TableCell from '@mui/material/TableCell';
 import IconButton from '@mui/material/IconButton';
 import Iconify from 'src/components/iconify';
-import DeleteModal from './DeleteModal';
+import DeleteModal from './deleteModal';
 
 const ReportTableRow = ({ data }) => {
-  console.log('the data', data);
   const [open, setOpen] = useState(null);
   const [delData, setDelData] = useState(false);
   const [clicked, setClicked] = useState(false);
   const [totalReports, setTotalReports] = useState([]);
+
   const authToken = useSelector((state) => state?.auth?.accessToken);
-  // const { reportedPostComment } = useSelector((state) => state?.reports);
 
   const { setupApiInterceptor } = useAuth();
   const navigate = useNavigate();
