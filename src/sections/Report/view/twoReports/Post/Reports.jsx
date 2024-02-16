@@ -1,19 +1,22 @@
 import PropTypes from 'prop-types';
-
-import TableBody from '@mui/material/TableBody';
+import { useState, useEffect } from 'react';
 import ReportTableRow from '../../../Report-table.row';
 
-const CommentsReport = ({ data }) => (
-  <>
-    {data?.length &&
-      // eslint-disable-next-line no-shadow
-      data.map((data) => (
-        <TableBody key={data.id}>
-          <ReportTableRow data={data} />
-        </TableBody>
-      ))}
-  </>
-);
+const CommentsReport = ({ data }) => {
+  const [totalReports, setTotalReports] = useState([]);
+
+  useEffect(() => {
+    setTotalReports(data);
+  }, [data]);
+
+  return (
+    <>
+      {totalReports?.length &&
+        // eslint-disable-next-line no-shadow
+        totalReports?.map((data) => <ReportTableRow key={data?.id} data={data} />)}
+    </>
+  );
+};
 
 CommentsReport.propTypes = {
   data: PropTypes.any,

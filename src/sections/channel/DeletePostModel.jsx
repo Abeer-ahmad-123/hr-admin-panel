@@ -7,10 +7,10 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { useAuth } from 'src/hooks/interceptors';
-import { delChannel } from 'src/redux-toolkit/actions/channelAction';
+import { delchannelPost } from 'src/redux-toolkit/actions/channelAction';
 import { style, yesButton, noButton } from 'src/components/DeleteModel/DeleteModel';
 
-const DeleteCardModel = ({ clicked, setClicked, channel_id = '' }) => {
+const DeletePostModel = ({ clicked, setClicked, post_id, deletePost }) => {
   const [open, setOpen] = useState(clicked);
 
   const { setupApiInterceptor } = useAuth();
@@ -24,8 +24,9 @@ const DeleteCardModel = ({ clicked, setClicked, channel_id = '' }) => {
     }
   };
 
-  const deleteChannel = () => {
-    dispatch(delChannel({ authToken, setupApiInterceptor, channel_id }));
+  const deleteChannelPost = () => {
+    dispatch(delchannelPost({ authToken, setupApiInterceptor, post_id }));
+    deletePost(post_id);
     handleClose();
   };
 
@@ -55,7 +56,7 @@ const DeleteCardModel = ({ clicked, setClicked, channel_id = '' }) => {
               paddingTop: '2rem',
             }}
           >
-            <Button onClick={deleteChannel} sx={yesButton}>
+            <Button onClick={deleteChannelPost} sx={yesButton}>
               Yes
             </Button>
             <Button onClick={handleClose} sx={noButton}>
@@ -68,10 +69,11 @@ const DeleteCardModel = ({ clicked, setClicked, channel_id = '' }) => {
   );
 };
 
-export default DeleteCardModel;
+export default DeletePostModel;
 
-DeleteCardModel.propTypes = {
+DeletePostModel.propTypes = {
   clicked: PropTypes.bool,
   setClicked: PropTypes.func,
-  channel_id: PropTypes.number,
+  post_id: PropTypes.number,
+  deletePost: PropTypes.func,
 };

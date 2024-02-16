@@ -104,10 +104,70 @@ export const PostsByUserId = createAsyncThunk(
   async (params, { rejectWithValue }) => {
     try {
       const response = await params.setupApiInterceptor(
-        `/users/${params.id}/posts?page=${params.page}&loadReactions=${true}`,
+        `/posts/${params.id}?loadUser=${true}&loadReactions=${true}`,
         'GET',
         {},
         {}
+      );
+
+      return response;
+    } catch (error) {
+      return rejectWithValue();
+    }
+  }
+);
+
+export const delchannelPost = createAsyncThunk(
+  'channelpost/delChannelPost',
+  async (params, { rejectWithValue }) => {
+    try {
+      const response = await params.setupApiInterceptor(
+        `/admin/posts/${params.post_id}`,
+        'DELETE',
+        {},
+        {
+          Authorization: `Bearer ${params.authToken}`,
+        }
+      );
+
+      return response;
+    } catch (error) {
+      return rejectWithValue();
+    }
+  }
+);
+
+export const getpostComments = createAsyncThunk(
+  'getpostComments/getpostComments',
+  async (params, { rejectWithValue }) => {
+    try {
+      const response = await params.setupApiInterceptor(
+        `/posts/${
+          params.id
+        }/comments? loadUser=${true}&loadReactions=${true}&loadNestedComments=${true}&loadNestedUser=${true}&loadNestedReactions=${true}&nestedLimit=10&pageSize=${100}`,
+        'GET',
+        {},
+        {}
+      );
+
+      return response;
+    } catch (error) {
+      return rejectWithValue();
+    }
+  }
+);
+
+export const delComment = createAsyncThunk(
+  'delComment/delComment',
+  async (params, { rejectWithValue }) => {
+    try {
+      const response = await params.setupApiInterceptor(
+        `/admin/comments/${params.id}`,
+        'DELETE',
+        {},
+        {
+          Authorization: `Bearer ${params.authToken}`,
+        }
       );
 
       return response;

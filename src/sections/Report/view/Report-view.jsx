@@ -4,23 +4,28 @@ import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Table from '@mui/material/Table';
+import { useSnackbar } from 'notistack';
 import Scrollbar from 'src/components/scrollbar';
 import Container from '@mui/material/Container';
 import TableBody from '@mui/material/TableBody';
 import TableContainer from '@mui/material/TableContainer';
+import { setdeletedState } from 'src/redux-toolkit/reducers/reportsReducer';
 import ReportRowSkelton from 'src/loading/reportsSkelton';
 import { allReports } from 'src/redux-toolkit/actions/reportsAction';
 import { useAuth } from 'src/hooks/interceptors';
 import ChannalTableHead from '../Report-table-head';
-import CommentsReport from './twoReports/Post/Reports';
+import ReportTableRow from '../Report-table.row';
 
 const ReportView = () => {
-  const dispatch = useDispatch();
-  const { loading, reports, error } = useSelector((state) => state.reports);
-  const authToken = useSelector((state) => state.auth?.accessToken);
-
   const [selectedReport, setSelectedReport] = useState('post');
+
   const { setupApiInterceptor } = useAuth();
+  const dispatch = useDispatch();
+
+  const { loading, reports, error, deleted } = useSelector((state) => state.reports);
+  const authToken = useSelector((state) => state.auth?.accessToken);
+  const { enqueueSnackbar } = useSnackbar();
+
   const fetchData = async () => {
     // eslint-disable-next-line no-useless-catch
     try {
@@ -29,10 +34,6 @@ const ReportView = () => {
       throw error;
     }
   };
-  useEffect(() => {
-    fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const handleButtonClick = (selectedReportType) => {
     setSelectedReport(selectedReportType);
@@ -45,6 +46,34 @@ const ReportView = () => {
   const handleCommentButtonClick = () => {
     handleButtonClick('comment');
   };
+
+  useEffect(() => {
+    fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (deleted.requestStatus === 'fulfilled') {
+      fetchData();
+      enqueueSnackbar(`delete Successfully`, {
+        variant: 'success',
+        anchorOrigin: {
+          vertical: 'top',
+          horizontal: 'right',
+        },
+      });
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [deleted.requestId]);
+
+  /* eslint-disable arrow-body-style */
+  useEffect(() => {
+    // eslint-disable-next-line arrow-body-style
+    return () => dispatch(setdeletedState());
+    // eslint-disable-next-line
+  }, []);
+  /* eslint-enable arrow-body-style */
 
   return (
     <Container>
@@ -115,9 +144,16 @@ const ReportView = () => {
                   ))}
                 </TableBody>
               ) : (
-                <CommentsReport
-                  data={selectedReport === 'post' ? reports.post_reports : reports.comment_reports}
-                />
+                <TableBody>
+                  {selectedReport === 'post' &&
+                    reports.post_reports?.map((datastate) => (
+                      <ReportTableRow key={datastate.id} data={datastate} />
+                    ))}
+                  {selectedReport === 'comment' &&
+                    reports.comment_reports?.map((datastate) => (
+                      <ReportTableRow key={datastate.id} data={datastate} />
+                    ))}
+                </TableBody>
               )}
             </Table>
           </TableContainer>

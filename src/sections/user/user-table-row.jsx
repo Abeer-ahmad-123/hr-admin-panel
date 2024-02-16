@@ -1,4 +1,4 @@
-import React, { useState, forwardRef } from 'react';
+import React, { useState, useEffect, forwardRef } from 'react';
 import Stack from '@mui/material/Stack';
 import PropTypes from 'prop-types';
 import Avatar from '@mui/material/Avatar';
@@ -10,6 +10,7 @@ import TableCell from '@mui/material/TableCell';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import Iconify from 'src/components/iconify';
+import { useSnackbar } from 'notistack';
 import { useDispatch, useSelector } from 'react-redux';
 import { BlockUser } from 'src/redux-toolkit/actions/userActions';
 import { useAuth } from 'src/hooks/interceptors';
@@ -20,8 +21,13 @@ const UserTableRow = forwardRef(
     ref
   ) => {
     const [open, setOpen] = useState(null);
+    const [blockSuccess, setBlockSuccess] = useState(true);
+
+    const { enqueueSnackbar } = useSnackbar();
     const dispatch = useDispatch();
     const { setupApiInterceptor } = useAuth();
+    const token = useSelector((state) => state.auth.accessToken);
+    const BlockedUser = useSelector((state) => state?.user?.blockUser);
 
     const handleOpenMenu = (event) => {
       setOpen(event.currentTarget);
@@ -31,8 +37,21 @@ const UserTableRow = forwardRef(
       setOpen(null);
     };
 
-    const options = { month: 'short', day: 'numeric', year: 'numeric' };
+    const handleblock = () => {
+      dispatch(BlockUser({ id, token, setupApiInterceptor }));
+      handleCloseMenu();
+      if (blockSuccess === true) {
+        enqueueSnackbar(`Blocked Successfully ${name}`, {
+          variant: 'success',
+          anchorOrigin: {
+            vertical: 'top',
+            horizontal: 'right',
+          },
+        });
+      }
+    };
 
+    const options = { month: 'short', day: 'numeric', year: 'numeric' };
     const formatDate = (dateString) => {
       const formattedDate = new Date(dateString).toLocaleDateString('en-US', options);
       const day = new Intl.DateTimeFormat('en', { day: 'numeric' }).format(new Date(dateString));
@@ -41,19 +60,18 @@ const UserTableRow = forwardRef(
       return formattedDate.replace(day, dayWithOrdinal);
     };
 
-    const token = useSelector((state) => state.auth.accessToken);
+    useEffect(() => {
+      if (BlockedUser === null) {
+        setBlockSuccess(true);
+      }
+    }, [BlockedUser]);
 
-    const handleblock = () => {
-      dispatch(BlockUser({ id, token, setupApiInterceptor }));
-      handleCloseMenu();
-    };
     return (
       <>
         <TableRow key={id} hover tabIndex={-1} ref={ref} role="checkbox" selected={selected}>
           <TableCell padding="checkbox">
             <Checkbox disableRipple checked={selected} onChange={handleClick} />
           </TableCell>
-
           <TableCell component="th" scope="row" padding="none">
             <Stack direction="row" alignItems="center" spacing={2}>
               <Avatar

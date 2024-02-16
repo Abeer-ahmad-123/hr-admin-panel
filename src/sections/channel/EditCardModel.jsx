@@ -29,16 +29,18 @@ const style = {
 
 export default function EditCardModal({ edited, setEdited, channel_id }) {
   const [open, setOpen] = useState(edited);
+
   const { channels } = useSelector((state) => state.channels?.channels);
   const [channelData, setChannelData] = useState({
     name: '',
     description: '',
     image: null,
   });
+
   const dispatch = useDispatch();
   const { setupApiInterceptor } = useAuth();
-
   const authToken = useSelector((state) => state.auth?.accessToken);
+
   const handleClose = () => {
     setOpen(!edited);
     if (edited === true) {
@@ -62,7 +64,6 @@ export default function EditCardModal({ edited, setEdited, channel_id }) {
   };
 
   const SpecificChannel = channels.find((chnData) => chnData.id === channel_id);
-
   useEffect(() => {
     setOpen(edited);
 

@@ -30,7 +30,6 @@ export const useAuth = () => {
           if (!res.error) {
             setupApiInterceptor(urlPath, method, (data = {}), { Authorization: `Bearer ${token}` });
           } else {
-            console.log('error', error);
             dispatch(clearAuth());
             navigate('/login');
           }

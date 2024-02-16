@@ -7,4 +7,5 @@ export const channelHeadLabel = [
   { id: 'comments', label: 'Comments' },
   { id: 'reactions', label: 'Reactions' },
   { id: 'options', label: '' },
+  { id: 'others', label: '' },
 ];

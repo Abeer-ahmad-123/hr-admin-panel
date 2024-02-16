@@ -18,10 +18,6 @@ import { useSnackbar } from 'notistack';
 import { useNavigate } from 'react-router-dom';
 
 export default function LoginView() {
-  const dispatch = useDispatch();
-  const theme = useTheme();
-  const navigate = useNavigate();
-  const { enqueueSnackbar } = useSnackbar();
   const [showPassword, setShowPassword] = useState(false);
   const { loading } = useSelector((state) => state.auth);
   const [credentials, setCredentials] = useState({ email: '', password: '' });
@@ -33,6 +29,12 @@ export default function LoginView() {
     error: false,
     helperText: '',
   });
+
+  const dispatch = useDispatch();
+  const theme = useTheme();
+  const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
+
   const handleShowPassword = () => {
     setShowPassword(!showPassword);
   };
