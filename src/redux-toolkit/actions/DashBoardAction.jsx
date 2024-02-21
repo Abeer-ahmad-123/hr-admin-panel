@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 export const getDashboardData = createAsyncThunk(
-  'dashBoard/dashboardData',
+  'dashboard/dashboardData',
   async (params, { rejectWithValue }) => {
     try {
       const response = await params.setupApiInterceptor(

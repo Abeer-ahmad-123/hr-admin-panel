@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 export const UpdatePassword = createAsyncThunk(
-  'updatePassword',
+  'updatepassword',
   async (params, { rejectWithValue }) => {
     try {
       const response = await params.setupApiInterceptor(

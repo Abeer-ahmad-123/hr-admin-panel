@@ -96,7 +96,7 @@ export default function AccountPopover() {
           onClick={openUpdateModal}
           sx={{ typography: 'body2', color: 'primary.main', py: 1.5 }}
         >
-          update Passwrord
+          Change Passwrord
         </MenuItem>
         <MenuItem
           disableRipple

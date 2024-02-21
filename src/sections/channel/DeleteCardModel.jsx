@@ -26,6 +26,7 @@ const DeleteCardModel = ({ clicked, setClicked, channel_id = '' }) => {
 
   const deleteChannel = () => {
     dispatch(delChannel({ authToken, setupApiInterceptor, channel_id }));
+
     handleClose();
   };
 

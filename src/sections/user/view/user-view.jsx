@@ -201,7 +201,7 @@ export default function UserPage() {
           </TableContainer>
         </Scrollbar>
       </Card>
-      {page !== users?.meta?.TotalPages && (
+      {filterName === '' && page !== users?.meta?.TotalPages && (
         <Stack
           direction="row"
           justifyContent="center"
