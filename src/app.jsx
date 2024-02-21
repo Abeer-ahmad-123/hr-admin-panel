@@ -1,4 +1,5 @@
 /* eslint-disable perfectionist/sort-imports */
+/* eslint-disable react-hooks/exhaustive-deps */
 import 'src/global.css';
 
 import { useScrollToTop } from 'src/hooks/use-scroll-to-top';
@@ -45,7 +46,6 @@ const App = () => {
 
   useEffect(() => {
     setCheckStatus(channels.requestStatus);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [channels.requestStatus]);
 
   useEffect(() => {
@@ -57,8 +57,7 @@ const App = () => {
         dispatch(allChannels(setupApiInterceptor));
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [authToken]);
+  }, [authToken, channels?.requestStatus]);
 
   useScrollToTop();
 

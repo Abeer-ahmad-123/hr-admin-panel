@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 
 import { useParams } from 'react-router-dom';
@@ -61,20 +62,16 @@ const PostDetailPage = () => {
 
   useEffect(() => {
     fetchData();
-    // eslint-disable-next-line
   }, [id]);
 
   useEffect(() => {
     checkDeleteStatus();
-
-    // eslint-disable-next-line
   }, [delComments.requestId]);
 
   /* eslint-disable arrow-body-style */
   useEffect(() => {
     // eslint-disable-next-line arrow-body-style
     return () => dispatch(setDelCommentState());
-    // eslint-disable-next-line
   }, []);
   /* eslint-enable arrow-body-style */
 

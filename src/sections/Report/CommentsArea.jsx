@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 
 import Avatar from '@mui/material/Avatar';
@@ -13,7 +14,6 @@ export const Post_CommentsArea = () => {
 
   useEffect(() => {
     setReportedData(reportedPostInfo);
-    // eslint-disable-next-line
   }, [reportedPostInfo]);
 
   return (
@@ -88,12 +88,10 @@ export const Comment_CommentsArea = () => {
 
   useEffect(() => {
     setReportedData(reportedCommentInfo?.post);
-    // eslint-disable-next-line
   }, [reportedCommentInfo]);
 
   useEffect(() => {
     setCommentData(commentsData);
-    // eslint-disable-next-line
   }, [reportedPostComment]);
 
   return (

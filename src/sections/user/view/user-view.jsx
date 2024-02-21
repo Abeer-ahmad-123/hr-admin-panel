@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Card from '@mui/material/Card';
@@ -120,21 +121,18 @@ export default function UserPage() {
 
   useEffect(() => {
     Pagination();
-    // eslint-disable-next-line
   }, [page]);
 
   useEffect(() => {
     if (inView) {
       setPage((prevPage) => prevPage + 1);
     }
-    // eslint-disable-next-line
   }, [inView]);
 
   useEffect(() => {
     if (users?.users?.length) {
       appendUserDetails();
     }
-    // eslint-disable-next-line
   }, [users]);
 
   return (

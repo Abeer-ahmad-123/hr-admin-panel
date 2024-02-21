@@ -38,6 +38,7 @@ export default function AppCurrentVisits({ title, subheader, chart, ...other }) 
       },
     },
     colors,
+
     labels: series.map((i) => i.label),
     stroke: {
       colors: [theme.palette.background.paper],
@@ -76,7 +77,7 @@ export default function AppCurrentVisits({ title, subheader, chart, ...other }) 
 
   return (
     <Card {...other}>
-      <CardHeader title={title} subheader={subheader} sx={{ mb: 5 }} />
+      <CardHeader title={title} subheader={subheader} sx={{ textAlign: ' center', mb: 5 }} />
 
       <StyledChart
         dir="ltr"

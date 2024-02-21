@@ -12,8 +12,11 @@ import { useNavigate } from 'react-router-dom';
 import { account } from 'src/_mock/account';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearAuth } from 'src/redux-toolkit/reducers/loginReducer';
+import UpdateModel from '../UpdateModel';
 
 export default function AccountPopover() {
+  const [clicked, setClicked] = useState(false);
+
   const userData = useSelector((state) => state.auth.admindata);
   const [open, setOpen] = useState(null);
   const navigate = useNavigate();
@@ -26,6 +29,9 @@ export default function AccountPopover() {
     setOpen(null);
   };
 
+  const openUpdateModal = () => {
+    setClicked(!clicked);
+  };
   const handleLogout = () => {
     dispatch(clearAuth());
     navigate('/login');
@@ -87,11 +93,20 @@ export default function AccountPopover() {
         <MenuItem
           disableRipple
           disableTouchRipple
+          onClick={openUpdateModal}
+          sx={{ typography: 'body2', color: 'primary.main', py: 1.5 }}
+        >
+          update Passwrord
+        </MenuItem>
+        <MenuItem
+          disableRipple
+          disableTouchRipple
           onClick={handleLogout}
           sx={{ typography: 'body2', color: 'primary.main', py: 1.5 }}
         >
           Logout
         </MenuItem>
+        <UpdateModel clicked={clicked} setClicked={setClicked} />
       </Popover>
     </>
   );
