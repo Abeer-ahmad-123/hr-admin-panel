@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { createChannel } from 'src/redux-toolkit/actions/channelAction';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
@@ -9,7 +10,6 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { useAuth } from 'src/hooks/interceptors';
-import { createChannel } from 'src/redux-toolkit/actions/channelAction';
 
 const style = {
   display: 'flex',

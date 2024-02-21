@@ -1,9 +1,12 @@
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Unstable_Grid2';
+import { useAuth } from 'src/hooks/interceptors';
+import { allChannels } from 'src/redux-toolkit/actions/channelAction';
 import Typography from '@mui/material/Typography';
 import ChannelSkelton from 'src/loading/channelSkelton';
 import Iconify from 'src/components/iconify';
@@ -14,10 +17,20 @@ const ChannelView = () => {
   const [clicked, setClicked] = useState(false);
 
   const { channels, loading } = useSelector((state) => state.channels);
-
+  const dispatch = useDispatch();
+  const { setupApiInterceptor } = useAuth();
   const addChannel = () => {
     setClicked(true);
   };
+
+  useEffect(() => {
+    dispatch(allChannels(setupApiInterceptor));
+  }, []);
+  useEffect(() => {
+    if (channels?.requestStatus === 'fulfilled') {
+      dispatch(allChannels(setupApiInterceptor));
+    }
+  }, [channels]);
 
   return (
     <Container>

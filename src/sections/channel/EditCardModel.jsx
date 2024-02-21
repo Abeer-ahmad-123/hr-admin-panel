@@ -60,6 +60,7 @@ export default function EditCardModal({ edited, setEdited, channel_id }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(editChannel({ setupApiInterceptor, authToken, channelData, channel_id }));
+
     handleClose();
   };
 

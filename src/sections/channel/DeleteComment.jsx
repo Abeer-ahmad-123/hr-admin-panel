@@ -12,7 +12,7 @@ import { style, yesButton, noButton } from 'src/components/DeleteModel/DeleteMod
 
 const DeleteComment = ({ clicked, setClicked, id }) => {
   const [open, setOpen] = useState(clicked);
-  console.log('the commented from delete modal is  id is', id);
+
   const { setupApiInterceptor } = useAuth();
   const dispatch = useDispatch();
   const authToken = useSelector((State) => State.auth?.accessToken);

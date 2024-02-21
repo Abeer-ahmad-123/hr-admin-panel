@@ -1,4 +1,4 @@
-// ChannelDetailPage.jsx
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Card from '@mui/material/Card';
@@ -97,27 +97,23 @@ const ChannelDetailPage = () => {
 
   useEffect(() => {
     Pagination();
-    // eslint-disable-next-line
   }, [page]);
 
   useEffect(() => {
     if (posts?.length) {
       appendPostsDetails();
     }
-    // eslint-disable-next-line
   }, [posts]);
   useEffect(() => {
     if (inView) {
       setPage((prevPage) => prevPage + 1);
     }
-    // eslint-disable-next-line
   }, [inView]);
 
   useEffect(() => {
     if (channels?.channels?.length) {
       setChannelName(getNameById(channels?.channels, channelId));
     }
-    // eslint-disable-next-line
   }, [channels?.channels]);
 
   useEffect(() => {
@@ -134,7 +130,6 @@ const ChannelDetailPage = () => {
   /* eslint-disable arrow-body-style */
   useEffect(() => {
     return () => dispatch(setChannelsStateEmpty());
-    // eslint-disable-next-line
   }, []);
   /* eslint-enable arrow-body-style */
 

@@ -1,7 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Stack from '@mui/material/Stack';
-
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -16,14 +16,12 @@ const CommentsPage = ({ post, id, commentsData }) => {
   const [commentIdToDelete, setCommentIdToDelete] = useState(null);
 
   const DeleteCommentClick = (e) => {
-    console.log(e.target);
     setClicked(!clicked);
     setCommentIdToDelete(e.target.id);
   };
 
   useEffect(() => {
     setComments(commentsData?.comments);
-    // eslint-disable-next-line
   }, [id]);
 
   return (
@@ -142,7 +140,7 @@ const CommentsPage = ({ post, id, commentsData }) => {
                     >
                       <Typography
                         style={{ color: 'white', textAlign: 'center' }}
-                        id={data?.id}
+                        id={reply?.id}
                         onClick={DeleteCommentClick}
                         // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
                       >

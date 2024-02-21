@@ -1,12 +1,10 @@
 import PropTypes from 'prop-types';
-
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import { styled, useTheme } from '@mui/material/styles';
-
 import { fNumber } from 'src/utils/format-number';
-
 import Chart, { useChart } from 'src/components/chart';
+import { cardHeaderPieChart } from 'src/components/Constants';
 
 const CHART_HEIGHT = 400;
 
@@ -38,6 +36,7 @@ export default function AppCurrentVisits({ title, subheader, chart, ...other }) 
       },
     },
     colors,
+
     labels: series.map((i) => i.label),
     stroke: {
       colors: [theme.palette.background.paper],
@@ -76,7 +75,7 @@ export default function AppCurrentVisits({ title, subheader, chart, ...other }) 
 
   return (
     <Card {...other}>
-      <CardHeader title={title} subheader={subheader} sx={{ mb: 5 }} />
+      <CardHeader title={title} subheader={subheader} sx={cardHeaderPieChart} />
 
       <StyledChart
         dir="ltr"

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Card from '@mui/material/Card';
@@ -71,7 +72,6 @@ const ReportView = () => {
   useEffect(() => {
     // eslint-disable-next-line arrow-body-style
     return () => dispatch(setdeletedState());
-    // eslint-disable-next-line
   }, []);
   /* eslint-enable arrow-body-style */
 

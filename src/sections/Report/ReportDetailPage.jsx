@@ -1,4 +1,5 @@
 /* eslint-disable no-nested-ternary */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Card from '@mui/material/Card';
@@ -66,17 +67,14 @@ const ReportDetailPage = () => {
   useEffect(() => {
     dispatcherFn();
     getReportedPostData();
-    // eslint-disable-next-line
   }, [id]);
 
   useEffect(() => {
     getReportedCommentData();
-    // eslint-disable-next-line
   }, [postId]);
 
   useEffect(() => {
     setReportedData(reportedPostComment.comment || reportedPostComment.post);
-    // eslint-disable-next-line
   }, [reportedPostComment]);
 
   useEffect(() => {
@@ -92,7 +90,6 @@ const ReportDetailPage = () => {
       dispatch(setdataStateEmpty());
       dispatch(setcommentsData());
     };
-    // eslint-disable-next-line
   }, []);
   /* eslint-enable arrow-body-style */
 
