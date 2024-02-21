@@ -140,7 +140,7 @@ const CommentsPage = ({ post, id, commentsData }) => {
                     >
                       <Typography
                         style={{ color: 'white', textAlign: 'center' }}
-                        id={data?.id}
+                        id={reply?.id}
                         onClick={DeleteCommentClick}
                         // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
                       >
