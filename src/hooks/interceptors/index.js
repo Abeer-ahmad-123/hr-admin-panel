@@ -21,7 +21,7 @@ export const useAuth = () => {
         data,
       });
 
-      return response?.data?.data;
+      return response.data.data;
     } catch (error) {
       /* eslint-disable */
       if (error.response && error.response.status === 401) {
@@ -37,9 +37,11 @@ export const useAuth = () => {
           dispatch(clearAuth());
           navigate('/login');
         }
+      } else {
+        return error;
       }
     }
-    return '';
+    return 'server error';
   };
   return {
     setupApiInterceptor,

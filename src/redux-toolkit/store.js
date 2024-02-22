@@ -16,6 +16,7 @@ import reportsReducer from './reducers/reportsReducer';
 import channelReducer from './reducers/channelReducer';
 import expiredTokenReducer from './reducers/expiredTokenReducer';
 import DashboardReducer from './reducers/DashboardReducer';
+import UpdatePassword from './reducers/UpdatePassword';
 
 const persistConfig = {
   key: 'auth',
@@ -33,6 +34,7 @@ const store = configureStore({
     reports: reportsReducer,
     channels: channelReducer,
     expiredToken: expiredTokenReducer,
+    UpdatePassword,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

@@ -3,12 +3,12 @@ import { UpdatePassword } from '../actions/UpdatePassword';
 
 const initialState = {
   loading: false,
-  admindata: {},
+  updatePassword: {},
   error: null,
 };
 
 const loginSlice = createSlice({
-  name: 'login',
+  name: ' updatePassword',
   initialState,
   reducers: {},
 
@@ -19,10 +19,7 @@ const loginSlice = createSlice({
       })
       .addCase(UpdatePassword.fulfilled, (state, action) => {
         state.loading = false;
-        state.admindata = action.payload?.userData;
-
-        state.accessToken = action.payload?.token;
-        state.refreshToken = action.payload;
+        state.updatePassword = action.payload;
       })
       .addCase(UpdatePassword.rejected, (state, action) => {
         state.loading = false;
