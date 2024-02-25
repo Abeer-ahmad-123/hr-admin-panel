@@ -11,6 +11,7 @@ import Container from '@mui/material/Container';
 import TableBody from '@mui/material/TableBody';
 import TableContainer from '@mui/material/TableContainer';
 import { setdeletedState } from 'src/redux-toolkit/reducers/reportsReducer';
+import Typography from '@mui/material/Typography';
 import ReportRowSkelton from 'src/loading/reportsSkelton';
 import { allReports } from 'src/redux-toolkit/actions/reportsAction';
 import { useAuth } from 'src/hooks/interceptors';
@@ -102,7 +103,7 @@ const ReportView = () => {
             },
           }}
         >
-          Post reports
+          Reported Posts
         </Button>
 
         <Button
@@ -128,7 +129,7 @@ const ReportView = () => {
             },
           }}
         >
-          Comment reports
+          Reported Comments
         </Button>
       </Stack>
       <Card>
@@ -159,6 +160,27 @@ const ReportView = () => {
           </TableContainer>
         </Scrollbar>
       </Card>
+
+      {selectedReport === 'post' && reports?.post_reports?.length === 0 && (
+        <Typography
+          variant="h3"
+          color="gray"
+          sx={{ textAlign: 'center', mt: 5, textTransform: 'capitalize' }}
+        >
+          {' '}
+          there are no reported posts
+        </Typography>
+      )}
+      {selectedReport === 'comment' && reports?.comment_reports?.length === 0 && (
+        <Typography
+          variant="h3"
+          color="gray"
+          sx={{ textAlign: 'center', mt: 5, textTransform: 'capitalize' }}
+        >
+          {' '}
+          there are no reported comments
+        </Typography>
+      )}
     </Container>
   );
 };
