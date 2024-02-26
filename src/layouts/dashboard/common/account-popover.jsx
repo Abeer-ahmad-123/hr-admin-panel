@@ -16,8 +16,8 @@ import UpdateModel from '../UpdateModel';
 
 export default function AccountPopover() {
   const [clicked, setClicked] = useState(false);
-  const [statechecked1, setStatechecked1] = useState(null);
-  const [statechecked2, setStatechecked2] = useState('');
+  const [updatePasswordResponse, setupdatePasswordResponse] = useState(null);
+  const [updatePasswordError, setupdatePasswordError] = useState('');
 
   const userData = useSelector((state) => state.auth.admindata);
   const { updatePassword } = useSelector((state) => state?.UpdatePassword);
@@ -45,19 +45,19 @@ export default function AccountPopover() {
   useEffect(() => {
     if (updatePassword) {
       if (updatePassword?.response?.data?.errors) {
-        setStatechecked1(updatePassword?.response?.data?.errors[0]);
+        setupdatePasswordResponse(updatePassword?.response?.data?.errors[0]);
       } else {
-        setStatechecked1(updatePassword?.message);
+        setupdatePasswordResponse(updatePassword?.message);
       }
     }
     if (updatePassword?.response?.data) {
-      setStatechecked2(updatePassword?.response?.data?.errors[1]);
+      setupdatePasswordError(updatePassword?.response?.data?.errors[1]);
     }
   }, [updatePassword]);
 
   useEffect(() => {
-    if (statechecked1)
-      enqueueSnackbar(`${statechecked1}`, {
+    if (updatePasswordResponse)
+      enqueueSnackbar(`${updatePasswordResponse}`, {
         variant: updatePassword?.response?.status === 400 ? 'error' : 'success',
         anchorOrigin: {
           vertical: 'top',
@@ -65,10 +65,10 @@ export default function AccountPopover() {
         },
       });
     // eslint-disable-next-line
-  }, [statechecked1]);
+  }, [updatePasswordResponse]);
   useEffect(() => {
-    if (statechecked2)
-      enqueueSnackbar(`${statechecked2}`, {
+    if (updatePasswordError)
+      enqueueSnackbar(`${updatePasswordError}`, {
         variant: 'error',
         anchorOrigin: {
           vertical: 'top',
@@ -76,7 +76,7 @@ export default function AccountPopover() {
         },
       });
     // eslint-disable-next-line
-  }, [statechecked2]);
+  }, [updatePasswordError]);
 
   return (
     <>
