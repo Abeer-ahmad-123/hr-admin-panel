@@ -1,5 +1,5 @@
-import { useState } from 'react';
-
+import { useState, useEffect } from 'react';
+import { useSnackbar } from 'notistack';
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
 import Divider from '@mui/material/Divider';
@@ -16,8 +16,11 @@ import UpdateModel from '../UpdateModel';
 
 export default function AccountPopover() {
   const [clicked, setClicked] = useState(false);
+  const [updatePasswordResponse, setupdatePasswordResponse] = useState(null);
+  const [updatePasswordError, setupdatePasswordError] = useState('');
 
   const userData = useSelector((state) => state.auth.admindata);
+  const { updatePassword } = useSelector((state) => state?.UpdatePassword);
   const [open, setOpen] = useState(null);
   const navigate = useNavigate();
 
@@ -25,6 +28,8 @@ export default function AccountPopover() {
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
   };
+  const { enqueueSnackbar } = useSnackbar();
+
   const handleClose = () => {
     setOpen(null);
   };
@@ -36,6 +41,42 @@ export default function AccountPopover() {
     dispatch(clearAuth());
     navigate('/login');
   };
+
+  useEffect(() => {
+    if (updatePassword) {
+      if (updatePassword?.response?.data?.errors) {
+        setupdatePasswordResponse(updatePassword?.response?.data?.errors[0]);
+      } else {
+        setupdatePasswordResponse(updatePassword?.message);
+      }
+    }
+    if (updatePassword?.response?.data) {
+      setupdatePasswordError(updatePassword?.response?.data?.errors[1]);
+    }
+  }, [updatePassword]);
+
+  useEffect(() => {
+    if (updatePasswordResponse)
+      enqueueSnackbar(`${updatePasswordResponse}`, {
+        variant: updatePassword?.response?.status === 400 ? 'error' : 'success',
+        anchorOrigin: {
+          vertical: 'top',
+          horizontal: 'right',
+        },
+      });
+    // eslint-disable-next-line
+  }, [updatePasswordResponse]);
+  useEffect(() => {
+    if (updatePasswordError)
+      enqueueSnackbar(`${updatePasswordError}`, {
+        variant: 'error',
+        anchorOrigin: {
+          vertical: 'top',
+          horizontal: 'right',
+        },
+      });
+    // eslint-disable-next-line
+  }, [updatePasswordError]);
 
   return (
     <>
